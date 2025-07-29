@@ -11,19 +11,13 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
     <style>
         :root {
-            --primary-bg: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 100%);
-            --glass-bg: rgba(20, 20, 40, 0.25);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-highlight: rgba(255, 255, 255, 0.08);
-            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            --glass-blur: blur(25px) saturate(200%);
-            --glass-layer-1: rgba(100, 100, 200, 0.05);
-            --glass-layer-2: rgba(150, 150, 255, 0.03);
-            --accent-blue: #00a8ff;
-            --accent-purple: #9c27b0;
-            --accent-pink: #e91e63;
-            --text-primary: rgba(255, 255, 255, 0.95);
-            --text-secondary: rgba(255, 255, 255, 0.7);
+  --glass-bg: rgba(40, 40, 80, 0.3); /* Более прозрачный фон */
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-highlight: rgba(255, 255, 255, 0.1);
+  --glass-blur: blur(10px); /* Меньше размытия для гладкости */
+  --glass-layer-1: rgba(150, 150, 255, 0.1); /* Более выраженные блики */
+  --glass-layer-2: rgba(200, 200, 255, 0.05);
+}
         }
 
         * {
@@ -53,47 +47,75 @@
         }
 
         .glass-effect {
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border-radius: 16px;
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--glass-shadow);
-            position: relative;
-            overflow: hidden;
-        }
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: 16px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 0 20px rgba(255, 255, 255, 0.05); /* Внутреннее свечение */
+  position: relative;
+  overflow: hidden;
+}
 
-        /* Многослойный эффект стекла */
-        .glass-effect::before,
-        .glass-effect::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            pointer-events: none;
-        }
+/* Упрощенные слои с акцентом на прозрачность */
+.glass-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    var(--glass-layer-1) 0%,
+    transparent 50%,
+    var(--glass-layer-1) 100%
+  );
+  pointer-events: none;
+}
 
-        .glass-effect::before {
-            background: linear-gradient(
-                135deg,
-                var(--glass-layer-1) 0%,
-                transparent 50%,
-                var(--glass-layer-1) 100%
-            );
-            z-index: 1;
-        }
+/* Анимация бликов */
+        .glass-shine {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: shineFade 1s forwards;
+}
 
-        .glass-effect::after {
-            background: radial-gradient(
-                circle at 75% 25%,
-                var(--glass-layer-2) 0%,
-                transparent 70%
-            );
-            z-index: 2;
-            animation: glassShine 8s infinite alternate;
-        }
+@keyframes shineFade {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); }
+}
+@keyframes glassShine {
+  0% { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(100%) skewX(-15deg); }
+}
+
+.glass-effect::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: glassShine 3s infinite;
+  z-index: 2;
+}
 
         @keyframes glassShine {
             0% { opacity: 0.3; }
@@ -1065,6 +1087,27 @@
 
         // Start the app when DOM is loaded
         document.addEventListener('DOMContentLoaded', init);
+        // Динамические блики при движении мыши
+document.querySelectorAll('.glass-effect').forEach(glass => {
+  glass.addEventListener('mousemove', (e) => {
+    const rect = glass.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    glass.style.setProperty('--mouse-x', `${x}px`);
+    glass.style.setProperty('--mouse-y', `${y}px`);
+    
+    // Динамический блик
+    const shine = glass.querySelector('.glass-shine') || 
+                 document.createElement('div');
+    shine.className = 'glass-shine';
+    shine.style.left = `${x}px`;
+    shine.style.top = `${y}px`;
+    glass.appendChild(shine);
+    
+    setTimeout(() => shine.remove(), 1000);
+  });
+});
     </script>
 </body>
 </html>
