@@ -2,7 +2,7 @@
 <html lang="ru" class="liquid-glass">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="theme-color" content="#0a0a1a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -12,8 +12,11 @@
     <style>
         :root {
             --primary-bg: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 100%);
-            --glass-bg: rgba(30, 30, 60, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(30, 30, 60, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-highlight: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --glass-blur: blur(20px) saturate(180%);
             --accent-blue: #00a8ff;
             --accent-purple: #9c27b0;
             --accent-pink: #e91e63;
@@ -37,17 +40,48 @@
             position: relative;
         }
 
+        @supports (-webkit-touch-callout: none) {
+            body {
+                height: -webkit-fill-available;
+            }
+        }
+
         .liquid-glass {
             background-attachment: fixed;
         }
 
         .glass-effect {
             background: var(--glass-bg);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
             border-radius: 16px;
             border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-shadow: var(--glass-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-effect::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(30deg);
+            pointer-events: none;
+            animation: glassReflection 8s infinite linear;
+        }
+
+        @keyframes glassReflection {
+            0% { transform: rotate(30deg) translate(-10%, -10%); }
+            100% { transform: rotate(30deg) translate(10%, 10%); }
         }
 
         /* Header styles */
@@ -714,17 +748,25 @@
             width: 300px;
             height: 300px;
         }
+
+        /* YouTube player container */
+        .youtube-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+
+        .youtube-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
     </style>
-    <script>
-  (function(){
-    var redirect = sessionStorage.redirect;
-    delete sessionStorage.redirect;
-    if (redirect && redirect != location.href) {
-      history.replaceState(null, null, redirect);
-    }
-  })();
-</script>
-    
 </head>
 <body>
     <header id="main-header">
@@ -856,13 +898,12 @@
     <!-- Player elements -->
     <div class="player-container" id="player-container">
         <div class="player glass-effect">
-            <video class="player-video" id="main-player" controls></video>
+            <div class="youtube-container" id="youtube-player"></div>
             <div class="player-controls">
                 <button class="player-btn" id="play-pause-btn">⏯</button>
                 <div class="player-time">
                     <span id="current-time">0:00</span> / <span id="duration">0:00</span>
                 </div>
-                <input type="range" id="progress-bar" min="0" max="100" value="0">
                 <button class="player-btn" id="fullscreen-btn">⛶</button>
                 <button class="player-btn" id="pip-btn">🖵</button>
             </div>
@@ -890,7 +931,7 @@
 
     <!-- Picture-in-Picture window -->
     <div class="pip-window" id="pip-window">
-        <video class="pip-video" id="pip-video" controls></video>
+        <div class="youtube-container" id="pip-youtube"></div>
         <div class="pip-controls">
             <button class="pip-btn" id="pip-play">⏯</button>
             <button class="pip-btn" id="pip-close">✕</button>
@@ -908,34 +949,132 @@
     </div>
 
     <script>
-        // Sample data for movies and series
+        // Sample data for movies and series with YouTube trailers
         const moviesData = [
-            { id: 1, title: "Интерстеллар", year: 2014, genre: "Фантастика", rating: "9.1", poster: "https://via.placeholder.com/250x350/0a0a1a/00a8ff?text=Интерстеллар" },
-            { id: 2, title: "Довод", year: 2020, genre: "Боевик", rating: "8.5", poster: "https://via.placeholder.com/250x350/0a0a1a/00a8ff?text=Довод" },
-            { id: 3, title: "Джентльмены", year: 2019, genre: "Криминал", rating: "8.5", poster: "https://via.placeholder.com/250x350/0a0a1a/00a8ff?text=Джентльмены" },
-            { id: 4, title: "Начало", year: 2010, genre: "Фантастика", rating: "9.0", poster: "https://via.placeholder.com/250x350/0a0a1a/00a8ff?text=Начало" },
-            { id: 5, title: "Паразиты", year: 2019, genre: "Драма", rating: "8.8", poster: "https://via.placeholder.com/250x350/0a0a1a/00a8ff?text=Паразиты" },
-            { id: 6, title: "Дюна", year: 2021, genre: "Фантастика", rating: "8.7", poster: "https://via.placeholder.com/250x350/0a0a1a/00a8ff?text=Дюна" },
-            { id: 7, title: "Оппенгеймер", year: 2023, genre: "Биография", rating: "9.2", poster: "https://via.placeholder.com/250x350/0a0a1a/00a8ff?text=Оппенгеймер" },
-            { id: 8, title: "Барби", year: 2023, genre: "Комедия", rating: "7.8", poster: "https://via.placeholder.com/250x350/0a0a1a/00a8ff?text=Барби" }
+            { 
+                id: 1, 
+                title: "Интерстеллар", 
+                year: 2014, 
+                genre: "Фантастика", 
+                rating: "9.1", 
+                poster: "https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg",
+                youtubeId: "zSWdZVtXT7E" // YouTube trailer ID
+            },
+            { 
+                id: 2, 
+                title: "Довод", 
+                year: 2020, 
+                genre: "Боевик", 
+                rating: "8.5", 
+                poster: "https://m.media-amazon.com/images/M/MV5BYzg0NGM2NjAtNmIxOC00MDJmLTg5ZmYtYzM0MTE4NWE2NzlhXkEyXkFqcGdeQXVyMTA4NjE0NjEy._V1_.jpg",
+                youtubeId: "L3pk_TBkihU"
+            },
+            { 
+                id: 3, 
+                title: "Джентльмены", 
+                year: 2019, 
+                genre: "Криминал", 
+                rating: "8.5", 
+                poster: "https://m.media-amazon.com/images/M/MV5BMTlkMmVmYjktYTc2NC00ZGZjLWEyOWUtMjc2MDMwMjQwOTA5XkEyXkFqcGdeQXVyNTI4MzE4MDU@._V1_FMjpg_UX1000_.jpg",
+                youtubeId: "Fui6lZ8pZtI"
+            },
+            { 
+                id: 4, 
+                title: "Начало", 
+                year: 2010, 
+                genre: "Фантастика", 
+                rating: "9.0", 
+                poster: "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_FMjpg_UX1000_.jpg",
+                youtubeId: "YoHD9XEInc0"
+            },
+            { 
+                id: 5, 
+                title: "Паразиты", 
+                year: 2019, 
+                genre: "Драма", 
+                rating: "8.8", 
+                poster: "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_FMjpg_UX1000_.jpg",
+                youtubeId: "isOGD_7hNIY"
+            },
+            { 
+                id: 6, 
+                title: "Дюна", 
+                year: 2021, 
+                genre: "Фантастика", 
+                rating: "8.7", 
+                poster: "https://m.media-amazon.com/images/M/MV5BN2FjNmEyNWMtYzM0ZS00NjIyLTg5YzYtYThlMGVjNzE1OGViXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UX1000_.jpg",
+                youtubeId: "n9xhJrPXop4"
+            }
         ];
 
         const seriesData = [
-            { id: 101, title: "Игра престолов", year: 2011, genre: "Фэнтези", rating: "9.3", seasons: 8, poster: "https://via.placeholder.com/250x350/0a0a1a/9c27b0?text=Игра+престолов" },
-            { id: 102, title: "Во все тяжкие", year: 2008, genre: "Криминал", rating: "9.5", seasons: 5, poster: "https://via.placeholder.com/250x350/0a0a1a/9c27b0?text=Во+все+тяжкие" },
-            { id: 103, title: "Чернобыль", year: 2019, genre: "Драма", rating: "9.4", seasons: 1, poster: "https://via.placeholder.com/250x350/0a0a1a/9c27b0?text=Чернобыль" },
-            { id: 104, title: "Офис", year: 2005, genre: "Комедия", rating: "9.0", seasons: 9, poster: "https://via.placeholder.com/250x350/0a0a1a/9c27b0?text=Офис" },
-            { id: 105, title: "Друзья", year: 1994, genre: "Комедия", rating: "8.9", seasons: 10, poster: "https://via.placeholder.com/250x350/0a0a1a/9c27b0?text=Друзья" },
-            { id: 106, title: "Рик и Морти", year: 2013, genre: "Мультсериал", rating: "9.2", seasons: 6, poster: "https://via.placeholder.com/250x350/0a0a1a/9c27b0?text=Рик+и+Морти" },
-            { id: 107, title: "Клиника", year: 2001, genre: "Комедия", rating: "8.8", seasons: 8, poster: "https://via.placeholder.com/250x350/0a0a1a/9c27b0?text=Клиника" },
-            { id: 108, title: "Бумажный дом", year: 2017, genre: "Криминал", rating: "8.5", seasons: 5, poster: "https://via.placeholder.com/250x350/0a0a1a/9c27b0?text=Бумажный+дом" }
+            { 
+                id: 101, 
+                title: "Игра престолов", 
+                year: 2011, 
+                genre: "Фэнтези", 
+                rating: "9.3", 
+                seasons: 8, 
+                poster: "https://m.media-amazon.com/images/M/MV5BYTRiNDQwYzAtMzVlZS00NTI5LWJjYjUtMzkwNTUzMWMxZTllXkEyXkFqcGdeQXVyNDIzMzcwNjc@._V1_FMjpg_UX1000_.jpg",
+                youtubeId: "KPLWWIOCOOQ"
+            },
+            { 
+                id: 102, 
+                title: "Во все тяжкие", 
+                year: 2008, 
+                genre: "Криминал", 
+                rating: "9.5", 
+                seasons: 5, 
+                poster: "https://m.media-amazon.com/images/M/MV5BMTJiMzgwZTktYzZhZC00YzhhLWEzZDUtMGM2NTE4MzQ4NGFmXkEyXkFqcGdeQXVyMzEyMDQzNzY@._V1_.jpg",
+                youtubeId: "HhesaQXLuRY"
+            },
+            { 
+                id: 103, 
+                title: "Чернобыль", 
+                year: 2019, 
+                genre: "Драма", 
+                rating: "9.4", 
+                seasons: 1, 
+                poster: "https://m.media-amazon.com/images/M/MV5BZGQ2YmMxZmEtYjI5OS00NzlkLTkyNmUtMTgwNGQyNDMyMjIzXkEyXkFqcGdeQXVyMTA4NjE0NjEy._V1_.jpg",
+                youtubeId: "s9APLXM9Ei8"
+            },
+            { 
+                id: 104, 
+                title: "Офис", 
+                year: 2005, 
+                genre: "Комедия", 
+                rating: "9.0", 
+                seasons: 9, 
+                poster: "https://m.media-amazon.com/images/M/MV5BMDNkOTE4NDQtMTNmYi00MWE0LWE4ZTktYTc0NzhhNWIzNzJiXkEyXkFqcGdeQXVyMzQ2MDI5NjU@._V1_.jpg",
+                youtubeId: "UZj1W7o4o_E"
+            },
+            { 
+                id: 105, 
+                title: "Друзья", 
+                year: 1994, 
+                genre: "Комедия", 
+                rating: "8.9", 
+                seasons: 10, 
+                poster: "https://m.media-amazon.com/images/M/MV5BNDVkYjU0MzctMWRmZi00NTkxLTgwZWEtOWVhYjZlYjllYmU4XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_FMjpg_UX1000_.jpg",
+                youtubeId: "LTpmw0Ac6Zs"
+            },
+            { 
+                id: 106, 
+                title: "Рик и Морти", 
+                year: 2013, 
+                genre: "Мультсериал", 
+                rating: "9.2", 
+                seasons: 6, 
+                poster: "https://m.media-amazon.com/images/M/MV5BZjRjOTFkOTktZWUzMi00YzMyLThkMmYtMjEwNmQyNzliYTNmXkEyXkFqcGdeQXVyNzQ1ODk3MTQ@._V1_FMjpg_UX1000_.jpg",
+                youtubeId: "I1188GO4p1E"
+            }
         ];
 
         // DOM elements
         const newReleasesCarousel = document.getElementById('new-releases');
         const popularSeriesCarousel = document.getElementById('popular-series');
         const playerContainer = document.getElementById('player-container');
-        const mainPlayer = document.getElementById('main-player');
+        const youtubePlayerContainer = document.getElementById('youtube-player');
         const closePlayerBtn = document.getElementById('close-player');
         const miniPlayer = document.getElementById('mini-player');
         const miniPoster = document.getElementById('mini-poster');
@@ -944,7 +1083,7 @@
         const miniPlayBtn = document.getElementById('mini-play');
         const miniCloseBtn = document.getElementById('mini-close');
         const pipWindow = document.getElementById('pip-window');
-        const pipVideo = document.getElementById('pip-video');
+        const pipYoutubeContainer = document.getElementById('pip-youtube');
         const pipPlayBtn = document.getElementById('pip-play');
         const pipCloseBtn = document.getElementById('pip-close');
         const pipFab = document.getElementById('pip-fab');
@@ -953,6 +1092,9 @@
         const closePromptBtn = document.getElementById('close-prompt');
         const mainHeader = document.getElementById('main-header');
 
+        // YouTube player instances
+        let youtubePlayer, pipYoutubePlayer;
+
         // Generate carousel items
         function generateCarouselItems(data, container) {
             container.innerHTML = '';
@@ -960,7 +1102,7 @@
                 const carouselItem = document.createElement('div');
                 carouselItem.className = 'carousel-item glass-effect';
                 carouselItem.innerHTML = `
-                    <img src="${item.poster}" alt="${item.title}">
+                    <img src="${item.poster}" alt="${item.title}" loading="lazy">
                     <div class="carousel-item-info">
                         <div class="carousel-item-title">${item.title}</div>
                         <div class="carousel-item-meta">
@@ -974,34 +1116,66 @@
             });
         }
 
+        // Load YouTube API
+        function loadYouTubeAPI() {
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        }
+
+        // Create YouTube player
+        function createYouTubePlayer(containerId, videoId, events) {
+            return new YT.Player(containerId, {
+                height: '100%',
+                width: '100%',
+                videoId: videoId,
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 0,
+                    'rel': 0,
+                    'modestbranding': 1,
+                    'fs': 0
+                },
+                events: events
+            });
+        }
+
         // Open player with selected content
         function openPlayer(item) {
             playerContainer.style.display = 'flex';
             document.body.style.overflow = 'hidden';
-            
-            // In a real app, you would set the video source here
-            // mainPlayer.src = `path/to/video/${item.id}.mp4`;
-            
-            // For demo purposes, we'll use a placeholder
-            mainPlayer.src = 'https://samplelib.com/lib/preview/mp4/sample-5s.mp4';
-            mainPlayer.poster = item.poster;
             
             // Set metadata for mini player
             miniPoster.src = item.poster;
             miniTitle.textContent = item.title;
             miniMeta.textContent = item.year ? `Год: ${item.year}` : `Сезон 1, Серия 1`;
             
-            // Play the video
-            setTimeout(() => {
-                mainPlayer.play();
-            }, 300);
+            // Load YouTube player
+            if (typeof YT !== 'undefined' && YT.Player) {
+                youtubePlayer = createYouTubePlayer('youtube-player', item.youtubeId, {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                });
+            }
+        }
+
+        // YouTube player events
+        function onPlayerReady(event) {
+            event.target.playVideo();
+        }
+
+        function onPlayerStateChange(event) {
+            // Handle player state changes (play, pause, etc.)
         }
 
         // Close main player
         function closePlayer() {
             playerContainer.style.display = 'none';
             document.body.style.overflow = 'auto';
-            mainPlayer.pause();
+            if (youtubePlayer) {
+                youtubePlayer.stopVideo();
+            }
             
             // Show mini player
             miniPlayer.classList.add('active');
@@ -1009,54 +1183,70 @@
 
         // Toggle mini player playback
         function toggleMiniPlayerPlayback() {
-            if (mainPlayer.paused) {
-                mainPlayer.play();
-            } else {
-                mainPlayer.pause();
+            if (youtubePlayer) {
+                const state = youtubePlayer.getPlayerState();
+                if (state === YT.PlayerState.PLAYING) {
+                    youtubePlayer.pauseVideo();
+                } else {
+                    youtubePlayer.playVideo();
+                }
             }
         }
 
         // Close mini player
         function closeMiniPlayer() {
             miniPlayer.classList.remove('active');
-            mainPlayer.pause();
+            if (youtubePlayer) {
+                youtubePlayer.stopVideo();
+            }
         }
 
         // Toggle Picture-in-Picture
         async function togglePip() {
             try {
-                if (document.pictureInPictureElement) {
-                    await document.exitPictureInPicture();
-                } else if (document.pictureInPictureEnabled) {
-                    pipVideo.src = mainPlayer.src;
-                    pipVideo.currentTime = mainPlayer.currentTime;
-                    if (mainPlayer.paused) {
-                        pipVideo.pause();
-                    } else {
-                        pipVideo.play();
+                if (pipWindow.style.display === 'block') {
+                    pipWindow.style.display = 'none';
+                    if (pipYoutubePlayer) {
+                        pipYoutubePlayer.destroy();
                     }
-                    await pipVideo.requestPictureInPicture();
-                    pipWindow.style.display = 'block';
+                } else {
+                    if (youtubePlayer) {
+                        const videoId = youtubePlayer.getVideoData().video_id;
+                        pipWindow.style.display = 'block';
+                        pipYoutubePlayer = createYouTubePlayer('pip-youtube', videoId, {
+                            'onStateChange': onPipPlayerStateChange
+                        });
+                    }
                 }
             } catch (error) {
                 console.error('Picture-in-Picture error:', error);
             }
         }
 
+        // PIP player state change
+        function onPipPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                pipWindow.style.display = 'none';
+            }
+        }
+
         // Toggle PIP playback
         function togglePipPlayback() {
-            if (pipVideo.paused) {
-                pipVideo.play();
-            } else {
-                pipVideo.pause();
+            if (pipYoutubePlayer) {
+                const state = pipYoutubePlayer.getPlayerState();
+                if (state === YT.PlayerState.PLAYING) {
+                    pipYoutubePlayer.pauseVideo();
+                } else {
+                    pipYoutubePlayer.playVideo();
+                }
             }
         }
 
         // Close PIP window
         function closePip() {
             pipWindow.style.display = 'none';
-            if (document.pictureInPictureElement) {
-                document.exitPictureInPicture();
+            if (pipYoutubePlayer) {
+                pipYoutubePlayer.destroy();
             }
         }
 
@@ -1097,6 +1287,7 @@
         function init() {
             generateCarouselItems(moviesData, newReleasesCarousel);
             generateCarouselItems(seriesData, popularSeriesCarousel);
+            loadYouTubeAPI();
             
             // Event listeners
             closePlayerBtn.addEventListener('click', closePlayer);
