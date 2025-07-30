@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Турнир | FC25 Турниры</title>
+    <link rel="stylesheet" href="css/fc25-theme.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="fc25-theme">
+    <header>
+        <!-- Такое же меню как на главной -->
+    </header>
+
+    <main class="tournament-page">
+        <div class="tournament-header">
+            <div class="tournament-info">
+                <h1>FC25 Winter Cup 2023</h1>
+                <div class="tournament-meta">
+                    <span class="status ongoing">Идет регистрация</span>
+                    <span class="date">15.12.2023 - 30.12.2023</span>
+                    <span class="price">500 руб.</span>
+                    <span class="format">Лига (каждый с каждым)</span>
+                </div>
+            </div>
+            <div class="tournament-actions">
+                <button class="btn-primary" id="join-tournament">Участвовать</button>
+                <button class="btn-secondary">Правила</button>
+            </div>
+        </div>
+
+        <div class="tournament-tabs">
+            <button class="tab-btn active" data-tab="teams">Команды</button>
+            <button class="tab-btn" data-tab="participants">Участники</button>
+            <button class="tab-btn" data-tab="bracket">Турнирная сетка</button>
+            <button class="tab-btn" data-tab="results">Результаты</button>
+            <button class="tab-btn" data-tab="matches">Мои матчи</button>
+        </div>
+
+        <div class="tab-content active" id="teams-tab">
+            <h2>Выбери свою команду</h2>
+            <div class="teams-grid">
+                <div class="team-card available">
+                    <img src="img/teams/realmadrid.png" alt="Real Madrid">
+                    <h3>Real Madrid</h3>
+                    <button class="btn-select">Выбрать</button>
+                </div>
+                <div class="team-card taken">
+                    <img src="img/teams/manchester-city.png" alt="Manchester City">
+                    <h3>Manchester City</h3>
+                    <span class="taken-by">Занято: AlexFIFA</span>
+                </div>
+                <!-- Другие команды -->
+            </div>
+        </div>
+
+        <div class="tab-content" id="participants-tab">
+            <h2>Участники турнира</h2>
+            <table class="participants-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Участник</th>
+                        <th>Команда</th>
+                        <th>EA ID</th>
+                        <th>TG</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>AlexFIFA</td>
+                        <td>Manchester City</td>
+                        <td>AlexFIFA_EA</td>
+                        <td>@alex_fifa</td>
+                    </tr>
+                    <!-- Другие участники -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-content" id="results-tab">
+            <h2>Турнирная таблица</h2>
+            <table class="standings-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Участник</th>
+                        <th>Команда</th>
+                        <th>И</th>
+                        <th>В</th>
+                        <th>Н</th>
+                        <th>П</th>
+                        <th>М</th>
+                        <th>О</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>AlexFIFA</td>
+                        <td>Manchester City</td>
+                        <td>3</td>
+                        <td>3</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>12:2</td>
+                        <td>9</td>
+                    </tr>
+                    <!-- Другие участники -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-content" id="matches-tab">
+            <h2>Мои матчи</h2>
+            <div class="matches-list">
+                <div class="match-card upcoming">
+                    <div class="match-teams">
+                        <div class="team">
+                            <img src="img/teams/realmadrid.png" alt="Real Madrid">
+                            <span>FIFAPro22 (Real Madrid)</span>
+                        </div>
+                        <div class="vs">vs</div>
+                        <div class="team">
+                            <img src="img/teams/manchester-city.png" alt="Manchester City">
+                            <span>AlexFIFA (Manchester City)</span>
+                        </div>
+                    </div>
+                    <div class="match-info">
+                        <span class="status">Запланирован</span>
+                        <button class="btn-primary">Заявить результат</button>
+                    </div>
+                </div>
+
+                <div class="match-card played">
+                    <div class="match-teams">
+                        <div class="team winner">
+                            <img src="img/teams/barcelona.png" alt="Barcelona">
+                            <span>You (Barcelona)</span>
+                            <span class="score">3</span>
+                        </div>
+                        <div class="vs">-</div>
+                        <div class="team">
+                            <img src="img/teams/psg.png" alt="PSG">
+                            <span>FIFA_King (PSG)</span>
+                            <span class="score">1</span>
+                        </div>
+                    </div>
+                    <div class="match-info">
+                        <span class="status">Завершен</span>
+                        <span class="date">12.12.2023</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <!-- Подвал как на главной -->
+    </footer>
+
+    <script src="js/tournament.js"></script>
+</body>
+</html>
