@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой профиль | FC25 Турниры</title>
+    <link rel="stylesheet" href="css/fc25-theme.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="fc25-theme">
+    <header>
+        <!-- Меню как на главной -->
+    </header>
+
+    <main class="profile-page">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <img src="img/avatars/default.png" alt="Аватар">
+                <button class="btn-edit">Изменить</button>
+            </div>
+            <div class="profile-info">
+                <h1>FIFAPro22</h1>
+                <div class="profile-stats">
+                    <div class="stat">
+                        <span class="value">15</span>
+                        <span class="label">Турниров</span>
+                    </div>
+                    <div class="stat">
+                        <span class="value">42</span>
+                        <span class="label">Матчей</span>
+                    </div>
+                    <div class="stat">
+                        <span class="value">65%</span>
+                        <span class="label">Побед</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-tabs">
+            <button class="tab-btn active" data-tab="overview">Обзор</button>
+            <button class="tab-btn" data-tab="stats">Статистика</button>
+            <button class="tab-btn" data-tab="matches">Матчи</button>
+            <button class="tab-btn" data-tab="settings">Настройки</button>
+        </div>
+
+        <div class="tab-content active" id="overview-tab">
+            <div class="profile-section">
+                <h2>Текущие турниры</h2>
+                <div class="tournaments-list">
+                    <div class="tournament-card">
+                        <div class="tournament-info">
+                            <h3>FC25 Winter Cup 2023</h3>
+                            <p>Регистрация до: 20.12.2023</p>
+                            <p>Команда: Barcelona</p>
+                            <p>Статус: Ожидается начало</p>
+                        </div>
+                        <div class="tournament-actions">
+                            <button class="btn-primary">Перейти</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-section">
+                <h2>Последние матчи</h2>
+                <div class="matches-list">
+                    <div class="match-card">
+                        <div class="match-teams">
+                            <div class="team winner">
+                                <span>You (Barcelona)</span>
+                                <span class="score">3</span>
+                            </div>
+                            <div class="vs">-</div>
+                            <div class="team">
+                                <span>FIFA_King (PSG)</span>
+                                <span class="score">1</span>
+                            </div>
+                        </div>
+                        <div class="match-info">
+                            <span class="date">12.12.2023</span>
+                            <span class="tournament">FC25 Autumn League</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="stats-tab">
+            <h2>Моя статистика</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Общая</h3>
+                    <div class="stat-item">
+                        <span class="label">Матчей сыграно:</span>
+                        <span class="value">42</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="label">Побед:</span>
+                        <span class="value">27 (65%)</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="label">Ничьих:</span>
+                        <span class="value">8 (19%)</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="label">Поражений:</span>
+                        <span class="value">7 (16%)</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Забитые/пропущенные</h3>
+                    <div class="stat-item">
+                        <span class="label">Всего голов:</span>
+                        <span class="value">112</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="label">Голов за матч:</span>
+                        <span class="value">2.67</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="label">Пропущено:</span>
+                        <span class="value">64</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="label">Разница мячей:</span>
+                        <span class="value">+48</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Любимые команды</h3>
+                    <div class="team-stats">
+                        <div class="team-stat">
+                            <img src="img/teams/barcelona.png" alt="Barcelona">
+                            <span>Barcelona (12 матчей)</span>
+                        </div>
+                        <div class="team-stat">
+                            <img src="img/teams/liverpool.png" alt="Liverpool">
+                            <span>Liverpool (8 матчей)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <!-- Подвал как на главной -->
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
