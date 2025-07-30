@@ -1,0 +1,22 @@
+/* Страница турнира */
+.tournament-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.team-card {
+    text-align: center;
+    padding: 15px;
+    position: relative;
+}
+
+.team-card.available {
+    border: 2px solid #4CAF50;
+}
+
+/* Таблицы результатов */
+.standings-table {
+    width: 100%;
+    border-collapse: collapse;
+}
