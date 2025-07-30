@@ -1,0 +1,20 @@
+/* Карточки */
+.card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Вкладки */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
