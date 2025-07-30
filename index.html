@@ -4,27 +4,260 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FC25 Турниры - Главная</title>
-    
-    <!-- Основные стили -->
-    <link rel="stylesheet" href="css/main.css">
-    
-    <!-- Тема FC25 -->
-    <link rel="stylesheet" href="css/fc25-theme.css">
-    
-    <!-- Компоненты -->
-    <link rel="stylesheet" href="css/components.css">
-    
-    <!-- Иконки -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Шрифты -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Базовые сбросы */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        /* Основная структура */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo {
+            height: 50px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .login-btn {
+            background-color: #ff6b00;
+        }
+        
+        main {
+            padding: 2rem 5%;
+        }
+        
+        section {
+            margin-bottom: 3rem;
+        }
+        
+        /* Герой секция */
+        .hero {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            margin: 3rem 0;
+        }
+        
+        .hero-content {
+            flex: 1;
+        }
+        
+        .hero-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        
+        /* Кнопки */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+        
+        .btn-primary {
+            background-color: #ff6b00;
+            color: white;
+            border: 2px solid #ff8c00;
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        
+        /* Особенности */
+        .features {
+            margin: 5rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #ff6b00;
+        }
+        
+        /* Турниры */
+        .tournaments-carousel {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+        
+        .tournament-card {
+            min-width: 300px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .tournament-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .tournament-info {
+            padding: 15px;
+        }
+        
+        /* Подвал */
+        footer {
+            background-color: rgba(0,0,0,0.8);
+            padding: 3rem 5%;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .hero {
+                flex-direction: column;
+            }
+            
+            .hero-content {
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+            
+            .cta-buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                display: block;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
 </head>
-<body class="fc25-theme">
+<body>
     <!-- Шапка сайта -->
     <header>
         <div class="logo-container">
-            <img src="img/fc25-logo.png" alt="FC25 Турниры" class="logo">
+            <img src="https://via.placeholder.com/50x50" alt="FC25 Турниры" class="logo">
             <h1>FC25 Турниры</h1>
         </div>
         <nav>
@@ -45,12 +278,12 @@
                 <h2>Онлайн турниры по FIFA FC25</h2>
                 <p>Присоединяйся к соревнованиям, выбирай свою команду и докажи, что ты лучший!</p>
                 <div class="cta-buttons">
-                    <a href="register.html" class="btn-primary"><i class="fas fa-user-plus"></i> Регистрация</a>
-                    <a href="tournaments.html" class="btn-secondary"><i class="fas fa-trophy"></i> Текущие турниры</a>
+                    <a href="register.html" class="btn btn-primary"><i class="fas fa-user-plus"></i> Регистрация</a>
+                    <a href="tournaments.html" class="btn btn-secondary"><i class="fas fa-trophy"></i> Текущие турниры</a>
                 </div>
             </div>
             <div class="hero-image">
-                <img src="img/fc25-hero.png" alt="FIFA FC25 Турниры" class="hero-img">
+                <img src="https://via.placeholder.com/600x400" alt="FIFA FC25 Турниры" class="hero-img">
             </div>
         </section>
 
@@ -97,20 +330,43 @@
             <h2 class="section-title">Ближайшие турниры</h2>
             <div class="tournaments-carousel">
                 <div class="tournament-card">
-                    <div class="tournament-badge">Новый</div>
-                    <img src="img/tournaments/fc25-cup.jpg" alt="FC25 Cup" class="tournament-image">
+                    <img src="https://via.placeholder.com/300x150" alt="FC25 Cup" class="tournament-image">
                     <div class="tournament-info">
                         <h3>FC25 Winter Cup</h3>
                         <div class="tournament-meta">
-                            <span><i class="far fa-calendar-alt"></i> 15-30 декабря</span>
-                            <span><i class="fas fa-users"></i> 32 участника</span>
-                            <span><i class="fas fa-coins"></i> 1000$ призовой</span>
+                            <p><i class="far fa-calendar-alt"></i> 15-30 декабря</p>
+                            <p><i class="fas fa-users"></i> 32 участника</p>
+                            <p><i class="fas fa-coins"></i> 1000$ призовой</p>
                         </div>
-                        <a href="tournament.html" class="btn-primary">Подробнее</a>
+                        <a href="tournament.html" class="btn btn-primary">Подробнее</a>
                     </div>
                 </div>
                 
-                <!-- Другие турниры -->
+                <div class="tournament-card">
+                    <img src="https://via.placeholder.com/300x150" alt="FC25 League" class="tournament-image">
+                    <div class="tournament-info">
+                        <h3>FC25 Pro League</h3>
+                        <div class="tournament-meta">
+                            <p><i class="far fa-calendar-alt"></i> 5-20 января</p>
+                            <p><i class="fas fa-users"></i> 64 участника</p>
+                            <p><i class="fas fa-coins"></i> 2500$ призовой</p>
+                        </div>
+                        <a href="tournament.html" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+                
+                <div class="tournament-card">
+                    <img src="https://via.placeholder.com/300x150" alt="FC25 Open" class="tournament-image">
+                    <div class="tournament-info">
+                        <h3>FC25 Open Tournament</h3>
+                        <div class="tournament-meta">
+                            <p><i class="far fa-calendar-alt"></i> 1-15 февраля</p>
+                            <p><i class="fas fa-users"></i> 128 участников</p>
+                            <p><i class="fas fa-coins"></i> Бесплатный вход</p>
+                        </div>
+                        <a href="tournament.html" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -120,7 +376,7 @@
             <div class="testimonials-grid">
                 <div class="testimonial-card">
                     <div class="user-info">
-                        <img src="img/avatars/user1.jpg" alt="Игрок 1">
+                        <img src="https://via.placeholder.com/80x80" alt="Игрок 1" class="user-avatar">
                         <div class="user-name">ProFIFA_22</div>
                         <div class="user-rating">
                             <i class="fas fa-star"></i>
@@ -133,7 +389,20 @@
                     <p class="testimonial-text">Лучшая платформа для турниров! Все четко организовано, поддержка на высоте.</p>
                 </div>
                 
-                <!-- Другие отзывы -->
+                <div class="testimonial-card">
+                    <div class="user-info">
+                        <img src="https://via.placeholder.com/80x80" alt="Игрок 2" class="user-avatar">
+                        <div class="user-name">FIFA_King</div>
+                        <div class="user-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">Отличные турниры с хорошими призами. Удобная система подачи результатов.</p>
+                </div>
             </div>
         </section>
     </main>
@@ -175,21 +444,18 @@
     </footer>
 
     <!-- Подключение JavaScript -->
-    <script src="js/main.js" defer></script>
-    <script src="js/auth.js" defer></script>
-    <script src="js/tournament.js" defer></script>
-    
-    <!-- Инициализация при загрузке -->
     <script>
+        // Базовая инициализация
         document.addEventListener('DOMContentLoaded', function() {
-            // Инициализация карусели турниров
-            initTournamentCarousel();
+            console.log('Сайт FC25 Турниры загружен');
             
-            // Инициализация системы уведомлений
-            initNotifications();
-            
-            // Проверка авторизации
-            checkAuthStatus();
+            // Можно добавить здесь простые интерактивные элементы
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                });
+            });
         });
     </script>
 </body>
