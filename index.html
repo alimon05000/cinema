@@ -4,10 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FC25 Турниры - Главная</title>
+    
+    <!-- Основные стили -->
+    <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Тема FC25 -->
     <link rel="stylesheet" href="css/fc25-theme.css">
-    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Компоненты -->
+    <link rel="stylesheet" href="css/components.css">
+    
+    <!-- Иконки -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Шрифты -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
 </head>
 <body class="fc25-theme">
+    <!-- Шапка сайта -->
     <header>
         <div class="logo-container">
             <img src="img/fc25-logo.png" alt="FC25 Турниры" class="logo">
@@ -15,71 +29,168 @@
         </div>
         <nav>
             <ul>
-                <li><a href="index.html" class="active">Главная</a></li>
-                <li><a href="tournaments.html">Турниры</a></li>
-                <li><a href="profile.html">Профиль</a></li>
-                <li><a href="login.html" class="login-btn">Вход</a></li>
+                <li><a href="index.html" class="active"><i class="fas fa-home"></i> Главная</a></li>
+                <li><a href="tournaments.html"><i class="fas fa-trophy"></i> Турниры</a></li>
+                <li><a href="profile.html"><i class="fas fa-user"></i> Профиль</a></li>
+                <li><a href="login.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> Вход</a></li>
             </ul>
         </nav>
     </header>
 
+    <!-- Основное содержимое -->
     <main>
+        <!-- Герой-секция -->
         <section class="hero">
             <div class="hero-content">
                 <h2>Онлайн турниры по FIFA FC25</h2>
                 <p>Присоединяйся к соревнованиям, выбирай свою команду и докажи, что ты лучший!</p>
                 <div class="cta-buttons">
-                    <a href="register.html" class="btn-primary">Регистрация</a>
-                    <a href="tournaments.html" class="btn-secondary">Текущие турниры</a>
+                    <a href="register.html" class="btn-primary"><i class="fas fa-user-plus"></i> Регистрация</a>
+                    <a href="tournaments.html" class="btn-secondary"><i class="fas fa-trophy"></i> Текущие турниры</a>
                 </div>
             </div>
             <div class="hero-image">
-                <img src="img/fc25-hero.png" alt="FIFA FC25 Турниры">
+                <img src="img/fc25-hero.png" alt="FIFA FC25 Турниры" class="hero-img">
             </div>
         </section>
 
+        <!-- Особенности платформы -->
         <section class="features">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <img src="img/tournament-icon.png" alt="Турниры">
+            <h2 class="section-title">Почему выбирают нас</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>Профессиональные турниры</h3>
+                    <p>Честные соревнования с продуманной системой рейтингов</p>
                 </div>
-                <h3>Разнообразные турниры</h3>
-                <p>Участвуй в платных и бесплатных турнирах с различными форматами</p>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Подробная статистика</h3>
+                    <p>Анализируй свои матчи и улучшай показатели</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3>Призовые фонды</h3>
+                    <p>Реальные денежные призы для лучших игроков</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Сообщество</h3>
+                    <p>Общайся с другими игроками и находи соперников</p>
+                </div>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <img src="img/stats-icon.png" alt="Статистика">
+        </section>
+
+        <!-- Ближайшие турниры -->
+        <section class="upcoming-tournaments">
+            <h2 class="section-title">Ближайшие турниры</h2>
+            <div class="tournaments-carousel">
+                <div class="tournament-card">
+                    <div class="tournament-badge">Новый</div>
+                    <img src="img/tournaments/fc25-cup.jpg" alt="FC25 Cup" class="tournament-image">
+                    <div class="tournament-info">
+                        <h3>FC25 Winter Cup</h3>
+                        <div class="tournament-meta">
+                            <span><i class="far fa-calendar-alt"></i> 15-30 декабря</span>
+                            <span><i class="fas fa-users"></i> 32 участника</span>
+                            <span><i class="fas fa-coins"></i> 1000$ призовой</span>
+                        </div>
+                        <a href="tournament.html" class="btn-primary">Подробнее</a>
+                    </div>
                 </div>
-                <h3>Подробная статистика</h3>
-                <p>Отслеживай свои результаты, рейтинг и историю матчей</p>
+                
+                <!-- Другие турниры -->
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <img src="img/prize-icon.png" alt="Призы">
+        </section>
+
+        <!-- Отзывы -->
+        <section class="testimonials">
+            <h2 class="section-title">Что говорят участники</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="user-info">
+                        <img src="img/avatars/user1.jpg" alt="Игрок 1">
+                        <div class="user-name">ProFIFA_22</div>
+                        <div class="user-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">Лучшая платформа для турниров! Все четко организовано, поддержка на высоте.</p>
                 </div>
-                <h3>Ценные призы</h3>
-                <p>Выигрывай денежные призы и внутриигровые бонусы</p>
+                
+                <!-- Другие отзывы -->
             </div>
         </section>
     </main>
 
+    <!-- Подвал сайта -->
     <footer>
         <div class="footer-content">
             <div class="footer-section">
                 <h4>FC25 Турниры</h4>
                 <p>Лучшая платформа для онлайн-соревнований по FIFA</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-vk"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
             </div>
+            
+            <div class="footer-section">
+                <h4>Навигация</h4>
+                <ul>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="tournaments.html">Турниры</a></li>
+                    <li><a href="rules.html">Правила</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            
             <div class="footer-section">
                 <h4>Контакты</h4>
-                <p>Email: support@fc25tournaments.com</p>
-                <p>Telegram: @fc25_support</p>
+                <p><i class="fas fa-envelope"></i> support@fc25tournaments.com</p>
+                <p><i class="fab fa-telegram"></i> @fc25_support</p>
+                <p><i class="fas fa-phone"></i> +7 (123) 456-78-90</p>
             </div>
         </div>
+        
         <div class="copyright">
             <p>&copy; 2023 FC25 Турниры. Все права защищены.</p>
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
+    <!-- Подключение JavaScript -->
+    <script src="js/main.js" defer></script>
+    <script src="js/auth.js" defer></script>
+    <script src="js/tournament.js" defer></script>
+    
+    <!-- Инициализация при загрузке -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Инициализация карусели турниров
+            initTournamentCarousel();
+            
+            // Инициализация системы уведомлений
+            initNotifications();
+            
+            // Проверка авторизации
+            checkAuthStatus();
+        });
+    </script>
 </body>
 </html>
