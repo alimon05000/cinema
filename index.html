@@ -739,7 +739,7 @@
                     <p>Присоединяйся к соревнованиям, выбирай свою команду и докажи, что ты лучший!</p>
                     <div class="cta-buttons">
                         <a href="#" class="btn btn-primary" id="register-btn"><i class="fas fa-user-plus"></i> Регистрация</a>
-                        <a href="#" class="btn btn-secondary" id="current-tournaments-btn"><i class="fas fa-trophy"></i> Текущие турниры</a>
+                        <a href="#" class="btn btn-secondary" data-page="tournaments"><i class="fas fa-trophy"></i> Текущие турниры</a>
                     </div>
                 </div>
                 <div class="hero-image">
@@ -790,6 +790,14 @@
                 <h2 class="section-title">Активные турниры</h2>
                 <div class="tournaments-carousel" id="active-tournaments">
                     <!-- Турниры будут загружены через JavaScript -->
+                </div>
+            </section>
+
+            <!-- Список всех команд из топ-6 лиг -->
+            <section class="features">
+                <h2 class="section-title">Команды топ-6 лиг</h2>
+                <div class="league-groups" id="all-teams">
+                    <!-- Команды будут загружены через JavaScript -->
                 </div>
             </section>
 
@@ -1222,7 +1230,6 @@
             // Навигационные ссылки
             const navLinks = document.querySelectorAll('nav a[data-page]');
             const authText = document.getElementById('auth-text');
-            const currentTournamentsBtn = document.getElementById('current-tournaments-btn');
             
             // Модальные окна
             const registerModal = document.getElementById('register-modal');
@@ -1279,6 +1286,7 @@
             // Команды
             const teamsContainer = document.getElementById('tournament-teams');
             const teamsSection = document.getElementById('tournament-teams-section');
+            const allTeamsContainer = document.getElementById('all-teams');
             
             // Матчи
             const userMatchesContainer = document.getElementById('user-matches');
@@ -1287,24 +1295,58 @@
             const teams = [
                 { id: 1, name: 'Реал Мадрид', logo: 'https://cdn.freebiesupply.com/logos/large/2x/real-madrid-logo-png-transparent.png', league: 'La Liga' },
                 { id: 2, name: 'Барселона', logo: 'https://cdn.freebiesupply.com/logos/large/2x/fc-barcelona-logo-png-transparent.png', league: 'La Liga' },
-                { id: 3, name: 'Манчестер Сити', logo: 'https://cdn.freebiesupply.com/logos/large/2x/manchester-city-logo-png-transparent.png', league: 'Premier League' },
-                { id: 4, name: 'Ливерпуль', logo: 'https://cdn.freebiesupply.com/logos/large/2x/liverpool-fc-logo-png-transparent.png', league: 'Premier League' },
-                { id: 5, name: 'Челси', logo: 'https://cdn.freebiesupply.com/logos/large/2x/chelsea-fc-logo-png-transparent.png', league: 'Premier League' },
-                { id: 6, name: 'Манчестер Юнайтед', logo: 'https://cdn.freebiesupply.com/logos/large/2x/manchester-united-logo-png-transparent.png', league: 'Premier League' },
-                { id: 7, name: 'Бавария', logo: 'https://cdn.freebiesupply.com/logos/large/2x/bayern-munich-logo-png-transparent.png', league: 'Bundesliga' },
-                { id: 8, name: 'Боруссия Дортмунд', logo: 'https://cdn.freebiesupply.com/logos/large/2x/borussia-dortmund-logo-png-transparent.png', league: 'Bundesliga' },
-                { id: 9, name: 'ПСЖ', logo: 'https://cdn.freebiesupply.com/logos/large/2x/paris-saint-germain-logo-png-transparent.png', league: 'Ligue 1' },
-                { id: 10, name: 'Ювентус', logo: 'https://cdn.freebiesupply.com/logos/large/2x/juventus-logo-png-transparent.png', league: 'Serie A' },
-                { id: 11, name: 'Милан', logo: 'https://cdn.freebiesupply.com/logos/large/2x/ac-milan-logo-png-transparent.png', league: 'Serie A' },
-                { id: 12, name: 'Интер', logo: 'https://cdn.freebiesupply.com/logos/large/2x/inter-milan-logo-png-transparent.png', league: 'Serie A' },
-                { id: 13, name: 'Арсенал', logo: 'https://cdn.freebiesupply.com/logos/large/2x/arsenal-logo-png-transparent.png', league: 'Premier League' },
-                { id: 14, name: 'Тоттенхэм', logo: 'https://cdn.freebiesupply.com/logos/large/2x/tottenham-hotspur-logo-png-transparent.png', league: 'Premier League' },
-                { id: 15, name: 'Атлетико Мадрид', logo: 'https://cdn.freebiesupply.com/logos/large/2x/atletico-madrid-logo-png-transparent.png', league: 'La Liga' },
-                { id: 16, name: 'Наполи', logo: 'https://cdn.freebiesupply.com/logos/large/2x/napoli-logo-png-transparent.png', league: 'Serie A' },
-                { id: 17, name: 'Рома', logo: 'https://cdn.freebiesupply.com/logos/large/2x/as-roma-logo-png-transparent.png', league: 'Serie A' },
-                { id: 18, name: 'Лацио', logo: 'https://cdn.freebiesupply.com/logos/large/2x/lazio-logo-png-transparent.png', league: 'Serie A' },
-                { id: 19, name: 'Байер Леверкузен', logo: 'https://cdn.freebiesupply.com/logos/large/2x/bayer-leverkusen-logo-png-transparent.png', league: 'Bundesliga' },
-                { id: 20, name: 'РБ Лейпциг', logo: 'https://cdn.freebiesupply.com/logos/large/2x/rb-leipzig-logo-png-transparent.png', league: 'Bundesliga' }
+                { id: 3, name: 'Атлетико Мадрид', logo: 'https://cdn.freebiesupply.com/logos/large/2x/atletico-madrid-logo-png-transparent.png', league: 'La Liga' },
+                { id: 4, name: 'Севилья', logo: 'https://cdn.freebiesupply.com/logos/large/2x/sevilla-fc-logo-png-transparent.png', league: 'La Liga' },
+                { id: 5, name: 'Валенсия', logo: 'https://cdn.freebiesupply.com/logos/large/2x/valencia-cf-logo-png-transparent.png', league: 'La Liga' },
+                { id: 6, name: 'Вильярреал', logo: 'https://cdn.freebiesupply.com/logos/large/2x/villarreal-cf-logo-png-transparent.png', league: 'La Liga' },
+                { id: 7, name: 'Реал Сосьедад', logo: 'https://cdn.freebiesupply.com/logos/large/2x/real-sociedad-logo-png-transparent.png', league: 'La Liga' },
+                { id: 8, name: 'Атлетик Бильбао', logo: 'https://cdn.freebiesupply.com/logos/large/2x/athletic-bilbao-logo-png-transparent.png', league: 'La Liga' },
+                { id: 9, name: 'Бетис', logo: 'https://cdn.freebiesupply.com/logos/large/2x/real-betis-logo-png-transparent.png', league: 'La Liga' },
+                { id: 10, name: 'Сельта', logo: 'https://cdn.freebiesupply.com/logos/large/2x/celta-vigo-logo-png-transparent.png', league: 'La Liga' },
+                
+                { id: 11, name: 'Манчестер Сити', logo: 'https://cdn.freebiesupply.com/logos/large/2x/manchester-city-logo-png-transparent.png', league: 'Premier League' },
+                { id: 12, name: 'Ливерпуль', logo: 'https://cdn.freebiesupply.com/logos/large/2x/liverpool-fc-logo-png-transparent.png', league: 'Premier League' },
+                { id: 13, name: 'Челси', logo: 'https://cdn.freebiesupply.com/logos/large/2x/chelsea-fc-logo-png-transparent.png', league: 'Premier League' },
+                { id: 14, name: 'Манчестер Юнайтед', logo: 'https://cdn.freebiesupply.com/logos/large/2x/manchester-united-logo-png-transparent.png', league: 'Premier League' },
+                { id: 15, name: 'Арсенал', logo: 'https://cdn.freebiesupply.com/logos/large/2x/arsenal-logo-png-transparent.png', league: 'Premier League' },
+                { id: 16, name: 'Тоттенхэм', logo: 'https://cdn.freebiesupply.com/logos/large/2x/tottenham-hotspur-logo-png-transparent.png', league: 'Premier League' },
+                { id: 17, name: 'Лестер Сити', logo: 'https://cdn.freebiesupply.com/logos/large/2x/leicester-city-fc-logo-png-transparent.png', league: 'Premier League' },
+                { id: 18, name: 'Вест Хэм', logo: 'https://cdn.freebiesupply.com/logos/large/2x/west-ham-united-logo-png-transparent.png', league: 'Premier League' },
+                { id: 19, name: 'Вулверхэмптон', logo: 'https://cdn.freebiesupply.com/logos/large/2x/wolverhampton-wanderers-logo-png-transparent.png', league: 'Premier League' },
+                { id: 20, name: 'Эвертон', logo: 'https://cdn.freebiesupply.com/logos/large/2x/everton-fc-logo-png-transparent.png', league: 'Premier League' },
+                
+                { id: 21, name: 'Бавария', logo: 'https://cdn.freebiesupply.com/logos/large/2x/bayern-munich-logo-png-transparent.png', league: 'Bundesliga' },
+                { id: 22, name: 'Боруссия Дортмунд', logo: 'https://cdn.freebiesupply.com/logos/large/2x/borussia-dortmund-logo-png-transparent.png', league: 'Bundesliga' },
+                { id: 23, name: 'РБ Лейпциг', logo: 'https://cdn.freebiesupply.com/logos/large/2x/rb-leipzig-logo-png-transparent.png', league: 'Bundesliga' },
+                { id: 24, name: 'Байер Леверкузен', logo: 'https://cdn.freebiesupply.com/logos/large/2x/bayer-leverkusen-logo-png-transparent.png', league: 'Bundesliga' },
+                { id: 25, name: 'Вольфсбург', logo: 'https://cdn.freebiesupply.com/logos/large/2x/vfl-wolfsburg-logo-png-transparent.png', league: 'Bundesliga' },
+                { id: 26, name: 'Айнтрахт Франкфурт', logo: 'https://cdn.freebiesupply.com/logos/large/2x/eintracht-frankfurt-logo-png-transparent.png', league: 'Bundesliga' },
+                { id: 27, name: 'Боруссия Мёнхенгладбах', logo: 'https://cdn.freebiesupply.com/logos/large/2x/borussia-monchengladbach-logo-png-transparent.png', league: 'Bundesliga' },
+                { id: 28, name: 'Хоффенхайм', logo: 'https://cdn.freebiesupply.com/logos/large/2x/tsg-1899-hoffenheim-logo-png-transparent.png', league: 'Bundesliga' },
+                { id: 29, name: 'Штутгарт', logo: 'https://cdn.freebiesupply.com/logos/large/2x/vfb-stuttgart-logo-png-transparent.png', league: 'Bundesliga' },
+                { id: 30, name: 'Герта', logo: 'https://cdn.freebiesupply.com/logos/large/2x/hertha-berlin-logo-png-transparent.png', league: 'Bundesliga' },
+                
+                { id: 31, name: 'ПСЖ', logo: 'https://cdn.freebiesupply.com/logos/large/2x/paris-saint-germain-logo-png-transparent.png', league: 'Ligue 1' },
+                { id: 32, name: 'Марсель', logo: 'https://cdn.freebiesupply.com/logos/large/2x/olympique-de-marseille-logo-png-transparent.png', league: 'Ligue 1' },
+                { id: 33, name: 'Лион', logo: 'https://cdn.freebiesupply.com/logos/large/2x/olympique-lyonnais-logo-png-transparent.png', league: 'Ligue 1' },
+                { id: 34, name: 'Монако', logo: 'https://cdn.freebiesupply.com/logos/large/2x/as-monaco-logo-png-transparent.png', league: 'Ligue 1' },
+                { id: 35, name: 'Лилль', logo: 'https://cdn.freebiesupply.com/logos/large/2x/lille-osc-logo-png-transparent.png', league: 'Ligue 1' },
+                { id: 36, name: 'Ренн', logo: 'https://cdn.freebiesupply.com/logos/large/2x/stade-rennais-fc-logo-png-transparent.png', league: 'Ligue 1' },
+                { id: 37, name: 'Ницца', logo: 'https://cdn.freebiesupply.com/logos/large/2x/ogc-nice-logo-png-transparent.png', league: 'Ligue 1' },
+                { id: 38, name: 'Бордо', logo: 'https://cdn.freebiesupply.com/logos/large/2x/fc-girondins-de-bordeaux-logo-png-transparent.png', league: 'Ligue 1' },
+                { id: 39, name: 'Сент-Этьен', logo: 'https://cdn.freebiesupply.com/logos/large/2x/as-saint-etienne-logo-png-transparent.png', league: 'Ligue 1' },
+                { id: 40, name: 'Нант', logo: 'https://cdn.freebiesupply.com/logos/large/2x/fc-nantes-logo-png-transparent.png', league: 'Ligue 1' },
+                
+                { id: 41, name: 'Ювентус', logo: 'https://cdn.freebiesupply.com/logos/large/2x/juventus-logo-png-transparent.png', league: 'Serie A' },
+                { id: 42, name: 'Милан', logo: 'https://cdn.freebiesupply.com/logos/large/2x/ac-milan-logo-png-transparent.png', league: 'Serie A' },
+                { id: 43, name: 'Интер', logo: 'https://cdn.freebiesupply.com/logos/large/2x/inter-milan-logo-png-transparent.png', league: 'Serie A' },
+                { id: 44, name: 'Наполи', logo: 'https://cdn.freebiesupply.com/logos/large/2x/napoli-logo-png-transparent.png', league: 'Serie A' },
+                { id: 45, name: 'Рома', logo: 'https://cdn.freebiesupply.com/logos/large/2x/as-roma-logo-png-transparent.png', league: 'Serie A' },
+                { id: 46, name: 'Лацио', logo: 'https://cdn.freebiesupply.com/logos/large/2x/lazio-logo-png-transparent.png', league: 'Serie A' },
+                { id: 47, name: 'Аталанта', logo: 'https://cdn.freebiesupply.com/logos/large/2x/atalanta-bc-logo-png-transparent.png', league: 'Serie A' },
+                { id: 48, name: 'Фиорентина', logo: 'https://cdn.freebiesupply.com/logos/large/2x/acf-fiorentina-logo-png-transparent.png', league: 'Serie A' },
+                { id: 49, name: 'Сассуоло', logo: 'https://cdn.freebiesupply.com/logos/large/2x/us-sassuolo-logo-png-transparent.png', league: 'Serie A' },
+                { id: 50, name: 'Торино', logo: 'https://cdn.freebiesupply.com/logos/large/2x/torino-fc-logo-png-transparent.png', league: 'Serie A' }
             ];
             
             let tournaments = [
@@ -1391,6 +1433,7 @@
                 }
                 
                 renderTournaments();
+                renderAllTeams();
                 showPage('home');
                 
                 // Если пользователь авторизован, обновляем его турниры и матчи
@@ -1525,6 +1568,54 @@
                     btn.addEventListener('click', function() {
                         const tournamentId = parseInt(this.getAttribute('data-tournament-id'));
                         showTournamentModal(tournamentId);
+                    });
+                });
+            }
+            
+            // Отобразить все команды из топ-6 лиг
+            function renderAllTeams() {
+                // Группируем команды по лигам
+                const leagues = {};
+                teams.forEach(team => {
+                    if (!leagues[team.league]) {
+                        leagues[team.league] = [];
+                    }
+                    leagues[team.league].push(team);
+                });
+                
+                // Создаем HTML для каждой лиги
+                allTeamsContainer.innerHTML = '';
+                for (const leagueName in leagues) {
+                    const leagueTeams = leagues[leagueName];
+                    const leagueId = leagueName.replace(/\s+/g, '-').toLowerCase();
+                    
+                    const leagueHTML = `
+                        <div class="league-group">
+                            <div class="league-title" data-league-id="${leagueId}">
+                                <span>${leagueName}</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="league-teams" id="${leagueId}-all-teams">
+                                ${leagueTeams.map(team => `
+                                    <div class="team-card">
+                                        <img src="${team.logo}" alt="${team.name}" class="team-logo" onerror="this.src='https://via.placeholder.com/50?text=No+Logo'">
+                                        <div>${team.name}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                    
+                    allTeamsContainer.innerHTML += leagueHTML;
+                }
+                
+                // Навешиваем обработчики сворачивания/разворачивания лиг
+                document.querySelectorAll('#all-teams .league-title').forEach(title => {
+                    title.addEventListener('click', function() {
+                        const leagueId = this.getAttribute('data-league-id');
+                        const teamsContainer = document.getElementById(`${leagueId}-all-teams`);
+                        this.classList.toggle('collapsed');
+                        teamsContainer.classList.toggle('collapsed');
                     });
                 });
             }
@@ -1952,7 +2043,7 @@
                 
                 // В зависимости от типа турнира проводим разную жеребьевку
                 if (currentTournament.type === 'Кубок') {
-                    // Для кубка просто перемешиваем участников
+                    // Для кубка просто перемешиваем участники
                     const shuffledParticipants = [...currentTournament.participants].sort(() => Math.random() - 0.5);
                     
                     // Создаем матчи для первого раунда
@@ -2480,12 +2571,6 @@
                     
                     showPage(pageId);
                 });
-            });
-            
-            // Обработчик кнопки "Текущие турниры"
-            currentTournamentsBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                showPage('tournaments');
             });
             
             // Обработчики модального окна регистрации
