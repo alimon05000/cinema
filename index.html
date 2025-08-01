@@ -130,6 +130,7 @@
             transition: all 0.3s ease;
             margin-right: 10px;
             cursor: pointer;
+            border: none;
         }
         
         .btn-primary {
@@ -152,6 +153,26 @@
         .btn-secondary:hover {
             background-color: rgba(255,255,255,0.1);
             transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            border: 2px solid #dc3545;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+            border: 2px solid #28a745;
+        }
+        
+        .btn-success:hover {
+            background-color: #218838;
         }
         
         /* Особенности */
@@ -308,6 +329,69 @@
             text-align: center;
         }
         
+        /* Таблицы */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: rgba(0,0,0,0.5);
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        th {
+            background-color: rgba(255,107,0,0.2);
+        }
+        
+        tr:hover {
+            background-color: rgba(255,255,255,0.05);
+        }
+        
+        /* Формы */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(0,0,0,0.5);
+            padding: 2rem;
+            border-radius: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: rgba(255,255,255,0.9);
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-actions {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
         /* Подвал */
         footer {
             background-color: rgba(0,0,0,0.8);
@@ -392,9 +476,11 @@
             background: linear-gradient(135deg, #1a2a6c, #b21f1f);
             padding: 2rem;
             border-radius: 10px;
-            max-width: 500px;
+            max-width: 600px;
             width: 90%;
             position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         
         .close-modal {
@@ -406,29 +492,105 @@
             color: white;
         }
         
-        /* Формы */
-        .form-group {
-            margin-bottom: 1rem;
+        /* Команды */
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
         }
         
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-        
-        .form-group input {
-            width: 100%;
-            padding: 10px;
+        .team-card {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
             border-radius: 5px;
-            border: none;
-            background-color: rgba(255,255,255,0.9);
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
         }
         
-        .form-actions {
-            margin-top: 1.5rem;
+        .team-card:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .team-card.selected {
+            background: rgba(255,107,0,0.5);
+            border: 2px solid #ff6b00;
+        }
+        
+        .team-card.taken {
+            background: rgba(220,53,69,0.3);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .team-logo {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin: 0 auto 10px;
+        }
+        
+        /* Админ панель */
+        .admin-actions {
             display: flex;
-            justify-content: flex-end;
             gap: 10px;
+            margin: 1rem 0;
+        }
+        
+        /* Матчи */
+        .match-card {
+            background: rgba(0,0,0,0.5);
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .match-teams {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .match-team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .match-team-logo {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .match-score {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .match-score input {
+            width: 40px;
+            text-align: center;
+        }
+        
+        .match-status {
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .status-pending {
+            background-color: #ffc107;
+            color: black;
+        }
+        
+        .status-confirmed {
+            background-color: #28a745;
+            color: white;
         }
         
         /* Адаптивность */
@@ -468,6 +630,19 @@
             .tournament-card {
                 min-width: 250px;
             }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .form-actions .btn {
+                width: 100%;
+            }
+            
+            .match-card {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
     </style>
 </head>
@@ -475,7 +650,7 @@
     <!-- Шапка сайта -->
     <header>
         <div class="logo-container">
-            <img src="https://www.easports.com/fifa/ultimate-team/web-app/images/fut-logo-white.svg" alt="FC25 Турниры" class="logo">
+            <img src="https://www.fifplay.com/img/public/fc-25-logo.png" alt="FC25 Турниры" class="logo">
             <h1>FC25 Турниры</h1>
         </div>
         <nav>
@@ -483,7 +658,7 @@
                 <li><a href="#" class="active" data-page="home"><i class="fas fa-home"></i> Главная</a></li>
                 <li><a href="#" data-page="tournaments"><i class="fas fa-trophy"></i> Турниры</a></li>
                 <li><a href="#" data-page="profile"><i class="fas fa-user"></i> Профиль</a></li>
-                <li><a href="#" class="login-btn" data-page="login"><i class="fas fa-sign-in-alt"></i> Вход</a></li>
+                <li><a href="#" class="login-btn" data-page="login"><i class="fas fa-sign-in-alt"></i> <span id="auth-text">Вход</span></a></li>
             </ul>
         </nav>
     </header>
@@ -503,7 +678,7 @@
                     </div>
                 </div>
                 <div class="hero-image">
-                    <img src="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/images/2022/09/f23-gameplay-feature-img-16x9.jpg.adapt.crop16x9.1023w.jpg" alt="FIFA FC25 Турниры" class="hero-img">
+                    <img src="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/images/2022/09/f23-gameplay-feature-img-16x9.jpg.adapt.crop16x9.1023w.jpg" alt="FIFA FC25 Турниры">
                 </div>
             </section>
 
@@ -547,97 +722,9 @@
 
             <!-- Ближайшие турниры -->
             <section class="upcoming-tournaments">
-                <h2 class="section-title">Ближайшие турниры</h2>
-                <div class="tournaments-carousel">
-                    <div class="tournament-card">
-                        <img src="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ultimate-team/common/fut23-tournament-featured-image-16x9.jpg.adapt.crop16x9.1023w.jpg" alt="FC25 Cup" class="tournament-image">
-                        <div class="tournament-info">
-                            <h3>FC25 Winter Cup</h3>
-                            <div class="tournament-meta">
-                                <p><i class="far fa-calendar-alt"></i> 15-30 декабря</p>
-                                <p><i class="fas fa-users"></i> 32 участника</p>
-                                <p><i class="fas fa-coins"></i> 1000$ призовой</p>
-                            </div>
-                            <a href="#" class="btn btn-primary" data-tournament="winter-cup">Подробнее</a>
-                        </div>
-                    </div>
-                    
-                    <div class="tournament-card">
-                        <img src="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ultimate-team/common/fut23-competitive-featured-image-16x9.jpg.adapt.crop16x9.1023w.jpg" alt="FC25 League" class="tournament-image">
-                        <div class="tournament-info">
-                            <h3>FC25 Pro League</h3>
-                            <div class="tournament-meta">
-                                <p><i class="far fa-calendar-alt"></i> 5-20 января</p>
-                                <p><i class="fas fa-users"></i> 64 участника</p>
-                                <p><i class="fas fa-coins"></i> 2500$ призовой</p>
-                            </div>
-                            <a href="#" class="btn btn-primary" data-tournament="pro-league">Подробнее</a>
-                        </div>
-                    </div>
-                    
-                    <div class="tournament-card">
-                        <img src="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ultimate-team/common/fut23-friendlies-featured-image-16x9.jpg.adapt.crop16x9.1023w.jpg" alt="FC25 Open" class="tournament-image">
-                        <div class="tournament-info">
-                            <h3>FC25 Open Tournament</h3>
-                            <div class="tournament-meta">
-                                <p><i class="far fa-calendar-alt"></i> 1-15 февраля</p>
-                                <p><i class="fas fa-users"></i> 128 участников</p>
-                                <p><i class="fas fa-coins"></i> Бесплатный вход</p>
-                            </div>
-                            <a href="#" class="btn btn-primary" data-tournament="open-tournament">Подробнее</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Отзывы -->
-            <section class="testimonials">
-                <h2 class="section-title">Что говорят участники</h2>
-                <div class="testimonials-grid">
-                    <div class="testimonial-card">
-                        <div class="user-info">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Игрок 1" class="user-avatar">
-                            <div class="user-name">ProFIFA_22</div>
-                            <div class="user-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                        <p class="testimonial-text">Лучшая платформа для турниров! Все четко организовано, поддержка на высоте.</p>
-                    </div>
-                    
-                    <div class="testimonial-card">
-                        <div class="user-info">
-                            <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="Игрок 2" class="user-avatar">
-                            <div class="user-name">FIFA_King</div>
-                            <div class="user-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                        </div>
-                        <p class="testimonial-text">Отличные турниры с хорошими призами. Удобная система подачи результатов.</p>
-                    </div>
-                    
-                    <div class="testimonial-card">
-                        <div class="user-info">
-                            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Игрок 3" class="user-avatar">
-                            <div class="user-name">QueenOfFIFA</div>
-                            <div class="user-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                        <p class="testimonial-text">Впервые участвовала в турнире и сразу заняла 3 место! Спасибо организаторам!</p>
-                    </div>
+                <h2 class="section-title">Активные турниры</h2>
+                <div class="tournaments-carousel" id="active-tournaments">
+                    <!-- Турниры будут загружены через JavaScript -->
                 </div>
             </section>
         </div>
@@ -656,62 +743,8 @@
 
             <section class="upcoming-tournaments">
                 <h2 class="section-title">Доступные турниры</h2>
-                <div class="tournaments-carousel">
-                    <div class="tournament-card">
-                        <img src="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ultimate-team/common/fut23-tournament-featured-image-16x9.jpg.adapt.crop16x9.1023w.jpg" alt="FC25 Cup" class="tournament-image">
-                        <div class="tournament-info">
-                            <h3>FC25 Winter Cup</h3>
-                            <div class="tournament-meta">
-                                <p><i class="far fa-calendar-alt"></i> 15-30 декабря</p>
-                                <p><i class="fas fa-users"></i> 32 участника</p>
-                                <p><i class="fas fa-coins"></i> 1000$ призовой</p>
-                                <p><i class="fas fa-signal"></i> Средний уровень: Профессионал</p>
-                            </div>
-                            <a href="#" class="btn btn-primary" data-tournament="winter-cup">Участвовать</a>
-                        </div>
-                    </div>
-                    
-                    <div class="tournament-card">
-                        <img src="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ultimate-team/common/fut23-competitive-featured-image-16x9.jpg.adapt.crop16x9.1023w.jpg" alt="FC25 League" class="tournament-image">
-                        <div class="tournament-info">
-                            <h3>FC25 Pro League</h3>
-                            <div class="tournament-meta">
-                                <p><i class="far fa-calendar-alt"></i> 5-20 января</p>
-                                <p><i class="fas fa-users"></i> 64 участника</p>
-                                <p><i class="fas fa-coins"></i> 2500$ призовой</p>
-                                <p><i class="fas fa-signal"></i> Средний уровень: Легенда</p>
-                            </div>
-                            <a href="#" class="btn btn-primary" data-tournament="pro-league">Участвовать</a>
-                        </div>
-                    </div>
-                    
-                    <div class="tournament-card">
-                        <img src="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ultimate-team/common/fut23-friendlies-featured-image-16x9.jpg.adapt.crop16x9.1023w.jpg" alt="FC25 Open" class="tournament-image">
-                        <div class="tournament-info">
-                            <h3>FC25 Open Tournament</h3>
-                            <div class="tournament-meta">
-                                <p><i class="far fa-calendar-alt"></i> 1-15 февраля</p>
-                                <p><i class="fas fa-users"></i> 128 участников</p>
-                                <p><i class="fas fa-coins"></i> Бесплатный вход</p>
-                                <p><i class="fas fa-signal"></i> Все уровни</p>
-                            </div>
-                            <a href="#" class="btn btn-primary" data-tournament="open-tournament">Участвовать</a>
-                        </div>
-                    </div>
-                    
-                    <div class="tournament-card">
-                        <img src="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ultimate-team/common/fut23-squad-battles-featured-image-16x9.jpg.adapt.crop16x9.1023w.jpg" alt="FC25 Quick" class="tournament-image">
-                        <div class="tournament-info">
-                            <h3>FC25 Quick Cup</h3>
-                            <div class="tournament-meta">
-                                <p><i class="far fa-calendar-alt"></i> Ежедневно</p>
-                                <p><i class="fas fa-users"></i> 16 участников</p>
-                                <p><i class="fas fa-coins"></i> 500$ призовой</p>
-                                <p><i class="fas fa-signal"></i> Все уровни</p>
-                            </div>
-                            <a href="#" class="btn btn-primary" data-tournament="quick-cup">Участвовать</a>
-                        </div>
-                    </div>
+                <div class="tournaments-carousel" id="available-tournaments">
+                    <!-- Турниры будут загружены через JavaScript -->
                 </div>
             </section>
 
@@ -758,28 +791,29 @@
             <section class="hero">
                 <div class="hero-content">
                     <div class="user-info">
-                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Аватар пользователя" class="user-avatar" id="profile-avatar" style="width: 120px; height: 120px;">
-                        <h2 id="profile-name">Игрок_123</h2>
+                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Аватар пользователя" class="user-avatar" id="profile-avatar" style="width: 120px; height: 120px;">
+                        <h2 id="profile-name">Игрок</h2>
                         <div class="user-rating">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star-half-alt"></i>
                             <i class="far fa-star"></i>
-                            <span>(4.2)</span>
+                            <span id="profile-rating">(0.0)</span>
                         </div>
+                        <p id="profile-email"></p>
                     </div>
                     <div class="profile-stats" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px;">
                         <div>
-                            <h3>56</h3>
+                            <h3 id="profile-matches">0</h3>
                             <p>Матчей</p>
                         </div>
                         <div>
-                            <h3>32</h3>
+                            <h3 id="profile-wins">0</h3>
                             <p>Побед</p>
                         </div>
                         <div>
-                            <h3>57%</h3>
+                            <h3 id="profile-winrate">0%</h3>
                             <p>Win rate</p>
                         </div>
                     </div>
@@ -789,88 +823,25 @@
                 </div>
             </section>
 
-            <section class="features">
-                <h2 class="section-title">Мои турниры</h2>
-                <div class="tournaments-carousel">
-                    <div class="tournament-card">
-                        <img src="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ultimate-team/common/fut23-tournament-featured-image-16x9.jpg.adapt.crop16x9.1023w.jpg" alt="FC25 Cup" class="tournament-image">
-                        <div class="tournament-info">
-                            <h3>FC25 Autumn Cup</h3>
-                            <div class="tournament-meta">
-                                <p><i class="far fa-calendar-alt"></i> Завершен</p>
-                                <p><i class="fas fa-medal"></i> 3 место</p>
-                                <p><i class="fas fa-coins"></i> 250$ приз</p>
-                            </div>
-                            <a href="#" class="btn btn-secondary">Статистика</a>
-                        </div>
-                    </div>
-                    
-                    <div class="tournament-card">
-                        <img src="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ultimate-team/common/fut23-competitive-featured-image-16x9.jpg.adapt.crop16x9.1023w.jpg" alt="FC25 League" class="tournament-image">
-                        <div class="tournament-info">
-                            <h3>FC25 Summer League</h3>
-                            <div class="tournament-meta">
-                                <p><i class="far fa-calendar-alt"></i> Завершен</p>
-                                <p><i class="fas fa-medal"></i> 8 место</p>
-                                <p><i class="fas fa-coins"></i> 50$ приз</p>
-                            </div>
-                            <a href="#" class="btn btn-secondary">Статистика</a>
-                        </div>
-                    </div>
-                    
-                    <div class="tournament-card">
-                        <img src="https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ultimate-team/common/fut23-friendlies-featured-image-16x9.jpg.adapt.crop16x9.1023w.jpg" alt="FC25 Open" class="tournament-image">
-                        <div class="tournament-info">
-                            <h3>FC25 Quick Open</h3>
-                            <div class="tournament-meta">
-                                <p><i class="far fa-calendar-alt"></i> В процессе</p>
-                                <p><i class="fas fa-users"></i> 1/4 финала</p>
-                                <p><i class="fas fa-coins"></i> До 500$</p>
-                            </div>
-                            <a href="#" class="btn btn-primary">Продолжить</a>
-                        </div>
-                    </div>
+            <section class="features" id="admin-section" style="display: none;">
+                <h2 class="section-title">Админ панель</h2>
+                <div class="admin-actions">
+                    <button class="btn btn-primary" id="create-tournament-btn"><i class="fas fa-plus"></i> Создать турнир</button>
+                    <button class="btn btn-danger" id="delete-tournament-btn"><i class="fas fa-trash"></i> Удалить турнир</button>
                 </div>
             </section>
 
-            <section class="testimonials">
-                <h2 class="section-title">Моя статистика</h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-futbol"></i>
-                        </div>
-                        <h3>Стиль игры</h3>
-                        <p>Атакующий: 78%</p>
-                        <p>Контроль мяча: 65%</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-chart-pie"></i>
-                        </div>
-                        <h3>Показатели</h3>
-                        <p>Голов за матч: 2.4</p>
-                        <p>Пропусков за матч: 1.7</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-history"></i>
-                        </div>
-                        <h3>История</h3>
-                        <p>В системе: 8 месяцев</p>
-                        <p>Турниров: 7</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-tools"></i>
-                        </div>
-                        <h3>Настройки</h3>
-                        <p>Управление: Продвинутое</p>
-                        <p>Камера: Теле</p>
-                    </div>
+            <section class="features">
+                <h2 class="section-title">Мои турниры</h2>
+                <div class="tournaments-carousel" id="user-tournaments">
+                    <!-- Турниры пользователя будут загружены через JavaScript -->
+                </div>
+            </section>
+
+            <section class="features" id="user-matches-section">
+                <h2 class="section-title">Мои матчи</h2>
+                <div id="user-matches">
+                    <!-- Матчи пользователя будут загружены через JavaScript -->
                 </div>
             </section>
         </div>
@@ -882,7 +853,7 @@
                     <h2>Вход в систему</h2>
                     <p>Войдите в свой аккаунт для участия в турнирах</p>
                     
-                    <form id="login-form" style="max-width: 400px; margin-top: 2rem;">
+                    <form id="login-form" class="form-container">
                         <div class="form-group">
                             <label for="login-email">Email</label>
                             <input type="email" id="login-email" required placeholder="Ваш email">
@@ -987,28 +958,133 @@
                 </div>
                 <div>
                     <h4><i class="fas fa-users"></i> Участники</h4>
-                    <p id="tournament-participants">32/32</p>
+                    <p id="tournament-participants">0/0</p>
                 </div>
                 <div>
                     <h4><i class="fas fa-trophy"></i> Призовой фонд</h4>
-                    <p id="tournament-prize">1000$</p>
+                    <p id="tournament-prize">0$</p>
                 </div>
                 <div>
                     <h4><i class="fas fa-signal"></i> Уровень</h4>
-                    <p id="tournament-level">Профессионал</p>
+                    <p id="tournament-level">Все уровни</p>
                 </div>
             </div>
             
             <h4 style="margin-bottom: 0.5rem;">Описание</h4>
             <p id="tournament-description" style="margin-bottom: 1.5rem;">
-                Турнир проводится по олимпийской системе с выбыванием после поражения. 
-                Каждый матч состоит из двух таймов по 6 минут. 
-                В случае ничьи в основное время - серия пенальти.
+                Описание турнира будет здесь.
             </p>
+            
+            <div id="tournament-teams-section" style="margin-bottom: 1.5rem; display: none;">
+                <h4 style="margin-bottom: 0.5rem;">Выберите команду</h4>
+                <div class="teams-grid" id="tournament-teams">
+                    <!-- Команды будут загружены через JavaScript -->
+                </div>
+            </div>
             
             <div class="form-actions">
                 <button type="button" class="btn btn-secondary" id="close-tournament-modal">Закрыть</button>
                 <button type="button" class="btn btn-primary" id="join-tournament-btn">Участвовать</button>
+                <button type="button" class="btn btn-danger" id="leave-tournament-btn" style="display: none;">Покинуть турнир</button>
+                <button type="button" class="btn btn-success" id="admin-edit-btn" style="display: none;">Редактировать</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно создания/редактирования турнира -->
+    <div class="modal" id="edit-tournament-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="edit-tournament-title" style="margin-bottom: 1.5rem;">Создать турнир</h2>
+            <form id="edit-tournament-form">
+                <div class="form-group">
+                    <label for="tournament-name">Название турнира</label>
+                    <input type="text" id="tournament-name" required placeholder="Название турнира">
+                </div>
+                <div class="form-group">
+                    <label for="tournament-image">Ссылка на изображение</label>
+                    <input type="text" id="tournament-image" placeholder="URL изображения">
+                </div>
+                <div class="form-group">
+                    <label for="tournament-start">Дата начала</label>
+                    <input type="date" id="tournament-start" required>
+                </div>
+                <div class="form-group">
+                    <label for="tournament-end">Дата окончания</label>
+                    <input type="date" id="tournament-end" required>
+                </div>
+                <div class="form-group">
+                    <label for="tournament-prize">Призовой фонд</label>
+                    <input type="text" id="tournament-prize" placeholder="Например: 1000$">
+                </div>
+                <div class="form-group">
+                    <label for="tournament-level">Уровень игроков</label>
+                    <select id="tournament-level" required>
+                        <option value="Все уровни">Все уровни</option>
+                        <option value="Новичок">Новичок</option>
+                        <option value="Любитель">Любитель</option>
+                        <option value="Профессионал">Профессионал</option>
+                        <option value="Легенда">Легенда</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tournament-description">Описание турнира</label>
+                    <textarea id="tournament-description" required placeholder="Правила и описание турнира"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="tournament-type">Тип турнира</label>
+                    <select id="tournament-type" required>
+                        <option value="Кубок">Кубок (олимпийская система)</option>
+                        <option value="Лига">Лига (круговая система)</option>
+                        <option value="Группы+Плейофф">Группы + Плейофф</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tournament-max-teams">Максимальное количество участников</label>
+                    <input type="number" id="tournament-max-teams" min="2" value="16">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-edit-tournament">Отмена</button>
+                    <button type="submit" class="btn btn-primary" id="save-tournament-btn">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно матча -->
+    <div class="modal" id="match-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="match-modal-title" style="margin-bottom: 1rem;">Результат матча</h2>
+            
+            <div class="match-teams" style="justify-content: center; gap: 20px; margin-bottom: 1.5rem;">
+                <div class="match-team">
+                    <img id="match-team1-logo" src="" class="match-team-logo">
+                    <span id="match-team1-name"></span>
+                </div>
+                <div class="match-score">
+                    <input type="number" id="match-team1-score" min="0" style="width: 50px; text-align: center;">
+                    <span>:</span>
+                    <input type="number" id="match-team2-score" min="0" style="width: 50px; text-align: center;">
+                </div>
+                <div class="match-team">
+                    <img id="match-team2-logo" src="" class="match-team-logo">
+                    <span id="match-team2-name"></span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="match-comment">Комментарий (необязательно)</label>
+                <textarea id="match-comment" placeholder="Опишите ход матча"></textarea>
+            </div>
+            
+            <div id="match-status" class="match-status status-pending" style="margin-bottom: 1rem;">Ожидает подтверждения</div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" id="close-match-modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="submit-match-btn">Отправить результат</button>
+                <button type="button" class="btn btn-success" id="confirm-match-btn" style="display: none;">Подтвердить результат</button>
+                <button type="button" class="btn btn-danger" id="reject-match-btn" style="display: none;">Отклонить результат</button>
             </div>
         </div>
     </div>
@@ -1026,10 +1102,13 @@
             
             // Навигационные ссылки
             const navLinks = document.querySelectorAll('nav a[data-page]');
+            const authText = document.getElementById('auth-text');
             
             // Модальные окна
             const registerModal = document.getElementById('register-modal');
             const tournamentModal = document.getElementById('tournament-modal');
+            const editTournamentModal = document.getElementById('edit-tournament-modal');
+            const matchModal = document.getElementById('match-modal');
             
             // Кнопки
             const registerBtn = document.getElementById('register-btn');
@@ -1040,53 +1119,156 @@
             const closeTournamentModal = document.querySelector('#tournament-modal .close-modal');
             const closeTournamentBtn = document.getElementById('close-tournament-modal');
             const joinTournamentBtn = document.getElementById('join-tournament-btn');
+            const leaveTournamentBtn = document.getElementById('leave-tournament-btn');
+            const adminEditBtn = document.getElementById('admin-edit-btn');
+            const createTournamentBtn = document.getElementById('create-tournament-btn');
+            const deleteTournamentBtn = document.getElementById('delete-tournament-btn');
+            const cancelEditTournamentBtn = document.getElementById('cancel-edit-tournament');
+            const saveTournamentBtn = document.getElementById('save-tournament-btn');
+            const closeMatchModal = document.querySelector('#match-modal .close-modal');
+            const submitMatchBtn = document.getElementById('submit-match-btn');
+            const confirmMatchBtn = document.getElementById('confirm-match-btn');
+            const rejectMatchBtn = document.getElementById('reject-match-btn');
             
             // Формы
             const loginForm = document.getElementById('login-form');
             const registerForm = document.getElementById('register-form');
+            const editTournamentForm = document.getElementById('edit-tournament-form');
             
-            // Данные турниров
-            const tournaments = {
-                'winter-cup': {
-                    title: 'FC25 Winter Cup',
+            // Элементы профиля
+            const profileName = document.getElementById('profile-name');
+            const profileEmail = document.getElementById('profile-email');
+            const profileAvatar = document.getElementById('profile-avatar');
+            const profileRating = document.getElementById('profile-rating');
+            const profileMatches = document.getElementById('profile-matches');
+            const profileWins = document.getElementById('profile-wins');
+            const profileWinrate = document.getElementById('profile-winrate');
+            const adminSection = document.getElementById('admin-section');
+            
+            // Списки турниров
+            const activeTournamentsContainer = document.getElementById('active-tournaments');
+            const availableTournamentsContainer = document.getElementById('available-tournaments');
+            const userTournamentsContainer = document.getElementById('user-tournaments');
+            
+            // Команды
+            const teamsContainer = document.getElementById('tournament-teams');
+            const teamsSection = document.getElementById('tournament-teams-section');
+            
+            // Матчи
+            const userMatchesContainer = document.getElementById('user-matches');
+            
+            // Данные приложения
+            const teams = [
+                { id: 1, name: 'Реал Мадрид', logo: 'https://cdn.freebiesupply.com/images/large/2x/real-madrid-logo-png-transparent.png', league: 'La Liga' },
+                { id: 2, name: 'Барселона', logo: 'https://cdn.freebiesupply.com/images/large/2x/fc-barcelona-logo-png-transparent.png', league: 'La Liga' },
+                { id: 3, name: 'Манчестер Сити', logo: 'https://cdn.freebiesupply.com/images/large/2x/manchester-city-logo-png-transparent.png', league: 'Premier League' },
+                { id: 4, name: 'Ливерпуль', logo: 'https://cdn.freebiesupply.com/images/large/2x/liverpool-fc-logo-png-transparent.png', league: 'Premier League' },
+                { id: 5, name: 'Челси', logo: 'https://cdn.freebiesupply.com/images/large/2x/chelsea-fc-logo-png-transparent.png', league: 'Premier League' },
+                { id: 6, name: 'Манчестер Юнайтед', logo: 'https://cdn.freebiesupply.com/images/large/2x/manchester-united-logo-png-transparent.png', league: 'Premier League' },
+                { id: 7, name: 'Бавария', logo: 'https://cdn.freebiesupply.com/images/large/2x/bayern-munich-logo-png-transparent.png', league: 'Bundesliga' },
+                { id: 8, name: 'Боруссия Дортмунд', logo: 'https://cdn.freebiesupply.com/images/large/2x/borussia-dortmund-logo-png-transparent.png', league: 'Bundesliga' },
+                { id: 9, name: 'ПСЖ', logo: 'https://cdn.freebiesupply.com/images/large/2x/paris-saint-germain-logo-png-transparent.png', league: 'Ligue 1' },
+                { id: 10, name: 'Ювентус', logo: 'https://cdn.freebiesupply.com/images/large/2x/juventus-logo-png-transparent.png', league: 'Serie A' },
+                { id: 11, name: 'Милан', logo: 'https://cdn.freebiesupply.com/images/large/2x/ac-milan-logo-png-transparent.png', league: 'Serie A' },
+                { id: 12, name: 'Интер', logo: 'https://cdn.freebiesupply.com/images/large/2x/inter-milan-logo-png-transparent.png', league: 'Serie A' },
+                { id: 13, name: 'Арсенал', logo: 'https://cdn.freebiesupply.com/images/large/2x/arsenal-logo-png-transparent.png', league: 'Premier League' },
+                { id: 14, name: 'Тоттенхэм', logo: 'https://cdn.freebiesupply.com/images/large/2x/tottenham-hotspur-logo-png-transparent.png', league: 'Premier League' },
+                { id: 15, name: 'Атлетико Мадрид', logo: 'https://cdn.freebiesupply.com/images/large/2x/atletico-madrid-logo-png-transparent.png', league: 'La Liga' },
+                { id: 16, name: 'Наполи', logo: 'https://cdn.freebiesupply.com/images/large/2x/napoli-logo-png-transparent.png', league: 'Serie A' }
+            ];
+            
+            let tournaments = [
+                {
+                    id: 1,
+                    name: 'FC25 Winter Cup',
                     image: 'https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ultimate-team/common/fut23-tournament-featured-image-16x9.jpg.adapt.crop16x9.1023w.jpg',
-                    dates: '15-30 декабря',
-                    participants: '28/32',
+                    startDate: '2023-12-15',
+                    endDate: '2023-12-30',
                     prize: '1000$',
                     level: 'Профессионал',
-                    description: 'Ежегодный зимний кубок для игроков среднего уровня. Турнир проводится по олимпийской системе с выбыванием после поражения. Каждый матч состоит из двух таймов по 6 минут. В случае ничьи в основное время - серия пенальти.'
+                    description: 'Ежегодный зимний кубок для игроков среднего уровня. Турнир проводится по олимпийской системе с выбыванием после поражения. Каждый матч состоит из двух таймов по 6 минут. В случае ничьи в основное время - серия пенальти.',
+                    type: 'Кубок',
+                    maxTeams: 32,
+                    participants: [],
+                    matches: [],
+                    status: 'active'
                 },
-                'pro-league': {
-                    title: 'FC25 Pro League',
+                {
+                    id: 2,
+                    name: 'FC25 Pro League',
                     image: 'https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ultimate-team/common/fut23-competitive-featured-image-16x9.jpg.adapt.crop16x9.1023w.jpg',
-                    dates: '5-20 января',
-                    participants: '42/64',
+                    startDate: '2024-01-05',
+                    endDate: '2024-01-20',
                     prize: '2500$',
                     level: 'Легенда',
-                    description: 'Профессиональная лига для опытных игроков. Круговая система с играми каждый против каждого. Топ-8 выходит в плей-офф. Матчи состоят из двух таймов по 8 минут. В случае ничьи в основное время - дополнительное время и пенальти.'
+                    description: 'Профессиональная лига для опытных игроков. Круговая система с играми каждый против каждого. Топ-8 выходит в плей-офф. Матчи состоят из двух таймов по 8 минут. В случае ничьи в основное время - дополнительное время и пенальти.',
+                    type: 'Лига',
+                    maxTeams: 64,
+                    participants: [],
+                    matches: [],
+                    status: 'upcoming'
                 },
-                'open-tournament': {
-                    title: 'FC25 Open Tournament',
+                {
+                    id: 3,
+                    name: 'FC25 Open Tournament',
                     image: 'https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ultimate-team/common/fut23-friendlies-featured-image-16x9.jpg.adapt.crop16x9.1023w.jpg',
-                    dates: '1-15 февраля',
-                    participants: '89/128',
+                    startDate: '2024-02-01',
+                    endDate: '2024-02-15',
                     prize: 'Бесплатный вход',
                     level: 'Все уровни',
-                    description: 'Открытый турнир для игроков любого уровня. Отличная возможность попробовать свои силы. Групповая стадия с последующим плей-офф. Матчи состоят из двух таймов по 4 минуты. В случае ничьи - сразу пенальти.'
-                },
-                'quick-cup': {
-                    title: 'FC25 Quick Cup',
-                    image: 'https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ultimate-team/common/fut23-squad-battles-featured-image-16x9.jpg.adapt.crop16x9.1023w.jpg',
-                    dates: 'Ежедневно',
-                    participants: '12/16',
-                    prize: '500$',
-                    level: 'Все уровни',
-                    description: 'Быстрый ежедневный турнир для тех, кто хочет сыграть несколько матчей без долгой подготовки. Олимпийская система. Матчи состоят из одного тайма 6 минут. В случае ничьи - сразу пенальти.'
+                    description: 'Открытый турнир для игроков любого уровня. Отличная возможность попробовать свои силы. Групповая стадия с последующим плей-офф. Матчи состоят из двух таймов по 4 минуты. В случае ничьи - сразу пенальти.',
+                    type: 'Группы+Плейофф',
+                    maxTeams: 128,
+                    participants: [],
+                    matches: [],
+                    status: 'upcoming'
                 }
-            };
+            ];
             
-            // Текущий пользователь
+            let matches = [];
             let currentUser = null;
+            let currentTournament = null;
+            let currentMatch = null;
+            let isAdmin = false;
+            let selectedTeam = null;
+            let editingTournamentId = null;
+            
+            // Инициализация приложения
+            function init() {
+                // Проверяем, есть ли сохраненные данные в localStorage
+                const savedUser = localStorage.getItem('currentUser');
+                const savedTournaments = localStorage.getItem('tournaments');
+                const savedMatches = localStorage.getItem('matches');
+                
+                if (savedUser) {
+                    currentUser = JSON.parse(savedUser);
+                    updateProfile();
+                    authText.textContent = 'Выйти';
+                }
+                
+                if (savedTournaments) {
+                    tournaments = JSON.parse(savedTournaments);
+                }
+                
+                if (savedMatches) {
+                    matches = JSON.parse(savedMatches);
+                }
+                
+                // Проверяем админские права (в реальном приложении это делалось бы на сервере)
+                if (currentUser && currentUser.email === 'admin@fc25.com') {
+                    isAdmin = true;
+                    adminSection.style.display = 'block';
+                }
+                
+                renderTournaments();
+                showPage('home');
+                
+                // Если пользователь авторизован, обновляем его турниры и матчи
+                if (currentUser) {
+                    renderUserTournaments();
+                    renderUserMatches();
+                }
+            }
             
             // Показать страницу
             function showPage(pageId) {
@@ -1117,6 +1299,363 @@
                 }
             }
             
+            // Обновить профиль пользователя
+            function updateProfile() {
+                if (!currentUser) return;
+                
+                profileName.textContent = currentUser.username;
+                profileEmail.textContent = currentUser.email;
+                
+                // Рассчитываем статистику
+                const userMatches = matches.filter(m => 
+                    m.player1.id === currentUser.id || m.player2.id === currentUser.id
+                );
+                
+                const completedMatches = userMatches.filter(m => m.status === 'completed');
+                const wins = completedMatches.filter(m => 
+                    (m.player1.id === currentUser.id && m.score1 > m.score2) || 
+                    (m.player2.id === currentUser.id && m.score2 > m.score1)
+                ).length;
+                
+                const winRate = completedMatches.length > 0 
+                    ? Math.round((wins / completedMatches.length) * 100) 
+                    : 0;
+                
+                // Обновляем данные в профиле
+                profileMatches.textContent = completedMatches.length;
+                profileWins.textContent = wins;
+                profileWinrate.textContent = `${winRate}%`;
+                
+                // Рассчитываем рейтинг (простая формула)
+                const rating = completedMatches.length > 0 
+                    ? (wins / completedMatches.length) * 5 
+                    : 0;
+                
+                profileRating.textContent = `(${rating.toFixed(1)})`;
+                
+                // Обновляем звезды рейтинга
+                const starsContainer = document.querySelector('.user-rating');
+                starsContainer.innerHTML = '';
+                
+                const fullStars = Math.floor(rating);
+                const hasHalfStar = rating % 1 >= 0.5;
+                
+                for (let i = 0; i < 5; i++) {
+                    if (i < fullStars) {
+                        starsContainer.innerHTML += '<i class="fas fa-star"></i>';
+                    } else if (i === fullStars && hasHalfStar) {
+                        starsContainer.innerHTML += '<i class="fas fa-star-half-alt"></i>';
+                    } else {
+                        starsContainer.innerHTML += '<i class="far fa-star"></i>';
+                    }
+                }
+                
+                starsContainer.innerHTML += ` <span>(${rating.toFixed(1)})</span>`;
+            }
+            
+            // Отобразить турниры
+            function renderTournaments() {
+                // Активные турниры
+                const activeTournaments = tournaments.filter(t => t.status === 'active');
+                activeTournamentsContainer.innerHTML = activeTournaments.map(tournament => `
+                    <div class="tournament-card">
+                        <img src="${tournament.image}" alt="${tournament.name}" class="tournament-image">
+                        <div class="tournament-info">
+                            <h3>${tournament.name}</h3>
+                            <div class="tournament-meta">
+                                <p><i class="far fa-calendar-alt"></i> ${formatDate(tournament.startDate)} - ${formatDate(tournament.endDate)}</p>
+                                <p><i class="fas fa-users"></i> ${tournament.participants.length}/${tournament.maxTeams} участников</p>
+                                <p><i class="fas fa-coins"></i> ${tournament.prize}</p>
+                            </div>
+                            <button class="btn btn-primary" data-tournament-id="${tournament.id}">Подробнее</button>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // Доступные турниры (активные и upcoming)
+                const availableTournaments = tournaments.filter(t => t.status !== 'completed');
+                availableTournamentsContainer.innerHTML = availableTournaments.map(tournament => `
+                    <div class="tournament-card">
+                        <img src="${tournament.image}" alt="${tournament.name}" class="tournament-image">
+                        <div class="tournament-info">
+                            <h3>${tournament.name}</h3>
+                            <div class="tournament-meta">
+                                <p><i class="far fa-calendar-alt"></i> ${formatDate(tournament.startDate)} - ${formatDate(tournament.endDate)}</p>
+                                <p><i class="fas fa-users"></i> ${tournament.participants.length}/${tournament.maxTeams} участников</p>
+                                <p><i class="fas fa-coins"></i> ${tournament.prize}</p>
+                                <p><i class="fas fa-signal"></i> ${tournament.level}</p>
+                            </div>
+                            <button class="btn btn-primary" data-tournament-id="${tournament.id}">Подробнее</button>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // Навешиваем обработчики на кнопки
+                document.querySelectorAll('[data-tournament-id]').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const tournamentId = parseInt(this.getAttribute('data-tournament-id'));
+                        showTournamentModal(tournamentId);
+                    });
+                });
+            }
+            
+            // Отобразить турниры пользователя
+            function renderUserTournaments() {
+                if (!currentUser) return;
+                
+                const userTournaments = tournaments.filter(t => 
+                    t.participants.some(p => p.id === currentUser.id)
+                );
+                
+                userTournamentsContainer.innerHTML = userTournaments.map(tournament => `
+                    <div class="tournament-card">
+                        <img src="${tournament.image}" alt="${tournament.name}" class="tournament-image">
+                        <div class="tournament-info">
+                            <h3>${tournament.name}</h3>
+                            <div class="tournament-meta">
+                                <p><i class="far fa-calendar-alt"></i> ${formatDate(tournament.startDate)} - ${formatDate(tournament.endDate)}</p>
+                                <p><i class="fas fa-users"></i> ${tournament.participants.length}/${tournament.maxTeams} участников</p>
+                                <p><i class="fas fa-coins"></i> ${tournament.prize}</p>
+                            </div>
+                            <button class="btn btn-primary" data-tournament-id="${tournament.id}">Подробнее</button>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // Навешиваем обработчики на кнопки
+                document.querySelectorAll('#user-tournaments [data-tournament-id]').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const tournamentId = parseInt(this.getAttribute('data-tournament-id'));
+                        showTournamentModal(tournamentId);
+                    });
+                });
+            }
+            
+            // Отобразить матчи пользователя
+            function renderUserMatches() {
+                if (!currentUser) return;
+                
+                const userMatches = matches.filter(m => 
+                    m.player1.id === currentUser.id || m.player2.id === currentUser.id
+                );
+                
+                userMatchesContainer.innerHTML = userMatches.map(match => {
+                    const isPlayer1 = match.player1.id === currentUser.id;
+                    const opponent = isPlayer1 ? match.player2 : match.player1;
+                    const myScore = isPlayer1 ? match.score1 : match.score2;
+                    const opponentScore = isPlayer1 ? match.score2 : match.score1;
+                    
+                    let statusBadge = '';
+                    if (match.status === 'pending') {
+                        statusBadge = '<span class="match-status status-pending">Ожидает подтверждения</span>';
+                    } else if (match.status === 'completed') {
+                        statusBadge = '<span class="match-status status-confirmed">Завершен</span>';
+                    }
+                    
+                    return `
+                        <div class="match-card" data-match-id="${match.id}">
+                            <div class="match-teams">
+                                <div class="match-team">
+                                    <img src="${isPlayer1 ? match.player1.team.logo : match.player2.team.logo}" class="match-team-logo">
+                                    <span>${isPlayer1 ? 'Вы' : opponent.username}</span>
+                                </div>
+                                <div class="match-score">
+                                    ${myScore !== null ? myScore : '?'} : ${opponentScore !== null ? opponentScore : '?'}
+                                </div>
+                                <div class="match-team">
+                                    <img src="${isPlayer1 ? match.player2.team.logo : match.player1.team.logo}" class="match-team-logo">
+                                    <span>${isPlayer1 ? opponent.username : 'Вы'}</span>
+                                </div>
+                            </div>
+                            ${statusBadge}
+                            <button class="btn btn-secondary">Детали</button>
+                        </div>
+                    `;
+                }).join('');
+                
+                // Навешиваем обработчики на кнопки
+                document.querySelectorAll('#user-matches .match-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const matchId = parseInt(this.getAttribute('data-match-id'));
+                        showMatchModal(matchId);
+                    });
+                });
+            }
+            
+            // Показать модальное окно турнира
+            function showTournamentModal(tournamentId) {
+                currentTournament = tournaments.find(t => t.id === tournamentId);
+                if (!currentTournament) return;
+                
+                // Заполняем данные турнира
+                document.getElementById('tournament-modal-title').textContent = currentTournament.name;
+                document.getElementById('tournament-modal-image').src = currentTournament.image;
+                document.getElementById('tournament-dates').textContent = `${formatDate(currentTournament.startDate)} - ${formatDate(currentTournament.endDate)}`;
+                document.getElementById('tournament-participants').textContent = `${currentTournament.participants.length}/${currentTournament.maxTeams}`;
+                document.getElementById('tournament-prize').textContent = currentTournament.prize;
+                document.getElementById('tournament-level').textContent = currentTournament.level;
+                document.getElementById('tournament-description').textContent = currentTournament.description;
+                
+                // Проверяем, участвует ли пользователь в турнире
+                const isParticipant = currentUser && currentTournament.participants.some(p => p.id === currentUser.id);
+                
+                // Показываем список команд, если турнир активен и пользователь не участвует
+                if (currentTournament.status === 'active' && !isParticipant && currentUser) {
+                    renderTeamsForTournament();
+                    teamsSection.style.display = 'block';
+                } else {
+                    teamsSection.style.display = 'none';
+                }
+                
+                // Настраиваем кнопки
+                joinTournamentBtn.style.display = isParticipant ? 'none' : 'inline-block';
+                leaveTournamentBtn.style.display = isParticipant ? 'inline-block' : 'none';
+                
+                if (isAdmin) {
+                    adminEditBtn.style.display = 'inline-block';
+                } else {
+                    adminEditBtn.style.display = 'none';
+                }
+                
+                // Показываем модальное окно
+                showModal(tournamentModal);
+            }
+            
+            // Отобразить команды для выбора в турнире
+            function renderTeamsForTournament() {
+                if (!currentTournament || !currentUser) return;
+                
+                // Получаем занятые команды в этом турнире
+                const takenTeamIds = currentTournament.participants.map(p => p.team.id);
+                
+                teamsContainer.innerHTML = teams.map(team => {
+                    const isTaken = takenTeamIds.includes(team.id);
+                    const isSelected = selectedTeam && selectedTeam.id === team.id;
+                    
+                    return `
+                        <div class="team-card ${isSelected ? 'selected' : ''} ${isTaken ? 'taken' : ''}" 
+                             data-team-id="${team.id}" ${isTaken ? 'title="Эта команда уже занята"' : ''}>
+                            <img src="${team.logo}" alt="${team.name}" class="team-logo">
+                            <div>${team.name}</div>
+                            <div style="font-size: 0.8rem; opacity: 0.7;">${team.league}</div>
+                        </div>
+                    `;
+                }).join('');
+                
+                // Навешиваем обработчики выбора команды
+                document.querySelectorAll('.team-card:not(.taken)').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const teamId = parseInt(this.getAttribute('data-team-id'));
+                        selectedTeam = teams.find(t => t.id === teamId);
+                        
+                        // Снимаем выделение со всех карточек
+                        document.querySelectorAll('.team-card').forEach(c => {
+                            c.classList.remove('selected');
+                        });
+                        
+                        // Выделяем выбранную карточку
+                        this.classList.add('selected');
+                    });
+                });
+            }
+            
+            // Показать модальное окно матча
+            function showMatchModal(matchId) {
+                currentMatch = matches.find(m => m.id === matchId);
+                if (!currentMatch) return;
+                
+                const isPlayer1 = currentUser && currentMatch.player1.id === currentUser.id;
+                const isPlayer2 = currentUser && currentMatch.player2.id === currentUser.id;
+                const isAdminView = isAdmin && !isPlayer1 && !isPlayer2;
+                
+                // Заполняем данные матча
+                document.getElementById('match-modal-title').textContent = `Матч: ${currentMatch.player1.username} vs ${currentMatch.player2.username}`;
+                document.getElementById('match-team1-logo').src = currentMatch.player1.team.logo;
+                document.getElementById('match-team1-name').textContent = currentMatch.player1.username;
+                document.getElementById('match-team2-logo').src = currentMatch.player2.team.logo;
+                document.getElementById('match-team2-name').textContent = currentMatch.player2.username;
+                
+                // Устанавливаем счет
+                document.getElementById('match-team1-score').value = currentMatch.score1 !== null ? currentMatch.score1 : '';
+                document.getElementById('match-team2-score').value = currentMatch.score2 !== null ? currentMatch.score2 : '';
+                
+                // Настраиваем статус матча
+                const statusElement = document.getElementById('match-status');
+                if (currentMatch.status === 'pending') {
+                    statusElement.textContent = 'Ожидает подтверждения';
+                    statusElement.className = 'match-status status-pending';
+                } else if (currentMatch.status === 'completed') {
+                    statusElement.textContent = 'Завершен';
+                    statusElement.className = 'match-status status-confirmed';
+                }
+                
+                // Настраиваем видимость кнопок
+                submitMatchBtn.style.display = 'none';
+                confirmMatchBtn.style.display = 'none';
+                rejectMatchBtn.style.display = 'none';
+                
+                if (currentMatch.status === 'pending') {
+                    if (isPlayer1 && currentMatch.score1 === null) {
+                        // Игрок 1 может отправить результат
+                        submitMatchBtn.style.display = 'inline-block';
+                    } else if (isPlayer2 && currentMatch.score2 === null) {
+                        // Игрок 2 может подтвердить или отклонить результат
+                        confirmMatchBtn.style.display = 'inline-block';
+                        rejectMatchBtn.style.display = 'inline-block';
+                    } else if (isAdminView) {
+                        // Админ может подтвердить или отклонить результат
+                        confirmMatchBtn.style.display = 'inline-block';
+                        rejectMatchBtn.style.display = 'inline-block';
+                    }
+                }
+                
+                // Показываем модальное окно
+                showModal(matchModal);
+            }
+            
+            // Показать модальное окно создания/редактирования турнира
+            function showEditTournamentModal(tournamentId = null) {
+                editingTournamentId = tournamentId;
+                
+                if (tournamentId) {
+                    // Редактирование существующего турнира
+                    const tournament = tournaments.find(t => t.id === tournamentId);
+                    if (!tournament) return;
+                    
+                    document.getElementById('edit-tournament-title').textContent = 'Редактировать турнир';
+                    document.getElementById('tournament-name').value = tournament.name;
+                    document.getElementById('tournament-image').value = tournament.image;
+                    document.getElementById('tournament-start').value = tournament.startDate;
+                    document.getElementById('tournament-end').value = tournament.endDate;
+                    document.getElementById('tournament-prize').value = tournament.prize;
+                    document.getElementById('tournament-level').value = tournament.level;
+                    document.getElementById('tournament-description').value = tournament.description;
+                    document.getElementById('tournament-type').value = tournament.type;
+                    document.getElementById('tournament-max-teams').value = tournament.maxTeams;
+                } else {
+                    // Создание нового турнира
+                    document.getElementById('edit-tournament-title').textContent = 'Создать турнир';
+                    document.getElementById('edit-tournament-form').reset();
+                    
+                    // Устанавливаем даты по умолчанию
+                    const today = new Date().toISOString().split('T')[0];
+                    const nextWeek = new Date();
+                    nextWeek.setDate(nextWeek.getDate() + 7);
+                    const nextWeekFormatted = nextWeek.toISOString().split('T')[0];
+                    
+                    document.getElementById('tournament-start').value = today;
+                    document.getElementById('tournament-end').value = nextWeekFormatted;
+                }
+                
+                showModal(editTournamentModal);
+            }
+            
+            // Форматировать дату
+            function formatDate(dateString) {
+                const options = { day: 'numeric', month: 'long' };
+                return new Date(dateString).toLocaleDateString('ru-RU', options);
+            }
+            
             // Показать модальное окно
             function showModal(modal) {
                 modal.style.display = 'flex';
@@ -1129,33 +1668,326 @@
                 document.body.style.overflow = 'auto';
             }
             
-            // Заполнить данные турнира в модальном окне
-            function fillTournamentModal(tournamentId) {
-                const tournament = tournaments[tournamentId];
-                if (!tournament) return;
-                
-                document.getElementById('tournament-modal-title').textContent = tournament.title;
-                document.getElementById('tournament-modal-image').src = tournament.image;
-                document.getElementById('tournament-dates').textContent = tournament.dates;
-                document.getElementById('tournament-participants').textContent = tournament.participants;
-                document.getElementById('tournament-prize').textContent = tournament.prize;
-                document.getElementById('tournament-level').textContent = tournament.level;
-                document.getElementById('tournament-description').textContent = tournament.description;
-                
-                // Если пользователь не авторизован, изменить текст кнопки
-                if (!currentUser) {
-                    joinTournamentBtn.textContent = 'Войти для участия';
-                    joinTournamentBtn.onclick = function() {
-                        hideModal(tournamentModal);
-                        showPage('login');
+            // Войти в систему
+            function login(email, password) {
+                // В реальном приложении здесь был бы запрос к серверу
+                if (email === 'admin@fc25.com' && password === 'admin123') {
+                    currentUser = {
+                        id: 999,
+                        username: 'Администратор',
+                        email: email,
+                        isAdmin: true
                     };
+                    isAdmin = true;
                 } else {
-                    joinTournamentBtn.textContent = 'Участвовать';
-                    joinTournamentBtn.onclick = function() {
-                        alert(`Вы успешно зарегистрированы на турнир "${tournament.title}"!`);
-                        hideModal(tournamentModal);
+                    currentUser = {
+                        id: Math.floor(Math.random() * 1000) + 1,
+                        username: `Игрок_${Math.floor(Math.random() * 1000)}`,
+                        email: email,
+                        isAdmin: false
                     };
+                    isAdmin = false;
                 }
+                
+                // Сохраняем пользователя в localStorage
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // Обновляем интерфейс
+                updateProfile();
+                authText.textContent = 'Выйти';
+                
+                // Показываем профиль
+                showPage('profile');
+                
+                // Обновляем турниры и матчи
+                renderUserTournaments();
+                renderUserMatches();
+                
+                // Если это админ, показываем админскую панель
+                if (isAdmin) {
+                    adminSection.style.display = 'block';
+                }
+                
+                alert('Вы успешно вошли в систему!');
+            }
+            
+            // Выйти из системы
+            function logout() {
+                currentUser = null;
+                isAdmin = false;
+                
+                // Удаляем пользователя из localStorage
+                localStorage.removeItem('currentUser');
+                
+                // Обновляем интерфейс
+                authText.textContent = 'Войти';
+                adminSection.style.display = 'none';
+                
+                // Показываем главную страницу
+                showPage('home');
+            }
+            
+            // Зарегистрироваться
+            function register(username, email, password) {
+                // В реальном приложении здесь был бы запрос к серверу
+                currentUser = {
+                    id: Math.floor(Math.random() * 1000) + 1,
+                    username: username,
+                    email: email,
+                    isAdmin: false
+                };
+                
+                // Сохраняем пользователя в localStorage
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // Обновляем интерфейс
+                updateProfile();
+                authText.textContent = 'Выйти';
+                
+                // Показываем профиль
+                showPage('profile');
+                
+                alert('Регистрация прошла успешно! Вы автоматически вошли в систему.');
+            }
+            
+            // Присоединиться к турниру
+            function joinTournament() {
+                if (!currentUser || !currentTournament || !selectedTeam) return;
+                
+                // Проверяем, не участвует ли уже пользователь в турнире
+                const isAlreadyParticipant = currentTournament.participants.some(p => p.id === currentUser.id);
+                if (isAlreadyParticipant) {
+                    alert('Вы уже участвуете в этом турнире!');
+                    return;
+                }
+                
+                // Проверяем, не занята ли выбранная команда
+                const isTeamTaken = currentTournament.participants.some(p => p.team.id === selectedTeam.id);
+                if (isTeamTaken) {
+                    alert('Эта команда уже занята в этом турнире!');
+                    return;
+                }
+                
+                // Добавляем пользователя в участники турнира
+                currentTournament.participants.push({
+                    id: currentUser.id,
+                    username: currentUser.username,
+                    email: currentUser.email,
+                    team: selectedTeam
+                });
+                
+                // Сохраняем турниры в localStorage
+                localStorage.setItem('tournaments', JSON.stringify(tournaments));
+                
+                // Обновляем интерфейс
+                renderTournaments();
+                renderUserTournaments();
+                
+                // Закрываем модальное окно
+                hideModal(tournamentModal);
+                
+                alert(`Вы успешно зарегистрированы на турнир "${currentTournament.name}" за команду ${selectedTeam.name}!`);
+            }
+            
+            // Покинуть турнир
+            function leaveTournament() {
+                if (!currentUser || !currentTournament) return;
+                
+                // Удаляем пользователя из участников турнира
+                currentTournament.participants = currentTournament.participants.filter(p => p.id !== currentUser.id);
+                
+                // Удаляем все матчи пользователя в этом турнире
+                matches = matches.filter(m => 
+                    !(m.tournamentId === currentTournament.id && 
+                      (m.player1.id === currentUser.id || m.player2.id === currentUser.id))
+                );
+                
+                // Сохраняем данные в localStorage
+                localStorage.setItem('tournaments', JSON.stringify(tournaments));
+                localStorage.setItem('matches', JSON.stringify(matches));
+                
+                // Обновляем интерфейс
+                renderTournaments();
+                renderUserTournaments();
+                renderUserMatches();
+                updateProfile();
+                
+                // Закрываем модальное окно
+                hideModal(tournamentModal);
+                
+                alert(`Вы покинули турнир "${currentTournament.name}"`);
+            }
+            
+            // Создать/обновить турнир
+            function saveTournament() {
+                const name = document.getElementById('tournament-name').value;
+                const image = document.getElementById('tournament-image').value || 'https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ultimate-team/common/fut23-tournament-featured-image-16x9.jpg.adapt.crop16x9.1023w.jpg';
+                const startDate = document.getElementById('tournament-start').value;
+                const endDate = document.getElementById('tournament-end').value;
+                const prize = document.getElementById('tournament-prize').value;
+                const level = document.getElementById('tournament-level').value;
+                const description = document.getElementById('tournament-description').value;
+                const type = document.getElementById('tournament-type').value;
+                const maxTeams = parseInt(document.getElementById('tournament-max-teams').value);
+                
+                if (new Date(startDate) > new Date(endDate)) {
+                    alert('Дата окончания не может быть раньше даты начала!');
+                    return;
+                }
+                
+                if (editingTournamentId) {
+                    // Обновляем существующий турнир
+                    const tournamentIndex = tournaments.findIndex(t => t.id === editingTournamentId);
+                    if (tournamentIndex !== -1) {
+                        tournaments[tournamentIndex] = {
+                            ...tournaments[tournamentIndex],
+                            name,
+                            image,
+                            startDate,
+                            endDate,
+                            prize,
+                            level,
+                            description,
+                            type,
+                            maxTeams
+                        };
+                    }
+                } else {
+                    // Создаем новый турнир
+                    const newId = tournaments.length > 0 ? Math.max(...tournaments.map(t => t.id)) + 1 : 1;
+                    
+                    tournaments.push({
+                        id: newId,
+                        name,
+                        image,
+                        startDate,
+                        endDate,
+                        prize,
+                        level,
+                        description,
+                        type,
+                        maxTeams,
+                        participants: [],
+                        matches: [],
+                        status: new Date(startDate) <= new Date() ? 'active' : 'upcoming'
+                    });
+                }
+                
+                // Сохраняем турниры в localStorage
+                localStorage.setItem('tournaments', JSON.stringify(tournaments));
+                
+                // Обновляем интерфейс
+                renderTournaments();
+                
+                // Закрываем модальное окно
+                hideModal(editTournamentModal);
+                
+                alert(`Турнир "${name}" успешно ${editingTournamentId ? 'обновлен' : 'создан'}!`);
+            }
+            
+            // Удалить турнир
+            function deleteTournament() {
+                if (!currentTournament) return;
+                
+                if (!confirm(`Вы уверены, что хотите удалить турнир "${currentTournament.name}"?`)) {
+                    return;
+                }
+                
+                // Удаляем турнир
+                tournaments = tournaments.filter(t => t.id !== currentTournament.id);
+                
+                // Удаляем все матчи этого турнира
+                matches = matches.filter(m => m.tournamentId !== currentTournament.id);
+                
+                // Сохраняем данные в localStorage
+                localStorage.setItem('tournaments', JSON.stringify(tournaments));
+                localStorage.setItem('matches', JSON.stringify(matches));
+                
+                // Обновляем интерфейс
+                renderTournaments();
+                renderUserTournaments();
+                renderUserMatches();
+                
+                // Закрываем модальное окно
+                hideModal(tournamentModal);
+                
+                alert(`Турнир "${currentTournament.name}" успешно удален!`);
+            }
+            
+            // Отправить результат матча
+            function submitMatchResult() {
+                if (!currentMatch || !currentUser) return;
+                
+                const score1 = parseInt(document.getElementById('match-team1-score').value) || 0;
+                const score2 = parseInt(document.getElementById('match-team2-score').value) || 0;
+                const comment = document.getElementById('match-comment').value;
+                
+                // Обновляем результат матча
+                if (currentUser.id === currentMatch.player1.id) {
+                    currentMatch.score1 = score1;
+                    currentMatch.score2 = score2;
+                } else if (currentUser.id === currentMatch.player2.id) {
+                    // Игрок 2 подтверждает результат
+                    currentMatch.status = 'completed';
+                }
+                
+                currentMatch.comment = comment;
+                
+                // Сохраняем матчи в localStorage
+                localStorage.setItem('matches', JSON.stringify(matches));
+                
+                // Обновляем интерфейс
+                renderUserMatches();
+                updateProfile();
+                
+                // Закрываем модальное окно
+                hideModal(matchModal);
+                
+                if (currentUser.id === currentMatch.player1.id) {
+                    alert('Результат матча отправлен на подтверждение сопернику!');
+                } else {
+                    alert('Результат матча подтвержден!');
+                }
+            }
+            
+            // Подтвердить результат матча
+            function confirmMatch() {
+                if (!currentMatch) return;
+                
+                currentMatch.status = 'completed';
+                
+                // Сохраняем матчи в localStorage
+                localStorage.setItem('matches', JSON.stringify(matches));
+                
+                // Обновляем интерфейс
+                renderUserMatches();
+                updateProfile();
+                
+                // Закрываем модальное окно
+                hideModal(matchModal);
+                
+                alert('Результат матча подтвержден!');
+            }
+            
+            // Отклонить результат матча
+            function rejectMatch() {
+                if (!currentMatch) return;
+                
+                // Сбрасываем результаты
+                currentMatch.score1 = null;
+                currentMatch.score2 = null;
+                currentMatch.status = 'pending';
+                
+                // Сохраняем матчи в localStorage
+                localStorage.setItem('matches', JSON.stringify(matches));
+                
+                // Обновляем интерфейс
+                renderUserMatches();
+                
+                // Закрываем модальное окно
+                hideModal(matchModal);
+                
+                alert('Результат матча отклонен! Ожидается повторная отправка результата.');
             }
             
             // Обработчики навигации
@@ -1163,6 +1995,15 @@
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const pageId = this.getAttribute('data-page');
+                    
+                    // Если это кнопка входа/выхода
+                    if (pageId === 'login') {
+                        if (currentUser) {
+                            logout();
+                            return;
+                        }
+                    }
+                    
                     showPage(pageId);
                 });
             });
@@ -1175,10 +2016,8 @@
             
             showRegisterLink.addEventListener('click', function(e) {
                 e.preventDefault();
-                showPage('login');
-                setTimeout(() => {
-                    showModal(registerModal);
-                }, 100);
+                hideModal(tournamentModal);
+                showModal(registerModal);
             });
             
             cancelRegisterBtn.addEventListener('click', function() {
@@ -1189,45 +2028,19 @@
                 hideModal(registerModal);
             });
             
-            // Обработчики модального окна турнира
-            document.querySelectorAll('[data-tournament]').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const tournamentId = this.getAttribute('data-tournament');
-                    fillTournamentModal(tournamentId);
-                    showModal(tournamentModal);
-                });
-            });
-            
-            closeTournamentModal.addEventListener('click', function() {
-                hideModal(tournamentModal);
-            });
-            
-            closeTournamentBtn.addEventListener('click', function() {
-                hideModal(tournamentModal);
-            });
-            
             // Обработчик формы входа
             loginForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 const email = document.getElementById('login-email').value;
                 const password = document.getElementById('login-password').value;
                 
-                // Простая проверка (в реальном приложении была бы проверка с сервером)
-                if (email && password) {
-                    currentUser = {
-                        email: email,
-                        name: 'Игрок_' + Math.floor(Math.random() * 1000)
-                    };
-                    
-                    // Обновляем имя в профиле
-                    document.getElementById('profile-name').textContent = currentUser.name;
-                    
-                    alert('Вы успешно вошли в систему!');
-                    showPage('profile');
-                } else {
+                if (!email || !password) {
                     alert('Пожалуйста, заполните все поля');
+                    return;
                 }
+                
+                login(email, password);
+                hideModal(registerModal);
             });
             
             cancelLoginBtn.addEventListener('click', function() {
@@ -1242,35 +2055,94 @@
                 const password = document.getElementById('register-password').value;
                 const confirm = document.getElementById('register-confirm').value;
                 
+                if (!username || !email || !password || !confirm) {
+                    alert('Пожалуйста, заполните все поля');
+                    return;
+                }
+                
                 if (password !== confirm) {
                     alert('Пароли не совпадают!');
                     return;
                 }
                 
-                if (username && email && password) {
-                    currentUser = {
-                        email: email,
-                        name: username
-                    };
-                    
-                    // Обновляем имя в профиле
-                    document.getElementById('profile-name').textContent = currentUser.name;
-                    
-                    alert('Регистрация прошла успешно! Вы автоматически вошли в систему.');
-                    hideModal(registerModal);
-                    showPage('profile');
-                } else {
-                    alert('Пожалуйста, заполните все поля');
+                register(username, email, password);
+                hideModal(registerModal);
+            });
+            
+            // Обработчики модального окна турнира
+            closeTournamentModal.addEventListener('click', function() {
+                hideModal(tournamentModal);
+            });
+            
+            closeTournamentBtn.addEventListener('click', function() {
+                hideModal(tournamentModal);
+            });
+            
+            joinTournamentBtn.addEventListener('click', function() {
+                if (!currentUser) {
+                    hideModal(tournamentModal);
+                    showModal(registerModal);
+                    return;
+                }
+                
+                if (!selectedTeam) {
+                    alert('Пожалуйста, выберите команду для участия');
+                    return;
+                }
+                
+                joinTournament();
+            });
+            
+            leaveTournamentBtn.addEventListener('click', function() {
+                if (confirm(`Вы уверены, что хотите покинуть турнир "${currentTournament.name}"?`)) {
+                    leaveTournament();
                 }
             });
             
-            // Показать главную страницу при загрузке
-            showPage('home');
+            adminEditBtn.addEventListener('click', function() {
+                hideModal(tournamentModal);
+                showEditTournamentModal(currentTournament.id);
+            });
             
-            // Имитация загрузки данных
-            setTimeout(() => {
-                console.log('Данные турниров загружены');
-            }, 1000);
+            // Обработчики модального окна создания/редактирования турнира
+            createTournamentBtn.addEventListener('click', function() {
+                showEditTournamentModal();
+            });
+            
+            deleteTournamentBtn.addEventListener('click', function() {
+                if (currentTournament) {
+                    deleteTournament();
+                }
+            });
+            
+            cancelEditTournamentBtn.addEventListener('click', function() {
+                hideModal(editTournamentModal);
+            });
+            
+            editTournamentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveTournament();
+            });
+            
+            // Обработчики модального окна матча
+            closeMatchModal.addEventListener('click', function() {
+                hideModal(matchModal);
+            });
+            
+            submitMatchBtn.addEventListener('click', function() {
+                submitMatchResult();
+            });
+            
+            confirmMatchBtn.addEventListener('click', function() {
+                confirmMatch();
+            });
+            
+            rejectMatchBtn.addEventListener('click', function() {
+                rejectMatch();
+            });
+            
+            // Инициализация приложения
+            init();
         });
     </script>
 </body>
