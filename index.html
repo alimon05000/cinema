@@ -718,7 +718,7 @@
     <!-- Шапка сайта -->
     <header>
         <div class="logo-container">
-            <img src="https://www.fifplay.com/img/public/fc-25-logo.png" alt="FC25 Турниры" class="logo">
+            <img src="https://i.imgur.com/JQJ8Q9W.png" alt="FC25 Турниры" class="logo">
             <h1>FC25 Турниры</h1>
         </div>
         <nav>
@@ -739,7 +739,7 @@
                     <p>Присоединяйся к соревнованиям, выбирай свою команду и докажи, что ты лучший!</p>
                     <div class="cta-buttons">
                         <a href="#" class="btn btn-primary" id="register-btn"><i class="fas fa-user-plus"></i> Регистрация</a>
-                        <a href="#" class="btn btn-secondary" data-page="tournaments"><i class="fas fa-trophy"></i> Текущие турниры</a>
+                        <a href="#" class="btn btn-secondary" id="current-tournaments-btn"><i class="fas fa-trophy"></i> Текущие турниры</a>
                     </div>
                 </div>
                 <div class="hero-image">
@@ -786,7 +786,7 @@
             </section>
 
             <!-- Ближайшие турниры -->
-            <section class="upcoming-tournaments">
+            <section class="upcoming-tournaments" id="current-tournaments-section">
                 <h2 class="section-title">Активные турниры</h2>
                 <div class="tournaments-carousel" id="active-tournaments">
                     <!-- Турниры будут загружены через JavaScript -->
@@ -1263,6 +1263,7 @@
             const rejectMatchBtn = document.getElementById('reject-match-btn');
             const cancelDeleteTournamentBtn = document.getElementById('cancel-delete-tournament');
             const confirmDeleteTournamentBtn = document.getElementById('confirm-delete-tournament');
+            const currentTournamentsBtn = document.getElementById('current-tournaments-btn');
             
             // Формы
             const loginForm = document.getElementById('login-form');
@@ -1445,6 +1446,33 @@
                 if (currentUser) {
                     renderUserTournaments();
                     renderUserMatches();
+                }
+                
+                // Добавляем обработчик событий storage для синхронизации между вкладками
+                window.addEventListener('storage', handleStorageEvent);
+            }
+            
+            // Обработчик событий storage для синхронизации между вкладками
+            function handleStorageEvent(event) {
+                if (event.key === 'tournaments') {
+                    tournaments = JSON.parse(event.newValue);
+                    renderTournaments();
+                    renderUserTournaments();
+                } else if (event.key === 'matches') {
+                    matches = JSON.parse(event.newValue);
+                    renderUserMatches();
+                    if (currentTournament && currentTournament.type === 'Лига') {
+                        renderStandings();
+                    }
+                } else if (event.key === 'currentUser' && event.newValue === null) {
+                    // Пользователь вышел в другой вкладке
+                    currentUser = null;
+                    isAdmin = false;
+                    authText.textContent = 'Войти';
+                    adminSection.style.display = 'none';
+                    registerBtn.style.display = 'inline-block';
+                    document.getElementById('login-info').style.display = 'none';
+                    showPage('home');
                 }
             }
             
@@ -2160,8 +2188,9 @@
                     });
                 }
                 
-                // Сохраняем матчи в localStorage
+                // Сохраняем матчи в localStorage и триггерим событие для других вкладок
                 localStorage.setItem('matches', JSON.stringify(matches));
+                window.dispatchEvent(new Event('storage'));
                 
                 alert('Жеребьевка проведена успешно! Матчи созданы.');
                 
@@ -2245,8 +2274,9 @@
                 currentUser = null;
                 isAdmin = false;
                 
-                // Удаляем пользователя из localStorage
+                // Удаляем пользователя из localStorage и триггерим событие для других вкладок
                 localStorage.removeItem('currentUser');
+                window.dispatchEvent(new Event('storage'));
                 
                 // Обновляем интерфейс
                 authText.textContent = 'Войти';
@@ -2312,8 +2342,9 @@
                     team: selectedTeam
                 });
                 
-                // Сохраняем турниры в localStorage
+                // Сохраняем турниры в localStorage и триггерим событие для других вкладок
                 localStorage.setItem('tournaments', JSON.stringify(tournaments));
+                window.dispatchEvent(new Event('storage'));
                 
                 // Обновляем интерфейс
                 renderTournaments();
@@ -2338,9 +2369,10 @@
                       (m.player1.id === currentUser.id || m.player2.id === currentUser.id))
                 );
                 
-                // Сохраняем данные в localStorage
+                // Сохраняем данные в localStorage и триггерим события для других вкладок
                 localStorage.setItem('tournaments', JSON.stringify(tournaments));
                 localStorage.setItem('matches', JSON.stringify(matches));
+                window.dispatchEvent(new Event('storage'));
                 
                 // Обновляем интерфейс
                 renderTournaments();
@@ -2409,8 +2441,9 @@
                     });
                 }
                 
-                // Сохраняем турниры в localStorage
+                // Сохраняем турниры в localStorage и триггерим событие для других вкладок
                 localStorage.setItem('tournaments', JSON.stringify(tournaments));
+                window.dispatchEvent(new Event('storage'));
                 
                 // Обновляем интерфейс
                 renderTournaments();
@@ -2444,9 +2477,10 @@
                 // Удаляем все матчи этого турнира
                 matches = matches.filter(m => m.tournamentId !== tournamentId);
                 
-                // Сохраняем данные в localStorage
+                // Сохраняем данные в localStorage и триггерим события для других вкладок
                 localStorage.setItem('tournaments', JSON.stringify(tournaments));
                 localStorage.setItem('matches', JSON.stringify(matches));
+                window.dispatchEvent(new Event('storage'));
                 
                 // Обновляем интерфейс
                 renderTournaments();
@@ -2499,8 +2533,9 @@
                 
                 currentMatch.comment = comment;
                 
-                // Сохраняем матчи в localStorage
+                // Сохраняем матчи в localStorage и триггерим событие для других вкладок
                 localStorage.setItem('matches', JSON.stringify(matches));
+                window.dispatchEvent(new Event('storage'));
                 
                 // Обновляем интерфейс
                 renderUserMatches();
@@ -2527,8 +2562,9 @@
                 
                 currentMatch.status = 'completed';
                 
-                // Сохраняем матчи в localStorage
+                // Сохраняем матчи в localStorage и триггерим событие для других вкладок
                 localStorage.setItem('matches', JSON.stringify(matches));
+                window.dispatchEvent(new Event('storage'));
                 
                 // Обновляем интерфейс
                 renderUserMatches();
@@ -2554,8 +2590,9 @@
                 currentMatch.score2 = null;
                 currentMatch.status = 'pending';
                 
-                // Сохраняем матчи в localStorage
+                // Сохраняем матчи в localStorage и триггерим событие для других вкладок
                 localStorage.setItem('matches', JSON.stringify(matches));
+                window.dispatchEvent(new Event('storage'));
                 
                 // Обновляем интерфейс
                 renderUserMatches();
@@ -2581,6 +2618,14 @@
                     }
                     
                     showPage(pageId);
+                });
+            });
+            
+            // Обработчик кнопки "Текущие турниры"
+            currentTournamentsBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('current-tournaments-section').scrollIntoView({
+                    behavior: 'smooth'
                 });
             });
             
