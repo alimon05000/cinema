@@ -1015,6 +1015,9 @@
                 <p><i class="fas fa-envelope"></i> support@fc25tournaments.com</p>
                 <p><i class="fab fa-telegram"></i> @fc25_support</p>
                 <p><i class="fas fa-phone"></i> +7 (123) 456-78-90</p>
+                <div id="login-info" style="display: none; margin-top: 10px;">
+                    <p><i class="fas fa-sign-in-alt"></i> Вход в систему</p>
+                </div>
             </div>
         </div>
         
@@ -1293,59 +1296,59 @@
             
             // Данные приложения
             const teams = [
-                { id: 1, name: 'Реал Мадрид', logo: 'https://cdn.freebiesupply.com/logos/large/2x/real-madrid-logo-png-transparent.png', league: 'La Liga' },
+                { id: 1, name: 'Реал Мадрид', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/86.png', league: 'La Liga' },
                 { id: 2, name: 'Барселона', logo: 'https://cdn.freebiesupply.com/logos/large/2x/fc-barcelona-logo-png-transparent.png', league: 'La Liga' },
-                { id: 3, name: 'Атлетико Мадрид', logo: 'https://cdn.freebiesupply.com/logos/large/2x/atletico-madrid-logo-png-transparent.png', league: 'La Liga' },
+                { id: 3, name: 'Атлетико Мадрид', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/1068.png', league: 'La Liga' },
                 { id: 4, name: 'Севилья', logo: 'https://cdn.freebiesupply.com/logos/large/2x/sevilla-fc-logo-png-transparent.png', league: 'La Liga' },
-                { id: 5, name: 'Валенсия', logo: 'https://cdn.freebiesupply.com/logos/large/2x/valencia-cf-logo-png-transparent.png', league: 'La Liga' },
-                { id: 6, name: 'Вильярреал', logo: 'https://cdn.freebiesupply.com/logos/large/2x/villarreal-cf-logo-png-transparent.png', league: 'La Liga' },
+                { id: 5, name: 'Валенсия', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/95.png', league: 'La Liga' },
+                { id: 6, name: 'Вильярреал', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/367.png', league: 'La Liga' },
                 { id: 7, name: 'Реал Сосьедад', logo: 'https://cdn.freebiesupply.com/logos/large/2x/real-sociedad-logo-png-transparent.png', league: 'La Liga' },
-                { id: 8, name: 'Атлетик Бильбао', logo: 'https://cdn.freebiesupply.com/logos/large/2x/athletic-bilbao-logo-png-transparent.png', league: 'La Liga' },
+                { id: 8, name: 'Атлетик Бильбао', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/93.png', league: 'La Liga' },
                 { id: 9, name: 'Бетис', logo: 'https://cdn.freebiesupply.com/logos/large/2x/real-betis-logo-png-transparent.png', league: 'La Liga' },
                 { id: 10, name: 'Сельта', logo: 'https://cdn.freebiesupply.com/logos/large/2x/celta-vigo-logo-png-transparent.png', league: 'La Liga' },
                 
-                { id: 11, name: 'Манчестер Сити', logo: 'https://cdn.freebiesupply.com/logos/large/2x/manchester-city-logo-png-transparent.png', league: 'Premier League' },
+                { id: 11, name: 'Манчестер Сити', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/382.png', league: 'Premier League' },
                 { id: 12, name: 'Ливерпуль', logo: 'https://cdn.freebiesupply.com/logos/large/2x/liverpool-fc-logo-png-transparent.png', league: 'Premier League' },
                 { id: 13, name: 'Челси', logo: 'https://cdn.freebiesupply.com/logos/large/2x/chelsea-fc-logo-png-transparent.png', league: 'Premier League' },
                 { id: 14, name: 'Манчестер Юнайтед', logo: 'https://cdn.freebiesupply.com/logos/large/2x/manchester-united-logo-png-transparent.png', league: 'Premier League' },
                 { id: 15, name: 'Арсенал', logo: 'https://cdn.freebiesupply.com/logos/large/2x/arsenal-logo-png-transparent.png', league: 'Premier League' },
                 { id: 16, name: 'Тоттенхэм', logo: 'https://cdn.freebiesupply.com/logos/large/2x/tottenham-hotspur-logo-png-transparent.png', league: 'Premier League' },
                 { id: 17, name: 'Лестер Сити', logo: 'https://cdn.freebiesupply.com/logos/large/2x/leicester-city-fc-logo-png-transparent.png', league: 'Premier League' },
-                { id: 18, name: 'Вест Хэм', logo: 'https://cdn.freebiesupply.com/logos/large/2x/west-ham-united-logo-png-transparent.png', league: 'Premier League' },
-                { id: 19, name: 'Вулверхэмптон', logo: 'https://cdn.freebiesupply.com/logos/large/2x/wolverhampton-wanderers-logo-png-transparent.png', league: 'Premier League' },
+                { id: 18, name: 'Вест Хэм', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/379.png', league: 'Premier League' },
+                { id: 19, name: 'Вулверхэмптон', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/380.png', league: 'Premier League' },
                 { id: 20, name: 'Эвертон', logo: 'https://cdn.freebiesupply.com/logos/large/2x/everton-fc-logo-png-transparent.png', league: 'Premier League' },
                 
-                { id: 21, name: 'Бавария', logo: 'https://cdn.freebiesupply.com/logos/large/2x/bayern-munich-logo-png-transparent.png', league: 'Bundesliga' },
+                { id: 21, name: 'Бавария', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/132.png', league: 'Bundesliga' },
                 { id: 22, name: 'Боруссия Дортмунд', logo: 'https://cdn.freebiesupply.com/logos/large/2x/borussia-dortmund-logo-png-transparent.png', league: 'Bundesliga' },
-                { id: 23, name: 'РБ Лейпциг', logo: 'https://cdn.freebiesupply.com/logos/large/2x/rb-leipzig-logo-png-transparent.png', league: 'Bundesliga' },
+                { id: 23, name: 'РБ Лейпциг', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/11420.png', league: 'Bundesliga' },
                 { id: 24, name: 'Байер Леверкузен', logo: 'https://cdn.freebiesupply.com/logos/large/2x/bayer-leverkusen-logo-png-transparent.png', league: 'Bundesliga' },
                 { id: 25, name: 'Вольфсбург', logo: 'https://cdn.freebiesupply.com/logos/large/2x/vfl-wolfsburg-logo-png-transparent.png', league: 'Bundesliga' },
                 { id: 26, name: 'Айнтрахт Франкфурт', logo: 'https://cdn.freebiesupply.com/logos/large/2x/eintracht-frankfurt-logo-png-transparent.png', league: 'Bundesliga' },
                 { id: 27, name: 'Боруссия Мёнхенгладбах', logo: 'https://cdn.freebiesupply.com/logos/large/2x/borussia-monchengladbach-logo-png-transparent.png', league: 'Bundesliga' },
-                { id: 28, name: 'Хоффенхайм', logo: 'https://cdn.freebiesupply.com/logos/large/2x/tsg-1899-hoffenheim-logo-png-transparent.png', league: 'Bundesliga' },
+                { id: 28, name: 'Хоффенхайм', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/384.png', league: 'Bundesliga' },
                 { id: 29, name: 'Штутгарт', logo: 'https://cdn.freebiesupply.com/logos/large/2x/vfb-stuttgart-logo-png-transparent.png', league: 'Bundesliga' },
-                { id: 30, name: 'Герта', logo: 'https://cdn.freebiesupply.com/logos/large/2x/hertha-berlin-logo-png-transparent.png', league: 'Bundesliga' },
+                { id: 30, name: 'Герта', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/182.png', league: 'Bundesliga' },
                 
-                { id: 31, name: 'ПСЖ', logo: 'https://cdn.freebiesupply.com/logos/large/2x/paris-saint-germain-logo-png-transparent.png', league: 'Ligue 1' },
-                { id: 32, name: 'Марсель', logo: 'https://cdn.freebiesupply.com/logos/large/2x/olympique-de-marseille-logo-png-transparent.png', league: 'Ligue 1' },
-                { id: 33, name: 'Лион', logo: 'https://cdn.freebiesupply.com/logos/large/2x/olympique-lyonnais-logo-png-transparent.png', league: 'Ligue 1' },
-                { id: 34, name: 'Монако', logo: 'https://cdn.freebiesupply.com/logos/large/2x/as-monaco-logo-png-transparent.png', league: 'Ligue 1' },
-                { id: 35, name: 'Лилль', logo: 'https://cdn.freebiesupply.com/logos/large/2x/lille-osc-logo-png-transparent.png', league: 'Ligue 1' },
-                { id: 36, name: 'Ренн', logo: 'https://cdn.freebiesupply.com/logos/large/2x/stade-rennais-fc-logo-png-transparent.png', league: 'Ligue 1' },
-                { id: 37, name: 'Ницца', logo: 'https://cdn.freebiesupply.com/logos/large/2x/ogc-nice-logo-png-transparent.png', league: 'Ligue 1' },
+                { id: 31, name: 'ПСЖ', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/160.png', league: 'Ligue 1' },
+                { id: 32, name: 'Марсель', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/162.png', league: 'Ligue 1' },
+                { id: 33, name: 'Лион', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/164.png', league: 'Ligue 1' },
+                { id: 34, name: 'Монако', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/174.png', league: 'Ligue 1' },
+                { id: 35, name: 'Лилль', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/167.png', league: 'Ligue 1' },
+                { id: 36, name: 'Ренн', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/170.png', league: 'Ligue 1' },
+                { id: 37, name: 'Ницца', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/173.png', league: 'Ligue 1' },
                 { id: 38, name: 'Бордо', logo: 'https://cdn.freebiesupply.com/logos/large/2x/fc-girondins-de-bordeaux-logo-png-transparent.png', league: 'Ligue 1' },
-                { id: 39, name: 'Сент-Этьен', logo: 'https://cdn.freebiesupply.com/logos/large/2x/as-saint-etienne-logo-png-transparent.png', league: 'Ligue 1' },
-                { id: 40, name: 'Нант', logo: 'https://cdn.freebiesupply.com/logos/large/2x/fc-nantes-logo-png-transparent.png', league: 'Ligue 1' },
+                { id: 39, name: 'Сент-Этьен', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/171.png', league: 'Ligue 1' },
+                { id: 40, name: 'Нант', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/172.png', league: 'Ligue 1' },
                 
                 { id: 41, name: 'Ювентус', logo: 'https://cdn.freebiesupply.com/logos/large/2x/juventus-logo-png-transparent.png', league: 'Serie A' },
                 { id: 42, name: 'Милан', logo: 'https://cdn.freebiesupply.com/logos/large/2x/ac-milan-logo-png-transparent.png', league: 'Serie A' },
-                { id: 43, name: 'Интер', logo: 'https://cdn.freebiesupply.com/logos/large/2x/inter-milan-logo-png-transparent.png', league: 'Serie A' },
+                { id: 43, name: 'Интер', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/110.png', league: 'Serie A' },
                 { id: 44, name: 'Наполи', logo: 'https://cdn.freebiesupply.com/logos/large/2x/napoli-logo-png-transparent.png', league: 'Serie A' },
-                { id: 45, name: 'Рома', logo: 'https://cdn.freebiesupply.com/logos/large/2x/as-roma-logo-png-transparent.png', league: 'Serie A' },
+                { id: 45, name: 'Рома', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/104.png', league: 'Serie A' },
                 { id: 46, name: 'Лацио', logo: 'https://cdn.freebiesupply.com/logos/large/2x/lazio-logo-png-transparent.png', league: 'Serie A' },
-                { id: 47, name: 'Аталанта', logo: 'https://cdn.freebiesupply.com/logos/large/2x/atalanta-bc-logo-png-transparent.png', league: 'Serie A' },
-                { id: 48, name: 'Фиорентина', logo: 'https://cdn.freebiesupply.com/logos/large/2x/acf-fiorentina-logo-png-transparent.png', league: 'Serie A' },
-                { id: 49, name: 'Сассуоло', logo: 'https://cdn.freebiesupply.com/logos/large/2x/us-sassuolo-logo-png-transparent.png', league: 'Serie A' },
+                { id: 47, name: 'Аталанта', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/107.png', league: 'Serie A' },
+                { id: 48, name: 'Фиорентина', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/109.png', league: 'Serie A' },
+                { id: 49, name: 'Сассуоло', logo: 'https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/398.png', league: 'Serie A' },
                 { id: 50, name: 'Торино', logo: 'https://cdn.freebiesupply.com/logos/large/2x/torino-fc-logo-png-transparent.png', league: 'Serie A' }
             ];
             
@@ -1416,6 +1419,8 @@
                     currentUser = JSON.parse(savedUser);
                     updateProfile();
                     authText.textContent = 'Выйти';
+                    registerBtn.style.display = 'none'; // Скрываем кнопку регистрации
+                    document.getElementById('login-info').style.display = 'block'; // Показываем текст о входе
                 }
                 
                 if (savedTournaments) {
@@ -1677,14 +1682,14 @@
                         <div class="match-card" data-match-id="${match.id}">
                             <div class="match-teams">
                                 <div class="match-team">
-                                    <img src="${isPlayer1 ? match.player1.team.logo : match.player2.team.logo}" class="match-team-logo">
+                                    <img src="${isPlayer1 ? match.player1.team.logo : match.player2.team.logo}" class="match-team-logo" onerror="this.src='https://via.placeholder.com/40?text=No+Logo'">
                                     <span>${isPlayer1 ? 'Вы' : opponent.username}</span>
                                 </div>
                                 <div class="match-score">
                                     ${myScore !== null ? myScore : '?'} : ${opponentScore !== null ? opponentScore : '?'}
                                 </div>
                                 <div class="match-team">
-                                    <img src="${isPlayer1 ? match.player2.team.logo : match.player1.team.logo}" class="match-team-logo">
+                                    <img src="${isPlayer1 ? match.player2.team.logo : match.player1.team.logo}" class="match-team-logo" onerror="this.src='https://via.placeholder.com/40?text=No+Logo'">
                                     <span>${isPlayer1 ? opponent.username : 'Вы'}</span>
                                 </div>
                             </div>
@@ -2214,6 +2219,8 @@
                 // Обновляем интерфейс
                 updateProfile();
                 authText.textContent = 'Выйти';
+                registerBtn.style.display = 'none'; // Скрываем кнопку регистрации
+                document.getElementById('login-info').style.display = 'block'; // Показываем текст о входе
                 
                 // Показываем профиль
                 showPage('profile');
@@ -2244,6 +2251,8 @@
                 // Обновляем интерфейс
                 authText.textContent = 'Войти';
                 adminSection.style.display = 'none';
+                registerBtn.style.display = 'inline-block'; // Показываем кнопку регистрации
+                document.getElementById('login-info').style.display = 'none'; // Скрываем текст о входе
                 
                 // Показываем главную страницу
                 showPage('home');
@@ -2265,6 +2274,8 @@
                 // Обновляем интерфейс
                 updateProfile();
                 authText.textContent = 'Выйти';
+                registerBtn.style.display = 'none'; // Скрываем кнопку регистрации
+                document.getElementById('login-info').style.display = 'block'; // Показываем текст о входе
                 
                 // Показываем профиль
                 showPage('profile');
