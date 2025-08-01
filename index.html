@@ -593,6 +593,74 @@
             color: white;
         }
         
+        /* Турнирная таблица */
+        .standings {
+            margin: 2rem 0;
+            background: rgba(0,0,0,0.5);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        .standings h3 {
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        /* Группировка команд по лигам */
+        .league-group {
+            margin-bottom: 2rem;
+        }
+        
+        .league-title {
+            background: rgba(255,107,0,0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .league-title i {
+            transition: transform 0.3s;
+        }
+        
+        .league-title.collapsed i {
+            transform: rotate(-90deg);
+        }
+        
+        .league-teams {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        
+        .league-teams.collapsed {
+            display: none;
+        }
+        
+        /* Инструкция для iOS */
+        .ios-instruction {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        
+        .ios-instruction h3 {
+            margin-bottom: 1rem;
+            color: #ff6b00;
+        }
+        
+        .ios-instruction ol {
+            padding-left: 1.5rem;
+        }
+        
+        .ios-instruction li {
+            margin-bottom: 0.5rem;
+        }
+        
         /* Адаптивность */
         @media (max-width: 768px) {
             header {
@@ -655,9 +723,6 @@
         </div>
         <nav>
             <ul>
-                <li><a href="#" class="active" data-page="home"><i class="fas fa-home"></i> Главная</a></li>
-                <li><a href="#" data-page="tournaments"><i class="fas fa-trophy"></i> Турниры</a></li>
-                <li><a href="#" data-page="profile"><i class="fas fa-user"></i> Профиль</a></li>
                 <li><a href="#" class="login-btn" data-page="login"><i class="fas fa-sign-in-alt"></i> <span id="auth-text">Вход</span></a></li>
             </ul>
         </nav>
@@ -674,7 +739,7 @@
                     <p>Присоединяйся к соревнованиям, выбирай свою команду и докажи, что ты лучший!</p>
                     <div class="cta-buttons">
                         <a href="#" class="btn btn-primary" id="register-btn"><i class="fas fa-user-plus"></i> Регистрация</a>
-                        <a href="#" class="btn btn-secondary" data-page="tournaments"><i class="fas fa-trophy"></i> Текущие турниры</a>
+                        <a href="#" class="btn btn-secondary" id="current-tournaments-btn"><i class="fas fa-trophy"></i> Текущие турниры</a>
                     </div>
                 </div>
                 <div class="hero-image">
@@ -726,6 +791,18 @@
                 <div class="tournaments-carousel" id="active-tournaments">
                     <!-- Турниры будут загружены через JavaScript -->
                 </div>
+            </section>
+
+            <!-- Инструкция для iOS -->
+            <section class="ios-instruction">
+                <h3>Как добавить сайт на главный экран iPhone (как приложение)</h3>
+                <ol>
+                    <li>Откройте сайт в браузере Safari</li>
+                    <li>Нажмите кнопку "Поделиться" (квадрат со стрелкой вверх)</li>
+                    <li>Прокрутите меню вниз и выберите "На экран Домой"</li>
+                    <li>Нажмите "Добавить" в правом верхнем углу</li>
+                    <li>Теперь иконка приложения появится на вашем домашнем экране</li>
+                </ol>
             </section>
         </div>
 
@@ -828,6 +905,7 @@
                 <div class="admin-actions">
                     <button class="btn btn-primary" id="create-tournament-btn"><i class="fas fa-plus"></i> Создать турнир</button>
                     <button class="btn btn-danger" id="delete-tournament-btn"><i class="fas fa-trash"></i> Удалить турнир</button>
+                    <button class="btn btn-success" id="draw-tournament-btn"><i class="fas fa-random"></i> Жеребьевка</button>
                 </div>
             </section>
 
@@ -843,6 +921,29 @@
                 <div id="user-matches">
                     <!-- Матчи пользователя будут загружены через JavaScript -->
                 </div>
+            </section>
+
+            <section class="standings" id="tournament-standings" style="display: none;">
+                <h3>Турнирная таблица</h3>
+                <table id="standings-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Команда</th>
+                            <th>И</th>
+                            <th>В</th>
+                            <th>Н</th>
+                            <th>П</th>
+                            <th>ГЗ</th>
+                            <th>ГП</th>
+                            <th>РГ</th>
+                            <th>О</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Данные таблицы будут загружены через JavaScript -->
+                    </tbody>
+                </table>
             </section>
         </div>
 
@@ -977,7 +1078,7 @@
             
             <div id="tournament-teams-section" style="margin-bottom: 1.5rem; display: none;">
                 <h4 style="margin-bottom: 0.5rem;">Выберите команду</h4>
-                <div class="teams-grid" id="tournament-teams">
+                <div class="league-groups" id="tournament-teams">
                     <!-- Команды будут загружены через JavaScript -->
                 </div>
             </div>
@@ -1089,6 +1190,24 @@
         </div>
     </div>
 
+    <!-- Модальное окно удаления турнира -->
+    <div class="modal" id="delete-tournament-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 style="margin-bottom: 1.5rem;">Удалить турнир</h2>
+            <div class="form-group">
+                <label for="select-tournament-to-delete">Выберите турнир для удаления</label>
+                <select id="select-tournament-to-delete" class="form-control">
+                    <!-- Турниры будут загружены через JavaScript -->
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" id="cancel-delete-tournament">Отмена</button>
+                <button type="button" class="btn btn-danger" id="confirm-delete-tournament">Удалить</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Подключение JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1103,12 +1222,14 @@
             // Навигационные ссылки
             const navLinks = document.querySelectorAll('nav a[data-page]');
             const authText = document.getElementById('auth-text');
+            const currentTournamentsBtn = document.getElementById('current-tournaments-btn');
             
             // Модальные окна
             const registerModal = document.getElementById('register-modal');
             const tournamentModal = document.getElementById('tournament-modal');
             const editTournamentModal = document.getElementById('edit-tournament-modal');
             const matchModal = document.getElementById('match-modal');
+            const deleteTournamentModal = document.getElementById('delete-tournament-modal');
             
             // Кнопки
             const registerBtn = document.getElementById('register-btn');
@@ -1123,12 +1244,15 @@
             const adminEditBtn = document.getElementById('admin-edit-btn');
             const createTournamentBtn = document.getElementById('create-tournament-btn');
             const deleteTournamentBtn = document.getElementById('delete-tournament-btn');
+            const drawTournamentBtn = document.getElementById('draw-tournament-btn');
             const cancelEditTournamentBtn = document.getElementById('cancel-edit-tournament');
             const saveTournamentBtn = document.getElementById('save-tournament-btn');
             const closeMatchModal = document.querySelector('#match-modal .close-modal');
             const submitMatchBtn = document.getElementById('submit-match-btn');
             const confirmMatchBtn = document.getElementById('confirm-match-btn');
             const rejectMatchBtn = document.getElementById('reject-match-btn');
+            const cancelDeleteTournamentBtn = document.getElementById('cancel-delete-tournament');
+            const confirmDeleteTournamentBtn = document.getElementById('confirm-delete-tournament');
             
             // Формы
             const loginForm = document.getElementById('login-form');
@@ -1144,6 +1268,8 @@
             const profileWins = document.getElementById('profile-wins');
             const profileWinrate = document.getElementById('profile-winrate');
             const adminSection = document.getElementById('admin-section');
+            const standingsSection = document.getElementById('tournament-standings');
+            const standingsTable = document.getElementById('standings-table').querySelector('tbody');
             
             // Списки турниров
             const activeTournamentsContainer = document.getElementById('active-tournaments');
@@ -1159,22 +1285,26 @@
             
             // Данные приложения
             const teams = [
-                { id: 1, name: 'Реал Мадрид', logo: 'https://cdn.freebiesupply.com/images/large/2x/real-madrid-logo-png-transparent.png', league: 'La Liga' },
-                { id: 2, name: 'Барселона', logo: 'https://cdn.freebiesupply.com/images/large/2x/fc-barcelona-logo-png-transparent.png', league: 'La Liga' },
-                { id: 3, name: 'Манчестер Сити', logo: 'https://cdn.freebiesupply.com/images/large/2x/manchester-city-logo-png-transparent.png', league: 'Premier League' },
-                { id: 4, name: 'Ливерпуль', logo: 'https://cdn.freebiesupply.com/images/large/2x/liverpool-fc-logo-png-transparent.png', league: 'Premier League' },
-                { id: 5, name: 'Челси', logo: 'https://cdn.freebiesupply.com/images/large/2x/chelsea-fc-logo-png-transparent.png', league: 'Premier League' },
-                { id: 6, name: 'Манчестер Юнайтед', logo: 'https://cdn.freebiesupply.com/images/large/2x/manchester-united-logo-png-transparent.png', league: 'Premier League' },
-                { id: 7, name: 'Бавария', logo: 'https://cdn.freebiesupply.com/images/large/2x/bayern-munich-logo-png-transparent.png', league: 'Bundesliga' },
-                { id: 8, name: 'Боруссия Дортмунд', logo: 'https://cdn.freebiesupply.com/images/large/2x/borussia-dortmund-logo-png-transparent.png', league: 'Bundesliga' },
-                { id: 9, name: 'ПСЖ', logo: 'https://cdn.freebiesupply.com/images/large/2x/paris-saint-germain-logo-png-transparent.png', league: 'Ligue 1' },
-                { id: 10, name: 'Ювентус', logo: 'https://cdn.freebiesupply.com/images/large/2x/juventus-logo-png-transparent.png', league: 'Serie A' },
-                { id: 11, name: 'Милан', logo: 'https://cdn.freebiesupply.com/images/large/2x/ac-milan-logo-png-transparent.png', league: 'Serie A' },
-                { id: 12, name: 'Интер', logo: 'https://cdn.freebiesupply.com/images/large/2x/inter-milan-logo-png-transparent.png', league: 'Serie A' },
-                { id: 13, name: 'Арсенал', logo: 'https://cdn.freebiesupply.com/images/large/2x/arsenal-logo-png-transparent.png', league: 'Premier League' },
-                { id: 14, name: 'Тоттенхэм', logo: 'https://cdn.freebiesupply.com/images/large/2x/tottenham-hotspur-logo-png-transparent.png', league: 'Premier League' },
-                { id: 15, name: 'Атлетико Мадрид', logo: 'https://cdn.freebiesupply.com/images/large/2x/atletico-madrid-logo-png-transparent.png', league: 'La Liga' },
-                { id: 16, name: 'Наполи', logo: 'https://cdn.freebiesupply.com/images/large/2x/napoli-logo-png-transparent.png', league: 'Serie A' }
+                { id: 1, name: 'Реал Мадрид', logo: 'https://cdn.freebiesupply.com/logos/large/2x/real-madrid-logo-png-transparent.png', league: 'La Liga' },
+                { id: 2, name: 'Барселона', logo: 'https://cdn.freebiesupply.com/logos/large/2x/fc-barcelona-logo-png-transparent.png', league: 'La Liga' },
+                { id: 3, name: 'Манчестер Сити', logo: 'https://cdn.freebiesupply.com/logos/large/2x/manchester-city-logo-png-transparent.png', league: 'Premier League' },
+                { id: 4, name: 'Ливерпуль', logo: 'https://cdn.freebiesupply.com/logos/large/2x/liverpool-fc-logo-png-transparent.png', league: 'Premier League' },
+                { id: 5, name: 'Челси', logo: 'https://cdn.freebiesupply.com/logos/large/2x/chelsea-fc-logo-png-transparent.png', league: 'Premier League' },
+                { id: 6, name: 'Манчестер Юнайтед', logo: 'https://cdn.freebiesupply.com/logos/large/2x/manchester-united-logo-png-transparent.png', league: 'Premier League' },
+                { id: 7, name: 'Бавария', logo: 'https://cdn.freebiesupply.com/logos/large/2x/bayern-munich-logo-png-transparent.png', league: 'Bundesliga' },
+                { id: 8, name: 'Боруссия Дортмунд', logo: 'https://cdn.freebiesupply.com/logos/large/2x/borussia-dortmund-logo-png-transparent.png', league: 'Bundesliga' },
+                { id: 9, name: 'ПСЖ', logo: 'https://cdn.freebiesupply.com/logos/large/2x/paris-saint-germain-logo-png-transparent.png', league: 'Ligue 1' },
+                { id: 10, name: 'Ювентус', logo: 'https://cdn.freebiesupply.com/logos/large/2x/juventus-logo-png-transparent.png', league: 'Serie A' },
+                { id: 11, name: 'Милан', logo: 'https://cdn.freebiesupply.com/logos/large/2x/ac-milan-logo-png-transparent.png', league: 'Serie A' },
+                { id: 12, name: 'Интер', logo: 'https://cdn.freebiesupply.com/logos/large/2x/inter-milan-logo-png-transparent.png', league: 'Serie A' },
+                { id: 13, name: 'Арсенал', logo: 'https://cdn.freebiesupply.com/logos/large/2x/arsenal-logo-png-transparent.png', league: 'Premier League' },
+                { id: 14, name: 'Тоттенхэм', logo: 'https://cdn.freebiesupply.com/logos/large/2x/tottenham-hotspur-logo-png-transparent.png', league: 'Premier League' },
+                { id: 15, name: 'Атлетико Мадрид', logo: 'https://cdn.freebiesupply.com/logos/large/2x/atletico-madrid-logo-png-transparent.png', league: 'La Liga' },
+                { id: 16, name: 'Наполи', logo: 'https://cdn.freebiesupply.com/logos/large/2x/napoli-logo-png-transparent.png', league: 'Serie A' },
+                { id: 17, name: 'Рома', logo: 'https://cdn.freebiesupply.com/logos/large/2x/as-roma-logo-png-transparent.png', league: 'Serie A' },
+                { id: 18, name: 'Лацио', logo: 'https://cdn.freebiesupply.com/logos/large/2x/lazio-logo-png-transparent.png', league: 'Serie A' },
+                { id: 19, name: 'Байер Леверкузен', logo: 'https://cdn.freebiesupply.com/logos/large/2x/bayer-leverkusen-logo-png-transparent.png', league: 'Bundesliga' },
+                { id: 20, name: 'РБ Лейпциг', logo: 'https://cdn.freebiesupply.com/logos/large/2x/rb-leipzig-logo-png-transparent.png', league: 'Bundesliga' }
             ];
             
             let tournaments = [
@@ -1517,30 +1647,75 @@
                     adminEditBtn.style.display = 'none';
                 }
                 
+                // Показываем турнирную таблицу для лиг
+                if (currentTournament.type === 'Лига' && currentTournament.participants.length > 0) {
+                    renderStandings();
+                    standingsSection.style.display = 'block';
+                } else {
+                    standingsSection.style.display = 'none';
+                }
+                
                 // Показываем модальное окно
                 showModal(tournamentModal);
             }
             
-            // Отобразить команды для выбора в турнире
+            // Отобразить команды для выбора в турнире (с группировкой по лигам)
             function renderTeamsForTournament() {
                 if (!currentTournament || !currentUser) return;
                 
                 // Получаем занятые команды в этом турнире
                 const takenTeamIds = currentTournament.participants.map(p => p.team.id);
                 
-                teamsContainer.innerHTML = teams.map(team => {
-                    const isTaken = takenTeamIds.includes(team.id);
-                    const isSelected = selectedTeam && selectedTeam.id === team.id;
+                // Группируем команды по лигам
+                const leagues = {};
+                teams.forEach(team => {
+                    if (!leagues[team.league]) {
+                        leagues[team.league] = [];
+                    }
+                    leagues[team.league].push(team);
+                });
+                
+                // Создаем HTML для каждой лиги
+                teamsContainer.innerHTML = '';
+                for (const leagueName in leagues) {
+                    const leagueTeams = leagues[leagueName];
+                    const leagueId = leagueName.replace(/\s+/g, '-').toLowerCase();
                     
-                    return `
-                        <div class="team-card ${isSelected ? 'selected' : ''} ${isTaken ? 'taken' : ''}" 
-                             data-team-id="${team.id}" ${isTaken ? 'title="Эта команда уже занята"' : ''}>
-                            <img src="${team.logo}" alt="${team.name}" class="team-logo">
-                            <div>${team.name}</div>
-                            <div style="font-size: 0.8rem; opacity: 0.7;">${team.league}</div>
+                    const leagueHTML = `
+                        <div class="league-group">
+                            <div class="league-title" data-league-id="${leagueId}">
+                                <span>${leagueName}</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="league-teams" id="${leagueId}-teams">
+                                ${leagueTeams.map(team => {
+                                    const isTaken = takenTeamIds.includes(team.id);
+                                    const isSelected = selectedTeam && selectedTeam.id === team.id;
+                                    
+                                    return `
+                                        <div class="team-card ${isSelected ? 'selected' : ''} ${isTaken ? 'taken' : ''}" 
+                                             data-team-id="${team.id}" ${isTaken ? 'title="Эта команда уже занята"' : ''}>
+                                            <img src="${team.logo}" alt="${team.name}" class="team-logo" onerror="this.src='https://via.placeholder.com/50?text=No+Logo'">
+                                            <div>${team.name}</div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
                         </div>
                     `;
-                }).join('');
+                    
+                    teamsContainer.innerHTML += leagueHTML;
+                }
+                
+                // Навешиваем обработчики сворачивания/разворачивания лиг
+                document.querySelectorAll('.league-title').forEach(title => {
+                    title.addEventListener('click', function() {
+                        const leagueId = this.getAttribute('data-league-id');
+                        const teamsContainer = document.getElementById(`${leagueId}-teams`);
+                        this.classList.toggle('collapsed');
+                        teamsContainer.classList.toggle('collapsed');
+                    });
+                });
                 
                 // Навешиваем обработчики выбора команды
                 document.querySelectorAll('.team-card:not(.taken)').forEach(card => {
@@ -1556,6 +1731,99 @@
                         // Выделяем выбранную карточку
                         this.classList.add('selected');
                     });
+                });
+            }
+            
+            // Отобразить турнирную таблицу
+            function renderStandings() {
+                if (!currentTournament || currentTournament.type !== 'Лига') return;
+                
+                // Создаем объект для хранения статистики команд
+                const standings = {};
+                
+                // Инициализируем статистику для всех участников
+                currentTournament.participants.forEach(participant => {
+                    standings[participant.id] = {
+                        participant: participant,
+                        played: 0,
+                        wins: 0,
+                        draws: 0,
+                        losses: 0,
+                        goalsFor: 0,
+                        goalsAgainst: 0,
+                        points: 0
+                    };
+                });
+                
+                // Обрабатываем все матчи турнира
+                matches.forEach(match => {
+                    if (match.tournamentId === currentTournament.id && match.status === 'completed') {
+                        const player1Id = match.player1.id;
+                        const player2Id = match.player2.id;
+                        
+                        // Обновляем статистику для игрока 1
+                        standings[player1Id].played++;
+                        standings[player1Id].goalsFor += match.score1;
+                        standings[player1Id].goalsAgainst += match.score2;
+                        
+                        // Обновляем статистику для игрока 2
+                        standings[player2Id].played++;
+                        standings[player2Id].goalsFor += match.score2;
+                        standings[player2Id].goalsAgainst += match.score1;
+                        
+                        // Определяем результат матча
+                        if (match.score1 > match.score2) {
+                            standings[player1Id].wins++;
+                            standings[player1Id].points += 3;
+                            standings[player2Id].losses++;
+                        } else if (match.score1 < match.score2) {
+                            standings[player2Id].wins++;
+                            standings[player2Id].points += 3;
+                            standings[player1Id].losses++;
+                        } else {
+                            standings[player1Id].draws++;
+                            standings[player2Id].draws++;
+                            standings[player1Id].points += 1;
+                            standings[player2Id].points += 1;
+                        }
+                    }
+                });
+                
+                // Преобразуем объект в массив и сортируем по очкам
+                const standingsArray = Object.values(standings);
+                standingsArray.sort((a, b) => {
+                    if (b.points !== a.points) return b.points - a.points;
+                    const gdA = a.goalsFor - a.goalsAgainst;
+                    const gdB = b.goalsFor - b.goalsAgainst;
+                    if (gdB !== gdA) return gdB - gdA;
+                    return b.goalsFor - a.goalsFor;
+                });
+                
+                // Очищаем таблицу
+                standingsTable.innerHTML = '';
+                
+                // Заполняем таблицу
+                standingsArray.forEach((team, index) => {
+                    const row = document.createElement('tr');
+                    const goalDifference = team.goalsFor - team.goalsAgainst;
+                    
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>
+                            <img src="${team.participant.team.logo}" alt="${team.participant.team.name}" style="height: 20px; margin-right: 8px;" onerror="this.src='https://via.placeholder.com/20?text=No+Logo'">
+                            ${team.participant.team.name}
+                        </td>
+                        <td>${team.played}</td>
+                        <td>${team.wins}</td>
+                        <td>${team.draws}</td>
+                        <td>${team.losses}</td>
+                        <td>${team.goalsFor}</td>
+                        <td>${team.goalsAgainst}</td>
+                        <td>${goalDifference > 0 ? '+' : ''}${goalDifference}</td>
+                        <td><strong>${team.points}</strong></td>
+                    `;
+                    
+                    standingsTable.appendChild(row);
                 });
             }
             
@@ -1650,6 +1918,166 @@
                 showModal(editTournamentModal);
             }
             
+            // Показать модальное окно удаления турнира
+            function showDeleteTournamentModal() {
+                const selectElement = document.getElementById('select-tournament-to-delete');
+                selectElement.innerHTML = '';
+                
+                // Заполняем список турниров
+                tournaments.forEach(tournament => {
+                    const option = document.createElement('option');
+                    option.value = tournament.id;
+                    option.textContent = tournament.name;
+                    selectElement.appendChild(option);
+                });
+                
+                showModal(deleteTournamentModal);
+            }
+            
+            // Провести жеребьевку турнира
+            function drawTournament() {
+                if (!currentTournament) return;
+                
+                // Проверяем, что турнир еще не начался
+                if (currentTournament.matches.length > 0) {
+                    alert('Жеребьевка уже была проведена для этого турнира!');
+                    return;
+                }
+                
+                // Проверяем, что есть участники
+                if (currentTournament.participants.length < 2) {
+                    alert('Для проведения жеребьевки нужно минимум 2 участника!');
+                    return;
+                }
+                
+                // В зависимости от типа турнира проводим разную жеребьевку
+                if (currentTournament.type === 'Кубок') {
+                    // Для кубка просто перемешиваем участников
+                    const shuffledParticipants = [...currentTournament.participants].sort(() => Math.random() - 0.5);
+                    
+                    // Создаем матчи для первого раунда
+                    for (let i = 0; i < shuffledParticipants.length; i += 2) {
+                        if (i + 1 < shuffledParticipants.length) {
+                            const matchId = matches.length > 0 ? Math.max(...matches.map(m => m.id)) + 1 : 1;
+                            matches.push({
+                                id: matchId,
+                                tournamentId: currentTournament.id,
+                                player1: shuffledParticipants[i],
+                                player2: shuffledParticipants[i + 1],
+                                score1: null,
+                                score2: null,
+                                status: 'pending',
+                                round: 1
+                            });
+                        }
+                    }
+                } else if (currentTournament.type === 'Лига') {
+                    // Для лиги создаем матчи каждый против каждого (2 круга)
+                    const participants = currentTournament.participants;
+                    let matchId = matches.length > 0 ? Math.max(...matches.map(m => m.id)) + 1 : 1;
+                    
+                    // Первый круг
+                    for (let i = 0; i < participants.length; i++) {
+                        for (let j = i + 1; j < participants.length; j++) {
+                            matches.push({
+                                id: matchId++,
+                                tournamentId: currentTournament.id,
+                                player1: participants[i],
+                                player2: participants[j],
+                                score1: null,
+                                score2: null,
+                                status: 'pending',
+                                round: 1
+                            });
+                        }
+                    }
+                    
+                    // Второй круг (домашние и гостевые матчи меняются местами)
+                    for (let i = 0; i < participants.length; i++) {
+                        for (let j = i + 1; j < participants.length; j++) {
+                            matches.push({
+                                id: matchId++,
+                                tournamentId: currentTournament.id,
+                                player1: participants[j],
+                                player2: participants[i],
+                                score1: null,
+                                score2: null,
+                                status: 'pending',
+                                round: 2
+                            });
+                        }
+                    }
+                } else if (currentTournament.type === 'Группы+Плейофф') {
+                    // Для групп + плейофф сначала делим на группы, потом плейофф
+                    const groupCount = Math.ceil(currentTournament.participants.length / 4);
+                    const groups = [];
+                    
+                    // Создаем группы
+                    for (let i = 0; i < groupCount; i++) {
+                        groups.push([]);
+                    }
+                    
+                    // Распределяем участников по группам случайным образом
+                    const shuffledParticipants = [...currentTournament.participants].sort(() => Math.random() - 0.5);
+                    let groupIndex = 0;
+                    
+                    shuffledParticipants.forEach(participant => {
+                        groups[groupIndex].push(participant);
+                        groupIndex = (groupIndex + 1) % groupCount;
+                    });
+                    
+                    // Создаем матчи в группах (каждый против каждого, 2 круга)
+                    let matchId = matches.length > 0 ? Math.max(...matches.map(m => m.id)) + 1 : 1;
+                    
+                    groups.forEach((group, groupNumber) => {
+                        // Первый круг
+                        for (let i = 0; i < group.length; i++) {
+                            for (let j = i + 1; j < group.length; j++) {
+                                matches.push({
+                                    id: matchId++,
+                                    tournamentId: currentTournament.id,
+                                    player1: group[i],
+                                    player2: group[j],
+                                    score1: null,
+                                    score2: null,
+                                    status: 'pending',
+                                    round: `Группа ${groupNumber + 1} - 1 круг`
+                                });
+                            }
+                        }
+                        
+                        // Второй круг
+                        for (let i = 0; i < group.length; i++) {
+                            for (let j = i + 1; j < group.length; j++) {
+                                matches.push({
+                                    id: matchId++,
+                                    tournamentId: currentTournament.id,
+                                    player1: group[j],
+                                    player2: group[i],
+                                    score1: null,
+                                    score2: null,
+                                    status: 'pending',
+                                    round: `Группа ${groupNumber + 1} - 2 круг`
+                                });
+                            }
+                        }
+                    });
+                }
+                
+                // Сохраняем матчи в localStorage
+                localStorage.setItem('matches', JSON.stringify(matches));
+                
+                alert('Жеребьевка проведена успешно! Матчи созданы.');
+                
+                // Обновляем интерфейс
+                renderUserMatches();
+                
+                // Если это турнир-лига, обновляем таблицу
+                if (currentTournament.type === 'Лига') {
+                    renderStandings();
+                }
+            }
+            
             // Форматировать дату
             function formatDate(dateString) {
                 const options = { day: 'numeric', month: 'long' };
@@ -1708,6 +2136,9 @@
                     adminSection.style.display = 'block';
                 }
                 
+                // Скрываем модальное окно входа
+                hideModal(registerModal);
+                
                 alert('Вы успешно вошли в систему!');
             }
             
@@ -1746,6 +2177,9 @@
                 
                 // Показываем профиль
                 showPage('profile');
+                
+                // Скрываем модальное окно регистрации
+                hideModal(registerModal);
                 
                 alert('Регистрация прошла успешно! Вы автоматически вошли в систему.');
             }
@@ -1887,17 +2321,26 @@
             
             // Удалить турнир
             function deleteTournament() {
-                if (!currentTournament) return;
+                const selectElement = document.getElementById('select-tournament-to-delete');
+                const tournamentId = parseInt(selectElement.value);
                 
-                if (!confirm(`Вы уверены, что хотите удалить турнир "${currentTournament.name}"?`)) {
+                if (!tournamentId) {
+                    alert('Пожалуйста, выберите турнир для удаления');
+                    return;
+                }
+                
+                const tournament = tournaments.find(t => t.id === tournamentId);
+                if (!tournament) return;
+                
+                if (!confirm(`Вы уверены, что хотите удалить турнир "${tournament.name}"?`)) {
                     return;
                 }
                 
                 // Удаляем турнир
-                tournaments = tournaments.filter(t => t.id !== currentTournament.id);
+                tournaments = tournaments.filter(t => t.id !== tournamentId);
                 
                 // Удаляем все матчи этого турнира
-                matches = matches.filter(m => m.tournamentId !== currentTournament.id);
+                matches = matches.filter(m => m.tournamentId !== tournamentId);
                 
                 // Сохраняем данные в localStorage
                 localStorage.setItem('tournaments', JSON.stringify(tournaments));
@@ -1909,9 +2352,9 @@
                 renderUserMatches();
                 
                 // Закрываем модальное окно
-                hideModal(tournamentModal);
+                hideModal(deleteTournamentModal);
                 
-                alert(`Турнир "${currentTournament.name}" успешно удален!`);
+                alert(`Турнир "${tournament.name}" успешно удален!`);
             }
             
             // Отправить результат матча
@@ -1921,6 +2364,27 @@
                 const score1 = parseInt(document.getElementById('match-team1-score').value) || 0;
                 const score2 = parseInt(document.getElementById('match-team2-score').value) || 0;
                 const comment = document.getElementById('match-comment').value;
+                
+                // Проверяем, чтобы игрок не подтверждал матч с самим собой
+                if (currentMatch.player1.id === currentMatch.player2.id) {
+                    alert('Нельзя играть матч с самим собой!');
+                    return;
+                }
+                
+                // Проверяем, чтобы игроки не играли друг с другом более 2 раз (для лиг)
+                if (currentTournament && currentTournament.type === 'Лига') {
+                    const existingMatches = matches.filter(m => 
+                        m.tournamentId === currentTournament.id &&
+                        m.status === 'completed' &&
+                        ((m.player1.id === currentMatch.player1.id && m.player2.id === currentMatch.player2.id) ||
+                         (m.player1.id === currentMatch.player2.id && m.player2.id === currentMatch.player1.id))
+                    ).length;
+                    
+                    if (existingMatches >= 2) {
+                        alert('Вы уже сыграли 2 матча с этим соперником в этом турнире!');
+                        return;
+                    }
+                }
                 
                 // Обновляем результат матча
                 if (currentUser.id === currentMatch.player1.id) {
@@ -1939,6 +2403,11 @@
                 // Обновляем интерфейс
                 renderUserMatches();
                 updateProfile();
+                
+                // Если это турнир-лига, обновляем таблицу
+                if (currentTournament && currentTournament.type === 'Лига') {
+                    renderStandings();
+                }
                 
                 // Закрываем модальное окно
                 hideModal(matchModal);
@@ -1962,6 +2431,11 @@
                 // Обновляем интерфейс
                 renderUserMatches();
                 updateProfile();
+                
+                // Если это турнир-лига, обновляем таблицу
+                if (currentTournament && currentTournament.type === 'Лига') {
+                    renderStandings();
+                }
                 
                 // Закрываем модальное окно
                 hideModal(matchModal);
@@ -2008,6 +2482,12 @@
                 });
             });
             
+            // Обработчик кнопки "Текущие турниры"
+            currentTournamentsBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                showPage('tournaments');
+            });
+            
             // Обработчики модального окна регистрации
             registerBtn.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -2040,7 +2520,6 @@
                 }
                 
                 login(email, password);
-                hideModal(registerModal);
             });
             
             cancelLoginBtn.addEventListener('click', function() {
@@ -2066,7 +2545,6 @@
                 }
                 
                 register(username, email, password);
-                hideModal(registerModal);
             });
             
             // Обработчики модального окна турнира
@@ -2110,8 +2588,12 @@
             });
             
             deleteTournamentBtn.addEventListener('click', function() {
-                if (currentTournament) {
-                    deleteTournament();
+                showDeleteTournamentModal();
+            });
+            
+            drawTournamentBtn.addEventListener('click', function() {
+                if (confirm(`Провести жеребьевку турнира "${currentTournament.name}"?`)) {
+                    drawTournament();
                 }
             });
             
@@ -2122,6 +2604,15 @@
             editTournamentForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 saveTournament();
+            });
+            
+            // Обработчики модального окна удаления турнира
+            cancelDeleteTournamentBtn.addEventListener('click', function() {
+                hideModal(deleteTournamentModal);
+            });
+            
+            confirmDeleteTournamentBtn.addEventListener('click', function() {
+                deleteTournament();
             });
             
             // Обработчики модального окна матча
