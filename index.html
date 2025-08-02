@@ -1383,8 +1383,8 @@
             function init() {
                 // Проверяем, есть ли сохраненные данные в localStorage
                 const savedUser = localStorage.getItem('currentUser');
-                const savedTournaments = localStorage.getItem('tournaments');
-                const savedMatches = localStorage.getItem('matches');
+                const savedTournaments = localStorage.getItem('fc25_tournaments');
+                const savedMatches = localStorage.getItem('fc25_matches');
                 
                 if (savedUser) {
                     currentUser = JSON.parse(savedUser);
@@ -1396,10 +1396,15 @@
                 
                 if (savedTournaments) {
                     tournaments = JSON.parse(savedTournaments);
+                } else {
+                    // Сохраняем начальные турниры в localStorage
+                    localStorage.setItem('fc25_tournaments', JSON.stringify(tournaments));
                 }
                 
                 if (savedMatches) {
                     matches = JSON.parse(savedMatches);
+                } else {
+                    localStorage.setItem('fc25_matches', JSON.stringify(matches));
                 }
                 
                 // Проверяем админские права
@@ -1417,29 +1422,68 @@
                     renderUserMatches();
                 }
                 
+                // Добавляем обработчик событий storage для синхронизации между вкладками
                 window.addEventListener('storage', handleStorageEvent);
             }
             
             // Обработчик событий storage для синхронизации между вкладками
             function handleStorageEvent(event) {
-                if (event.key === 'tournaments') {
+                if (event.key === 'fc25_tournaments') {
                     tournaments = JSON.parse(event.newValue);
                     renderTournaments();
                     renderUserTournaments();
-                } else if (event.key === 'matches') {
+                    
+                    // Если открыто модальное окно турнира, обновляем его
+                    if (currentTournament && tournamentModal.style.display === 'flex') {
+                        const updatedTournament = tournaments.find(t => t.id === currentTournament.id);
+                        if (updatedTournament) {
+                            currentTournament = updatedTournament;
+                            showTournamentModal(currentTournament.id);
+                        }
+                    }
+                } 
+                else if (event.key === 'fc25_matches') {
                     matches = JSON.parse(event.newValue);
                     renderUserMatches();
                     if (currentTournament && currentTournament.type === 'Лига') {
                         renderStandings();
                     }
-                } else if (event.key === 'currentUser' && event.newValue === null) {
-                    currentUser = null;
-                    isAdmin = false;
-                    authText.textContent = 'Войти';
-                    adminSection.style.display = 'none';
-                    registerBtn.style.display = 'inline-block';
-                    document.getElementById('login-info').style.display = 'none';
-                    showPage('home');
+                    
+                    // Если открыто модальное окно матча, обновляем его
+                    if (currentMatch && matchModal.style.display === 'flex') {
+                        const updatedMatch = matches.find(m => m.id === currentMatch.id);
+                        if (updatedMatch) {
+                            currentMatch = updatedMatch;
+                            showMatchModal(currentMatch.id);
+                        }
+                    }
+                } 
+                else if (event.key === 'currentUser') {
+                    if (event.newValue === null) {
+                        // Выход
+                        currentUser = null;
+                        isAdmin = false;
+                        authText.textContent = 'Войти';
+                        adminSection.style.display = 'none';
+                        registerBtn.style.display = 'inline-block';
+                        document.getElementById('login-info').style.display = 'none';
+                        showPage('home');
+                    } else {
+                        // Вход
+                        currentUser = JSON.parse(event.newValue);
+                        updateProfile();
+                        authText.textContent = 'Выйти';
+                        registerBtn.style.display = 'none';
+                        document.getElementById('login-info').style.display = 'block';
+                        
+                        if (currentUser.email === 'admin@fc25.com') {
+                            isAdmin = true;
+                            adminSection.style.display = 'block';
+                        }
+                        
+                        renderUserTournaments();
+                        renderUserMatches();
+                    }
                 }
             }
             
@@ -2093,8 +2137,11 @@
                     });
                 }
                 
-                localStorage.setItem('matches', JSON.stringify(matches));
-                window.dispatchEvent(new Event('storage'));
+                localStorage.setItem('fc25_matches', JSON.stringify(matches));
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: 'fc25_matches',
+                    newValue: JSON.stringify(matches)
+                }));
                 
                 alert('Жеребьевка проведена успешно! Матчи созданы.');
                 
@@ -2144,6 +2191,11 @@
                 }
                 
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                // Генерируем событие вручную, так как storage событие не срабатывает на той же вкладке
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: 'currentUser',
+                    newValue: JSON.stringify(currentUser)
+                }));
                 
                 updateProfile();
                 authText.textContent = 'Выйти';
@@ -2166,18 +2218,12 @@
             
             // Выйти из системы
             function logout() {
-                currentUser = null;
-                isAdmin = false;
-                
                 localStorage.removeItem('currentUser');
-                window.dispatchEvent(new Event('storage'));
-                
-                authText.textContent = 'Войти';
-                adminSection.style.display = 'none';
-                registerBtn.style.display = 'inline-block';
-                document.getElementById('login-info').style.display = 'none';
-                
-                showPage('home');
+                // Генерируем событие вручную
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: 'currentUser',
+                    newValue: null
+                }));
             }
             
             // Зарегистрироваться
@@ -2190,6 +2236,10 @@
                 };
                 
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: 'currentUser',
+                    newValue: JSON.stringify(currentUser)
+                }));
                 
                 updateProfile();
                 authText.textContent = 'Выйти';
@@ -2226,8 +2276,11 @@
                     team: selectedTeam
                 });
                 
-                localStorage.setItem('tournaments', JSON.stringify(tournaments));
-                window.dispatchEvent(new Event('storage'));
+                localStorage.setItem('fc25_tournaments', JSON.stringify(tournaments));
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: 'fc25_tournaments',
+                    newValue: JSON.stringify(tournaments)
+                }));
                 
                 renderTournaments();
                 renderUserTournaments();
@@ -2248,9 +2301,16 @@
                       (m.player1.id === currentUser.id || m.player2.id === currentUser.id))
                 );
                 
-                localStorage.setItem('tournaments', JSON.stringify(tournaments));
-                localStorage.setItem('matches', JSON.stringify(matches));
-                window.dispatchEvent(new Event('storage'));
+                localStorage.setItem('fc25_tournaments', JSON.stringify(tournaments));
+                localStorage.setItem('fc25_matches', JSON.stringify(matches));
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: 'fc25_tournaments',
+                    newValue: JSON.stringify(tournaments)
+                }));
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: 'fc25_matches',
+                    newValue: JSON.stringify(matches)
+                }));
                 
                 renderTournaments();
                 renderUserTournaments();
@@ -2315,8 +2375,11 @@
                     });
                 }
                 
-                localStorage.setItem('tournaments', JSON.stringify(tournaments));
-                window.dispatchEvent(new Event('storage'));
+                localStorage.setItem('fc25_tournaments', JSON.stringify(tournaments));
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: 'fc25_tournaments',
+                    newValue: JSON.stringify(tournaments)
+                }));
                 
                 renderTournaments();
                 
@@ -2346,9 +2409,16 @@
                 
                 matches = matches.filter(m => m.tournamentId !== tournamentId);
                 
-                localStorage.setItem('tournaments', JSON.stringify(tournaments));
-                localStorage.setItem('matches', JSON.stringify(matches));
-                window.dispatchEvent(new Event('storage'));
+                localStorage.setItem('fc25_tournaments', JSON.stringify(tournaments));
+                localStorage.setItem('fc25_matches', JSON.stringify(matches));
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: 'fc25_tournaments',
+                    newValue: JSON.stringify(tournaments)
+                }));
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: 'fc25_matches',
+                    newValue: JSON.stringify(matches)
+                }));
                 
                 renderTournaments();
                 renderUserTournaments();
@@ -2395,8 +2465,11 @@
                 
                 currentMatch.comment = comment;
                 
-                localStorage.setItem('matches', JSON.stringify(matches));
-                window.dispatchEvent(new Event('storage'));
+                localStorage.setItem('fc25_matches', JSON.stringify(matches));
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: 'fc25_matches',
+                    newValue: JSON.stringify(matches)
+                }));
                 
                 renderUserMatches();
                 updateProfile();
@@ -2420,8 +2493,11 @@
                 
                 currentMatch.status = 'completed';
                 
-                localStorage.setItem('matches', JSON.stringify(matches));
-                window.dispatchEvent(new Event('storage'));
+                localStorage.setItem('fc25_matches', JSON.stringify(matches));
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: 'fc25_matches',
+                    newValue: JSON.stringify(matches)
+                }));
                 
                 renderUserMatches();
                 updateProfile();
@@ -2443,8 +2519,11 @@
                 currentMatch.score2 = null;
                 currentMatch.status = 'pending';
                 
-                localStorage.setItem('matches', JSON.stringify(matches));
-                window.dispatchEvent(new Event('storage'));
+                localStorage.setItem('fc25_matches', JSON.stringify(matches));
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: 'fc25_matches',
+                    newValue: JSON.stringify(matches)
+                }));
                 
                 renderUserMatches();
                 
