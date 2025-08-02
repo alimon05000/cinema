@@ -1362,42 +1362,12 @@
                     endDate: '2025-09-08',
                     prize: '0$',
                     level: 'Все уровни',
-                    description: '',
-                    type: 'Лига(круговая система)',
+                    description: 'Открытый турнир для всех желающих. Круговая система с играми каждый против каждого. Матчи состоят из двух таймов по 6 минут. В случае ничьи - дополнительное время и пенальти.',
+                    type: 'Лига',
                     maxTeams: 32,
                     participants: [],
                     matches: [],
                     status: 'active'
-                },
-                {
-                    id: 2,
-                    name: 'FC25 Pro League(СКОРО)',
-                    image: 'https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ultimate-team/common/fut23-competitive-featured-image-16x9.jpg.adapt.crop16x9.1023w.jpg',
-                    startDate: '2024-01-05',
-                    endDate: '2024-01-20',
-                    prize: '2500$',
-                    level: 'Легенда',
-                    description: 'Профессиональная лига для опытных игроков. Круговая система с играми каждый против каждого. Топ-8 выходит в плей-офф. Матчи состоят из двух таймов по 8 минут. В случае ничьи в основное время - дополнительное время и пенальти.',
-                    type: 'Лига',
-                    maxTeams: 64,
-                    participants: [],
-                    matches: [],
-                    status: 'upcoming'
-                },
-                {
-                    id: 3,
-                    name: 'FC25 Open Tournament(СКОРО)',
-                    image: 'https://media.contentapi.ea.com/content/dam/ea/fifa/fifa-23/ultimate-team/common/fut23-friendlies-featured-image-16x9.jpg.adapt.crop16x9.1023w.jpg',
-                    startDate: '2024-02-01',
-                    endDate: '2024-02-15',
-                    prize: 'Бесплатный вход',
-                    level: 'Все уровни',
-                    description: 'Открытый турнир для игроков любого уровня. Отличная возможность попробовать свои силы. Групповая стадия с последующим плей-офф. Матчи состоят из двух таймов по 4 минуты. В случае ничьи - сразу пенальти.',
-                    type: 'Группы+Плейофф',
-                    maxTeams: 128,
-                    participants: [],
-                    matches: [],
-                    status: 'upcoming'
                 }
             ];
             
@@ -1420,8 +1390,8 @@
                     currentUser = JSON.parse(savedUser);
                     updateProfile();
                     authText.textContent = 'Выйти';
-                    registerBtn.style.display = 'none'; // Скрываем кнопку регистрации
-                    document.getElementById('login-info').style.display = 'block'; // Показываем текст о входе
+                    registerBtn.style.display = 'none';
+                    document.getElementById('login-info').style.display = 'block';
                 }
                 
                 if (savedTournaments) {
@@ -1432,7 +1402,7 @@
                     matches = JSON.parse(savedMatches);
                 }
                 
-                // Проверяем админские права (в реальном приложении это делалось бы на сервере)
+                // Проверяем админские права
                 if (currentUser && currentUser.email === 'admin@fc25.com') {
                     isAdmin = true;
                     adminSection.style.display = 'block';
@@ -1442,13 +1412,11 @@
                 renderAllTeams();
                 showPage('home');
                 
-                // Если пользователь авторизован, обновляем его турниры и матчи
                 if (currentUser) {
                     renderUserTournaments();
                     renderUserMatches();
                 }
                 
-                // Добавляем обработчик событий storage для синхронизации между вкладками
                 window.addEventListener('storage', handleStorageEvent);
             }
             
@@ -1465,7 +1433,6 @@
                         renderStandings();
                     }
                 } else if (event.key === 'currentUser' && event.newValue === null) {
-                    // Пользователь вышел в другой вкладке
                     currentUser = null;
                     isAdmin = false;
                     authText.textContent = 'Войти';
@@ -1478,19 +1445,16 @@
             
             // Показать страницу
             function showPage(pageId) {
-                // Скрыть все страницы
                 Object.values(pages).forEach(page => {
                     page.classList.remove('active');
                 });
                 
-                // Показать выбранную страницу
                 if (pages[pageId]) {
                     pages[pageId].classList.add('active');
                 } else {
                     pages.home.classList.add('active');
                 }
                 
-                // Обновить активную ссылку в навигации
                 navLinks.forEach(link => {
                     if (link.getAttribute('data-page') === pageId) {
                         link.classList.add('active');
@@ -1499,7 +1463,6 @@
                     }
                 });
                 
-                // Если показываем профиль, но пользователь не авторизован - показать страницу входа
                 if (pageId === 'profile' && !currentUser) {
                     showPage('login');
                 }
@@ -1512,7 +1475,6 @@
                 profileName.textContent = currentUser.username;
                 profileEmail.textContent = currentUser.email;
                 
-                // Рассчитываем статистику
                 const userMatches = matches.filter(m => 
                     m.player1.id === currentUser.id || m.player2.id === currentUser.id
                 );
@@ -1527,19 +1489,16 @@
                     ? Math.round((wins / completedMatches.length) * 100) 
                     : 0;
                 
-                // Обновляем данные в профиле
                 profileMatches.textContent = completedMatches.length;
                 profileWins.textContent = wins;
                 profileWinrate.textContent = `${winRate}%`;
                 
-                // Рассчитываем рейтинг (простая формула)
                 const rating = completedMatches.length > 0 
                     ? (wins / completedMatches.length) * 5 
                     : 0;
                 
                 profileRating.textContent = `(${rating.toFixed(1)})`;
                 
-                // Обновляем звезды рейтинга
                 const starsContainer = document.querySelector('.user-rating');
                 starsContainer.innerHTML = '';
                 
@@ -1596,7 +1555,6 @@
                     </div>
                 `).join('');
                 
-                // Навешиваем обработчики на кнопки
                 document.querySelectorAll('[data-tournament-id]').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const tournamentId = parseInt(this.getAttribute('data-tournament-id'));
@@ -1607,7 +1565,6 @@
             
             // Отобразить все команды из топ-6 лиг
             function renderAllTeams() {
-                // Группируем команды по лигам
                 const leagues = {};
                 teams.forEach(team => {
                     if (!leagues[team.league]) {
@@ -1616,7 +1573,6 @@
                     leagues[team.league].push(team);
                 });
                 
-                // Создаем HTML для каждой лиги
                 allTeamsContainer.innerHTML = '';
                 for (const leagueName in leagues) {
                     const leagueTeams = leagues[leagueName];
@@ -1642,7 +1598,6 @@
                     allTeamsContainer.innerHTML += leagueHTML;
                 }
                 
-                // Навешиваем обработчики сворачивания/разворачивания лиг
                 document.querySelectorAll('#all-teams .league-title').forEach(title => {
                     title.addEventListener('click', function() {
                         const leagueId = this.getAttribute('data-league-id');
@@ -1676,7 +1631,6 @@
                     </div>
                 `).join('');
                 
-                // Навешиваем обработчики на кнопки
                 document.querySelectorAll('#user-tournaments [data-tournament-id]').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const tournamentId = parseInt(this.getAttribute('data-tournament-id'));
@@ -1727,7 +1681,6 @@
                     `;
                 }).join('');
                 
-                // Навешиваем обработчики на кнопки
                 document.querySelectorAll('#user-matches .match-card').forEach(card => {
                     card.addEventListener('click', function() {
                         const matchId = parseInt(this.getAttribute('data-match-id'));
@@ -1741,7 +1694,6 @@
                 currentTournament = tournaments.find(t => t.id === tournamentId);
                 if (!currentTournament) return;
                 
-                // Заполняем данные турнира
                 document.getElementById('tournament-modal-title').textContent = currentTournament.name;
                 document.getElementById('tournament-modal-image').src = currentTournament.image;
                 document.getElementById('tournament-dates').textContent = `${formatDate(currentTournament.startDate)} - ${formatDate(currentTournament.endDate)}`;
@@ -1750,10 +1702,8 @@
                 document.getElementById('tournament-level').textContent = currentTournament.level;
                 document.getElementById('tournament-description').textContent = currentTournament.description;
                 
-                // Проверяем, участвует ли пользователь в турнире
                 const isParticipant = currentUser && currentTournament.participants.some(p => p.id === currentUser.id);
                 
-                // Показываем список команд, если турнир активен и пользователь не участвует
                 if (currentTournament.status === 'active' && !isParticipant && currentUser) {
                     renderTeamsForTournament();
                     teamsSection.style.display = 'block';
@@ -1761,7 +1711,6 @@
                     teamsSection.style.display = 'none';
                 }
                 
-                // Настраиваем кнопки
                 joinTournamentBtn.style.display = isParticipant ? 'none' : 'inline-block';
                 leaveTournamentBtn.style.display = isParticipant ? 'inline-block' : 'none';
                 
@@ -1771,7 +1720,6 @@
                     adminEditBtn.style.display = 'none';
                 }
                 
-                // Показываем турнирную таблицу для лиг
                 if (currentTournament.type === 'Лига' && currentTournament.participants.length > 0) {
                     renderStandings();
                     standingsSection.style.display = 'block';
@@ -1779,18 +1727,15 @@
                     standingsSection.style.display = 'none';
                 }
                 
-                // Показываем модальное окно
                 showModal(tournamentModal);
             }
             
-            // Отобразить команды для выбора в турнире (с группировкой по лигам)
+            // Отобразить команды для выбора в турнире
             function renderTeamsForTournament() {
                 if (!currentTournament || !currentUser) return;
                 
-                // Получаем занятые команды в этом турнире
                 const takenTeamIds = currentTournament.participants.map(p => p.team.id);
                 
-                // Группируем команды по лигам
                 const leagues = {};
                 teams.forEach(team => {
                     if (!leagues[team.league]) {
@@ -1799,7 +1744,6 @@
                     leagues[team.league].push(team);
                 });
                 
-                // Создаем HTML для каждой лиги
                 teamsContainer.innerHTML = '';
                 for (const leagueName in leagues) {
                     const leagueTeams = leagues[leagueName];
@@ -1831,7 +1775,6 @@
                     teamsContainer.innerHTML += leagueHTML;
                 }
                 
-                // Навешиваем обработчики сворачивания/разворачивания лиг
                 document.querySelectorAll('.league-title').forEach(title => {
                     title.addEventListener('click', function() {
                         const leagueId = this.getAttribute('data-league-id');
@@ -1841,18 +1784,15 @@
                     });
                 });
                 
-                // Навешиваем обработчики выбора команды
                 document.querySelectorAll('.team-card:not(.taken)').forEach(card => {
                     card.addEventListener('click', function() {
                         const teamId = parseInt(this.getAttribute('data-team-id'));
                         selectedTeam = teams.find(t => t.id === teamId);
                         
-                        // Снимаем выделение со всех карточек
                         document.querySelectorAll('.team-card').forEach(c => {
                             c.classList.remove('selected');
                         });
                         
-                        // Выделяем выбранную карточку
                         this.classList.add('selected');
                     });
                 });
@@ -1862,10 +1802,8 @@
             function renderStandings() {
                 if (!currentTournament || currentTournament.type !== 'Лига') return;
                 
-                // Создаем объект для хранения статистики команд
                 const standings = {};
                 
-                // Инициализируем статистику для всех участников
                 currentTournament.participants.forEach(participant => {
                     standings[participant.id] = {
                         participant: participant,
@@ -1879,23 +1817,19 @@
                     };
                 });
                 
-                // Обрабатываем все матчи турнира
                 matches.forEach(match => {
                     if (match.tournamentId === currentTournament.id && match.status === 'completed') {
                         const player1Id = match.player1.id;
                         const player2Id = match.player2.id;
                         
-                        // Обновляем статистику для игрока 1
                         standings[player1Id].played++;
                         standings[player1Id].goalsFor += match.score1;
                         standings[player1Id].goalsAgainst += match.score2;
                         
-                        // Обновляем статистику для игрока 2
                         standings[player2Id].played++;
                         standings[player2Id].goalsFor += match.score2;
                         standings[player2Id].goalsAgainst += match.score1;
                         
-                        // Определяем результат матча
                         if (match.score1 > match.score2) {
                             standings[player1Id].wins++;
                             standings[player1Id].points += 3;
@@ -1913,7 +1847,6 @@
                     }
                 });
                 
-                // Преобразуем объект в массив и сортируем по очкам
                 const standingsArray = Object.values(standings);
                 standingsArray.sort((a, b) => {
                     if (b.points !== a.points) return b.points - a.points;
@@ -1923,10 +1856,8 @@
                     return b.goalsFor - a.goalsFor;
                 });
                 
-                // Очищаем таблицу
                 standingsTable.innerHTML = '';
                 
-                // Заполняем таблицу
                 standingsArray.forEach((team, index) => {
                     const row = document.createElement('tr');
                     const goalDifference = team.goalsFor - team.goalsAgainst;
@@ -1960,18 +1891,15 @@
                 const isPlayer2 = currentUser && currentMatch.player2.id === currentUser.id;
                 const isAdminView = isAdmin && !isPlayer1 && !isPlayer2;
                 
-                // Заполняем данные матча
                 document.getElementById('match-modal-title').textContent = `Матч: ${currentMatch.player1.username} vs ${currentMatch.player2.username}`;
                 document.getElementById('match-team1-logo').src = currentMatch.player1.team.logo;
                 document.getElementById('match-team1-name').textContent = currentMatch.player1.username;
                 document.getElementById('match-team2-logo').src = currentMatch.player2.team.logo;
                 document.getElementById('match-team2-name').textContent = currentMatch.player2.username;
                 
-                // Устанавливаем счет
                 document.getElementById('match-team1-score').value = currentMatch.score1 !== null ? currentMatch.score1 : '';
                 document.getElementById('match-team2-score').value = currentMatch.score2 !== null ? currentMatch.score2 : '';
                 
-                // Настраиваем статус матча
                 const statusElement = document.getElementById('match-status');
                 if (currentMatch.status === 'pending') {
                     statusElement.textContent = 'Ожидает подтверждения';
@@ -1981,27 +1909,22 @@
                     statusElement.className = 'match-status status-confirmed';
                 }
                 
-                // Настраиваем видимость кнопок
                 submitMatchBtn.style.display = 'none';
                 confirmMatchBtn.style.display = 'none';
                 rejectMatchBtn.style.display = 'none';
                 
                 if (currentMatch.status === 'pending') {
                     if (isPlayer1 && currentMatch.score1 === null) {
-                        // Игрок 1 может отправить результат
                         submitMatchBtn.style.display = 'inline-block';
                     } else if (isPlayer2 && currentMatch.score2 === null) {
-                        // Игрок 2 может подтвердить или отклонить результат
                         confirmMatchBtn.style.display = 'inline-block';
                         rejectMatchBtn.style.display = 'inline-block';
                     } else if (isAdminView) {
-                        // Админ может подтвердить или отклонить результат
                         confirmMatchBtn.style.display = 'inline-block';
                         rejectMatchBtn.style.display = 'inline-block';
                     }
                 }
                 
-                // Показываем модальное окно
                 showModal(matchModal);
             }
             
@@ -2010,7 +1933,6 @@
                 editingTournamentId = tournamentId;
                 
                 if (tournamentId) {
-                    // Редактирование существующего турнира
                     const tournament = tournaments.find(t => t.id === tournamentId);
                     if (!tournament) return;
                     
@@ -2025,11 +1947,9 @@
                     document.getElementById('tournament-type').value = tournament.type;
                     document.getElementById('tournament-max-teams').value = tournament.maxTeams;
                 } else {
-                    // Создание нового турнира
                     document.getElementById('edit-tournament-title').textContent = 'Создать турнир';
                     document.getElementById('edit-tournament-form').reset();
                     
-                    // Устанавливаем даты по умолчанию
                     const today = new Date().toISOString().split('T')[0];
                     const nextWeek = new Date();
                     nextWeek.setDate(nextWeek.getDate() + 7);
@@ -2047,7 +1967,6 @@
                 const selectElement = document.getElementById('select-tournament-to-delete');
                 selectElement.innerHTML = '';
                 
-                // Заполняем список турниров
                 tournaments.forEach(tournament => {
                     const option = document.createElement('option');
                     option.value = tournament.id;
@@ -2062,24 +1981,19 @@
             function drawTournament() {
                 if (!currentTournament) return;
                 
-                // Проверяем, что турнир еще не начался
                 if (currentTournament.matches.length > 0) {
                     alert('Жеребьевка уже была проведена для этого турнира!');
                     return;
                 }
                 
-                // Проверяем, что есть участники
                 if (currentTournament.participants.length < 2) {
                     alert('Для проведения жеребьевки нужно минимум 2 участника!');
                     return;
                 }
                 
-                // В зависимости от типа турнира проводим разную жеребьевку
                 if (currentTournament.type === 'Кубок') {
-                    // Для кубка просто перемешиваем участники
                     const shuffledParticipants = [...currentTournament.participants].sort(() => Math.random() - 0.5);
                     
-                    // Создаем матчи для первого раунда
                     for (let i = 0; i < shuffledParticipants.length; i += 2) {
                         if (i + 1 < shuffledParticipants.length) {
                             const matchId = matches.length > 0 ? Math.max(...matches.map(m => m.id)) + 1 : 1;
@@ -2096,11 +2010,9 @@
                         }
                     }
                 } else if (currentTournament.type === 'Лига') {
-                    // Для лиги создаем матчи каждый против каждого (2 круга)
                     const participants = currentTournament.participants;
                     let matchId = matches.length > 0 ? Math.max(...matches.map(m => m.id)) + 1 : 1;
                     
-                    // Первый круг
                     for (let i = 0; i < participants.length; i++) {
                         for (let j = i + 1; j < participants.length; j++) {
                             matches.push({
@@ -2116,7 +2028,6 @@
                         }
                     }
                     
-                    // Второй круг (домашние и гостевые матчи меняются местами)
                     for (let i = 0; i < participants.length; i++) {
                         for (let j = i + 1; j < participants.length; j++) {
                             matches.push({
@@ -2132,16 +2043,13 @@
                         }
                     }
                 } else if (currentTournament.type === 'Группы+Плейофф') {
-                    // Для групп + плейофф сначала делим на группы, потом плейофф
                     const groupCount = Math.ceil(currentTournament.participants.length / 4);
                     const groups = [];
                     
-                    // Создаем группы
                     for (let i = 0; i < groupCount; i++) {
                         groups.push([]);
                     }
                     
-                    // Распределяем участников по группам случайным образом
                     const shuffledParticipants = [...currentTournament.participants].sort(() => Math.random() - 0.5);
                     let groupIndex = 0;
                     
@@ -2150,11 +2058,9 @@
                         groupIndex = (groupIndex + 1) % groupCount;
                     });
                     
-                    // Создаем матчи в группах (каждый против каждого, 2 круга)
                     let matchId = matches.length > 0 ? Math.max(...matches.map(m => m.id)) + 1 : 1;
                     
                     groups.forEach((group, groupNumber) => {
-                        // Первый круг
                         for (let i = 0; i < group.length; i++) {
                             for (let j = i + 1; j < group.length; j++) {
                                 matches.push({
@@ -2170,7 +2076,6 @@
                             }
                         }
                         
-                        // Второй круг
                         for (let i = 0; i < group.length; i++) {
                             for (let j = i + 1; j < group.length; j++) {
                                 matches.push({
@@ -2188,16 +2093,13 @@
                     });
                 }
                 
-                // Сохраняем матчи в localStorage и триггерим событие для других вкладок
                 localStorage.setItem('matches', JSON.stringify(matches));
                 window.dispatchEvent(new Event('storage'));
                 
                 alert('Жеребьевка проведена успешно! Матчи созданы.');
                 
-                // Обновляем интерфейс
                 renderUserMatches();
                 
-                // Если это турнир-лига, обновляем таблицу
                 if (currentTournament.type === 'Лига') {
                     renderStandings();
                 }
@@ -2223,7 +2125,6 @@
             
             // Войти в систему
             function login(email, password) {
-                // В реальном приложении здесь был бы запрос к серверу
                 if (email === 'admin@fc25.com' && password === 'admin123') {
                     currentUser = {
                         id: 999,
@@ -2242,28 +2143,22 @@
                     isAdmin = false;
                 }
                 
-                // Сохраняем пользователя в localStorage
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
                 
-                // Обновляем интерфейс
                 updateProfile();
                 authText.textContent = 'Выйти';
-                registerBtn.style.display = 'none'; // Скрываем кнопку регистрации
-                document.getElementById('login-info').style.display = 'block'; // Показываем текст о входе
+                registerBtn.style.display = 'none';
+                document.getElementById('login-info').style.display = 'block';
                 
-                // Показываем профиль
                 showPage('profile');
                 
-                // Обновляем турниры и матчи
                 renderUserTournaments();
                 renderUserMatches();
                 
-                // Если это админ, показываем админскую панель
                 if (isAdmin) {
                     adminSection.style.display = 'block';
                 }
                 
-                // Скрываем модальное окно входа
                 hideModal(registerModal);
                 
                 alert('Вы успешно вошли в систему!');
@@ -2274,23 +2169,19 @@
                 currentUser = null;
                 isAdmin = false;
                 
-                // Удаляем пользователя из localStorage и триггерим событие для других вкладок
                 localStorage.removeItem('currentUser');
                 window.dispatchEvent(new Event('storage'));
                 
-                // Обновляем интерфейс
                 authText.textContent = 'Войти';
                 adminSection.style.display = 'none';
-                registerBtn.style.display = 'inline-block'; // Показываем кнопку регистрации
-                document.getElementById('login-info').style.display = 'none'; // Скрываем текст о входе
+                registerBtn.style.display = 'inline-block';
+                document.getElementById('login-info').style.display = 'none';
                 
-                // Показываем главную страницу
                 showPage('home');
             }
             
             // Зарегистрироваться
             function register(username, email, password) {
-                // В реальном приложении здесь был бы запрос к серверу
                 currentUser = {
                     id: Math.floor(Math.random() * 1000) + 1,
                     username: username,
@@ -2298,19 +2189,15 @@
                     isAdmin: false
                 };
                 
-                // Сохраняем пользователя в localStorage
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
                 
-                // Обновляем интерфейс
                 updateProfile();
                 authText.textContent = 'Выйти';
-                registerBtn.style.display = 'none'; // Скрываем кнопку регистрации
-                document.getElementById('login-info').style.display = 'block'; // Показываем текст о входе
+                registerBtn.style.display = 'none';
+                document.getElementById('login-info').style.display = 'block';
                 
-                // Показываем профиль
                 showPage('profile');
                 
-                // Скрываем модальное окно регистрации
                 hideModal(registerModal);
                 
                 alert('Регистрация прошла успешно! Вы автоматически вошли в систему.');
@@ -2320,21 +2207,18 @@
             function joinTournament() {
                 if (!currentUser || !currentTournament || !selectedTeam) return;
                 
-                // Проверяем, не участвует ли уже пользователь в турнире
                 const isAlreadyParticipant = currentTournament.participants.some(p => p.id === currentUser.id);
                 if (isAlreadyParticipant) {
                     alert('Вы уже участвуете в этом турнире!');
                     return;
                 }
                 
-                // Проверяем, не занята ли выбранная команда
                 const isTeamTaken = currentTournament.participants.some(p => p.team.id === selectedTeam.id);
                 if (isTeamTaken) {
                     alert('Эта команда уже занята в этом турнире!');
                     return;
                 }
                 
-                // Добавляем пользователя в участники турнира
                 currentTournament.participants.push({
                     id: currentUser.id,
                     username: currentUser.username,
@@ -2342,15 +2226,12 @@
                     team: selectedTeam
                 });
                 
-                // Сохраняем турниры в localStorage и триггерим событие для других вкладок
                 localStorage.setItem('tournaments', JSON.stringify(tournaments));
                 window.dispatchEvent(new Event('storage'));
                 
-                // Обновляем интерфейс
                 renderTournaments();
                 renderUserTournaments();
                 
-                // Закрываем модальное окно
                 hideModal(tournamentModal);
                 
                 alert(`Вы успешно зарегистрированы на турнир "${currentTournament.name}" за команду ${selectedTeam.name}!`);
@@ -2360,27 +2241,22 @@
             function leaveTournament() {
                 if (!currentUser || !currentTournament) return;
                 
-                // Удаляем пользователя из участников турнира
                 currentTournament.participants = currentTournament.participants.filter(p => p.id !== currentUser.id);
                 
-                // Удаляем все матчи пользователя в этом турнире
                 matches = matches.filter(m => 
                     !(m.tournamentId === currentTournament.id && 
                       (m.player1.id === currentUser.id || m.player2.id === currentUser.id))
                 );
                 
-                // Сохраняем данные в localStorage и триггерим события для других вкладок
                 localStorage.setItem('tournaments', JSON.stringify(tournaments));
                 localStorage.setItem('matches', JSON.stringify(matches));
                 window.dispatchEvent(new Event('storage'));
                 
-                // Обновляем интерфейс
                 renderTournaments();
                 renderUserTournaments();
                 renderUserMatches();
                 updateProfile();
                 
-                // Закрываем модальное окно
                 hideModal(tournamentModal);
                 
                 alert(`Вы покинули турнир "${currentTournament.name}"`);
@@ -2404,7 +2280,6 @@
                 }
                 
                 if (editingTournamentId) {
-                    // Обновляем существующий турнир
                     const tournamentIndex = tournaments.findIndex(t => t.id === editingTournamentId);
                     if (tournamentIndex !== -1) {
                         tournaments[tournamentIndex] = {
@@ -2421,7 +2296,6 @@
                         };
                     }
                 } else {
-                    // Создаем новый турнир
                     const newId = tournaments.length > 0 ? Math.max(...tournaments.map(t => t.id)) + 1 : 1;
                     
                     tournaments.push({
@@ -2441,14 +2315,11 @@
                     });
                 }
                 
-                // Сохраняем турниры в localStorage и триггерим событие для других вкладок
                 localStorage.setItem('tournaments', JSON.stringify(tournaments));
                 window.dispatchEvent(new Event('storage'));
                 
-                // Обновляем интерфейс
                 renderTournaments();
                 
-                // Закрываем модальное окно
                 hideModal(editTournamentModal);
                 
                 alert(`Турнир "${name}" успешно ${editingTournamentId ? 'обновлен' : 'создан'}!`);
@@ -2471,23 +2342,18 @@
                     return;
                 }
                 
-                // Удаляем турнир
                 tournaments = tournaments.filter(t => t.id !== tournamentId);
                 
-                // Удаляем все матчи этого турнира
                 matches = matches.filter(m => m.tournamentId !== tournamentId);
                 
-                // Сохраняем данные в localStorage и триггерим события для других вкладок
                 localStorage.setItem('tournaments', JSON.stringify(tournaments));
                 localStorage.setItem('matches', JSON.stringify(matches));
                 window.dispatchEvent(new Event('storage'));
                 
-                // Обновляем интерфейс
                 renderTournaments();
                 renderUserTournaments();
                 renderUserMatches();
                 
-                // Закрываем модальное окно
                 hideModal(deleteTournamentModal);
                 
                 alert(`Турнир "${tournament.name}" успешно удален!`);
@@ -2501,13 +2367,11 @@
                 const score2 = parseInt(document.getElementById('match-team2-score').value) || 0;
                 const comment = document.getElementById('match-comment').value;
                 
-                // Проверяем, чтобы игрок не подтверждал матч с самим собой
                 if (currentMatch.player1.id === currentMatch.player2.id) {
                     alert('Нельзя играть матч с самим собой!');
                     return;
                 }
                 
-                // Проверяем, чтобы игроки не играли друг с другом более 2 раз (для лиг)
                 if (currentTournament && currentTournament.type === 'Лига') {
                     const existingMatches = matches.filter(m => 
                         m.tournamentId === currentTournament.id &&
@@ -2522,31 +2386,25 @@
                     }
                 }
                 
-                // Обновляем результат матча
                 if (currentUser.id === currentMatch.player1.id) {
                     currentMatch.score1 = score1;
                     currentMatch.score2 = score2;
                 } else if (currentUser.id === currentMatch.player2.id) {
-                    // Игрок 2 подтверждает результат
                     currentMatch.status = 'completed';
                 }
                 
                 currentMatch.comment = comment;
                 
-                // Сохраняем матчи в localStorage и триггерим событие для других вкладок
                 localStorage.setItem('matches', JSON.stringify(matches));
                 window.dispatchEvent(new Event('storage'));
                 
-                // Обновляем интерфейс
                 renderUserMatches();
                 updateProfile();
                 
-                // Если это турнир-лига, обновляем таблицу
                 if (currentTournament && currentTournament.type === 'Лига') {
                     renderStandings();
                 }
                 
-                // Закрываем модальное окно
                 hideModal(matchModal);
                 
                 if (currentUser.id === currentMatch.player1.id) {
@@ -2562,20 +2420,16 @@
                 
                 currentMatch.status = 'completed';
                 
-                // Сохраняем матчи в localStorage и триггерим событие для других вкладок
                 localStorage.setItem('matches', JSON.stringify(matches));
                 window.dispatchEvent(new Event('storage'));
                 
-                // Обновляем интерфейс
                 renderUserMatches();
                 updateProfile();
                 
-                // Если это турнир-лига, обновляем таблицу
                 if (currentTournament && currentTournament.type === 'Лига') {
                     renderStandings();
                 }
                 
-                // Закрываем модальное окно
                 hideModal(matchModal);
                 
                 alert('Результат матча подтвержден!');
@@ -2585,19 +2439,15 @@
             function rejectMatch() {
                 if (!currentMatch) return;
                 
-                // Сбрасываем результаты
                 currentMatch.score1 = null;
                 currentMatch.score2 = null;
                 currentMatch.status = 'pending';
                 
-                // Сохраняем матчи в localStorage и триггерим событие для других вкладок
                 localStorage.setItem('matches', JSON.stringify(matches));
                 window.dispatchEvent(new Event('storage'));
                 
-                // Обновляем интерфейс
                 renderUserMatches();
                 
-                // Закрываем модальное окно
                 hideModal(matchModal);
                 
                 alert('Результат матча отклонен! Ожидается повторная отправка результата.');
@@ -2609,7 +2459,6 @@
                     e.preventDefault();
                     const pageId = this.getAttribute('data-page');
                     
-                    // Если это кнопка входа/выхода
                     if (pageId === 'login') {
                         if (currentUser) {
                             logout();
@@ -2621,7 +2470,6 @@
                 });
             });
             
-            // Обработчик кнопки "Текущие турниры"
             currentTournamentsBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 document.getElementById('current-tournaments-section').scrollIntoView({
